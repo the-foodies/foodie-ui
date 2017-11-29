@@ -8,6 +8,12 @@
     "build": "webpack --config webpack.config.js",
     "dev-start": "nodemon server.js"
   },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MaxLavicka/foodie-ui.git"
