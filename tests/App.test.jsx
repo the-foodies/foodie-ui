@@ -1,17 +1,20 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import App from '../src/components/App';
+import { mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import App from '../src/containers/app';
 import allReducers from '../src/reducers/allReducers';
 
+configure({ adapter: new Adapter() });
+
+const store = createStore(allReducers);
+
 test('test', () => {
-  const store = createStore(allReducers);
-  const component = renderer.create(
+  const wrapper = mount(
     <Provider store={store}>
       <App />
     </Provider>,
   );
-  const comp = component.toJSON();
-  expect(comp.children.includes('HELLO WORLD! ')).toEqual(true);
+  expect(wrapper.find('button').length).toEqual(2);
 });
