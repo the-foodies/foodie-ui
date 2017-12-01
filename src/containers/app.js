@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import App from '../components/App';
+import testApi from '../actions/test';
 
 function mapStateToProps(state) {
   return {
@@ -9,7 +10,7 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({}, dispatch);
+  return bindActionCreators({ testApi }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(App);
