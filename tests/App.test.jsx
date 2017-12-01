@@ -16,5 +16,5 @@ test('test', () => {
       <App />
     </Provider>,
   );
-  expect(wrapper.find('button').length).toEqual(2);
+  expect(wrapper.find('button').length).toEqual(3);
 });
