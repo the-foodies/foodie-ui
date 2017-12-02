@@ -1,16 +1,18 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import App from '../components/App';
-import testApi from '../actions/testApi';
+import showLoginModal from '../actions/showLoginModal';
+import hideModal from '../actions/hideModal';
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
-    blah: state.asdasd,
+    modal: state.modal,
   };
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ testApi }, dispatch);
+  return bindActionCreators({ showLoginModal, hideModal }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(App);
