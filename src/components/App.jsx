@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import TestComponent from '../components/TestComponent';
 import Home from '../components/Home';
@@ -29,5 +30,8 @@ class App extends React.Component {
     );
   }
 }
+App.propTypes = {
+  testApi: PropTypes.func.isRequired,
+};
 
 export default App;

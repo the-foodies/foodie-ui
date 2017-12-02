@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import App from '../components/App';
-import testApi from '../actions/test';
+import testApi from '../actions/testApi';
 
 function mapStateToProps(state) {
   return {
