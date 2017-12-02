@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import TestComponent from '../components/TestComponent';
 import Home from '../components/Home';
+import NavbarInstance from './NavbarInstance';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,9 +19,10 @@ class App extends React.Component {
       <div>
         <Router>
           <div>
-            <button type="submit"><Link to="/">Home {this.state.asdasd}</Link></button>
-            <button type="submit"><Link to="/test">Test Component</Link></button>
-            <button onClick={() => this.props.testApi()}>Test API</button>
+            <NavbarInstance />
+            <Button type="submit"><Link to="/">Home {this.state.asdasd}</Link></Button>
+            <Button type="submit"><Link to="/test">Test Component</Link></Button>
+            <Button onClick={() => this.props.testApi()}>Test API</Button>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/test" component={TestComponent} />
