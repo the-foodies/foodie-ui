@@ -17,7 +17,7 @@ class NavbarInstance extends React.Component {
     return (
       <Navbar inverse collapseOnSelect staticTop>
         <Navbar.Header>
-          <Navbar.Brand onClick={() => { this.changePage('test'); }}>
+          <Navbar.Brand onClick={() => { this.changePage(''); }}>
             FoodEZ
           </Navbar.Brand>
           <Navbar.Toggle />
