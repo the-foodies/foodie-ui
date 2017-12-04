@@ -18,7 +18,7 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={10} mdOffset={1}>
+          <Col xs={12} md={6} mdOffset={3}>
             <TrendingCarousel />
           </Col>
         </Row>
