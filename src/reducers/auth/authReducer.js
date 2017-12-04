@@ -1,28 +1,28 @@
 const initialState = {
-  currently: 'ANONYMOUS',
-  username: null,
+  status: 'AUTH_ANONYMOUS',
+  username: 'guest',
   uid: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'ATTEMPTING_LOGIN':
+    case 'AUTH_OPEN':
       return {
-        currently: 'AWAITING_AUTH_RESPONSE',
-        username: null,
-        uid: null,
-      };
-    case 'LOGOUT':
-      return {
-        currently: 'ANONYMOUS',
+        status: 'AUTH_AWAITING_RESPONSE',
         username: 'guest',
         uid: null,
       };
-    case 'LOGIN_USER':
+    case 'AUTH_LOGIN':
       return {
-        currently: 'LOGGED_IN',
+        status: 'AUTH_LOGGED_IN',
         username: action.username,
         uid: action.uid,
+      };
+    case 'AUTH_LOGOUT':
+      return {
+        status: 'AUTH_ANONYMOUS',
+        username: 'guest',
+        uid: null,
       };
     default: return state;
   }

@@ -2,13 +2,13 @@ import React from 'react';
 import { Nav, Navbar, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import showLoginModal from '../actions/showLoginModal';
+import HasLoggedIn from './nav/hasLoggedIn';
 
 
 class NavbarInstance extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
+    console.log(props);
   }
   changePage(toPage) {
     this.props.history.push(`/${toPage}`);
@@ -31,16 +31,21 @@ class NavbarInstance extends React.Component {
               Eating
             </NavItem>
           </Nav>
-          <Navbar.Form pullLeft>
+          <Nav pullRight>
+            <HasLoggedIn
+              dispatch={this.props.dispatch}
+              auth={this.props.auth}
+              logoutUser={this.props.logoutUser}
+              showLoginModal={this.props.showLoginModal}
+              eventKey={3}
+            />
+          </Nav>
+          <Navbar.Text className="navbar-username" pullRight>{this.props.auth.username}</Navbar.Text>
+          <Navbar.Form pullRight>
             <FormGroup>
               <FormControl type="text" placeholder="search for food" />
             </FormGroup>
           </Navbar.Form>
-          <Nav pullRight>
-            <NavItem eventKey={3} onClick={this.props.showLoginModal}>
-              Login
-            </NavItem>
-          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );

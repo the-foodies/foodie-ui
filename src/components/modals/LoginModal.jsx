@@ -6,6 +6,7 @@ class LoginModal extends React.Component {
     super(props);
 
     this.close = this.close.bind(this);
+    const { dispatch } = props;
   }
 
   close() {
@@ -24,6 +25,7 @@ class LoginModal extends React.Component {
           <FormGroup>
             <FormControl type="text" placeholder="username" />
             <FormControl type="password" placeholder="password" />
+            <Button onClick={this.props.openAuth}>Login</Button>
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>
