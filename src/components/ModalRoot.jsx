@@ -7,15 +7,30 @@ const MODAL_COMPONENTS = {
   LOGIN_MODAL: LoginModal,
 };
 
-const ModalRoot = (props) => {
-  const { modalType, modalProps } = props.modal;
-  const { hideModal } = props;
-  console.log(props);
+const ModalRoot = ({
+  modal,
+  hideModal,
+  auth,
+  openAuthWithProvider,
+  dispatch,
+}) => {
+  const { modalType, modalProps } = modal;
+  // const { hideModal } = props;
+  // console.log(props);
   if (!modalType) {
     return null;
   }
   const SpecifiedModal = MODAL_COMPONENTS[modalType];
-  return <SpecifiedModal showModal={!!modalType} hideModal={hideModal} modalProps={{ ...modalProps }} />;
+  return (
+    <SpecifiedModal
+      auth={auth}
+      dispatch={dispatch}
+      openAuthWithProvider={openAuthWithProvider}
+      showModal={!!modalType}
+      hideModal={hideModal}
+      modalProps={{ ...modalProps }}
+    />
+  );
 };
 
 ModalRoot.propTypes = {

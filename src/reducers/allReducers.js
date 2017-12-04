@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import testReducer from '../reducers/testReducer';
 import modal from '../reducers/modalReducer';
+import auth from '../reducers/auth/authReducer';
 
-const allReducers = combineReducers({ testReducer, modal });
+const allReducers = combineReducers({ auth, modal });
 
 export default allReducers;

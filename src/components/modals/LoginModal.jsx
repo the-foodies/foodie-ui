@@ -6,10 +6,10 @@ class LoginModal extends React.Component {
     super(props);
 
     this.close = this.close.bind(this);
+    const { dispatch } = props;
   }
 
   close() {
-    console.log(this);
     this.props.hideModal();
   }
 
@@ -24,6 +24,13 @@ class LoginModal extends React.Component {
           <FormGroup>
             <FormControl type="text" placeholder="username" />
             <FormControl type="password" placeholder="password" />
+            <Button onClick={() => {}}>Login</Button>
+            <Button onClick={() => { this.props.openAuthWithProvider('facebook'); }}>
+              <img src="assets/social-svg/facebook.png" alt="fb" width="20" />
+            </Button>
+            <Button onClick={() => { this.props.openAuthWithProvider('google'); }}>
+              <img src="assets/social-svg/google.png" alt="google" width="20" />
+            </Button>
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>
