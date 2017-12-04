@@ -18,10 +18,16 @@ export const listenToAuth = () => (dispatch, getState) => {
   });
 };
 
-export const openAuth = () => (dispatch) => {
+export const openAuthWithProvider = testProvider => (dispatch) => {
   dispatch({ type: 'AUTH_OPEN' });
-  const provider = new firebase.auth.FacebookAuthProvider();
-  console.log('logging in with provider: ', provider, dispatch);
+  // change this when figure out signup auth
+  let provider = firebase.auth;
+  if (testProvider === 'facebook') {
+    provider = new firebase.auth.FacebookAuthProvider();
+  } else if (testProvider === 'google') {
+    provider = new firebase.auth.GoogleAuthProvider();
+  }
+  console.log('logging in with provider: ', testProvider);
   auth.signInWithPopup(provider).catch((error) => {
     dispatch({
       type: 'FEEDBACK_DISPLAY_ERROR',

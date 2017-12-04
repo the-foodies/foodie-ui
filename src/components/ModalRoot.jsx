@@ -11,7 +11,7 @@ const ModalRoot = ({
   modal,
   hideModal,
   auth,
-  openAuth,
+  openAuthWithProvider,
   dispatch,
 }) => {
   const { modalType, modalProps } = modal;
@@ -25,7 +25,7 @@ const ModalRoot = ({
     <SpecifiedModal
       auth={auth}
       dispatch={dispatch}
-      openAuth={openAuth}
+      openAuthWithProvider={openAuthWithProvider}
       showModal={!!modalType}
       hideModal={hideModal}
       modalProps={{ ...modalProps }}

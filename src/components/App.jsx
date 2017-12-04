@@ -32,7 +32,7 @@ class App extends React.Component {
             <ModalRoot
               dispatch={this.props.dispatch}
               auth={this.props.auth}
-              openAuth={this.props.openAuth}
+              openAuthWithProvider={this.props.openAuthWithProvider}
               modal={this.props.modal}
               hideModal={this.props.hideModal}
             />
