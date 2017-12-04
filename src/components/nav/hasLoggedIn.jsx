@@ -2,14 +2,6 @@ import React from 'react';
 import { NavItem } from 'react-bootstrap';
 
 export default (props) => {
-  /*
-      return (
-        <NavItem onClick={this.props.showLoginModal}>
-          Login
-        </NavItem>
-      );
-  */
-  console.log(props);
   const { dispatch } = props;
   switch (props.auth.status) {
     case 'AUTH_LOGGED_IN':
@@ -27,7 +19,7 @@ export default (props) => {
     default:
       return (
         <NavItem onClick={props.showLoginModal}>
-            Login
+          Login
         </NavItem>
       );
   }

@@ -8,7 +8,6 @@ import HasLoggedIn from './nav/hasLoggedIn';
 class NavbarInstance extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
   }
   changePage(toPage) {
     this.props.history.push(`/${toPage}`);

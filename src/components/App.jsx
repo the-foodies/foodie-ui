@@ -13,7 +13,6 @@ class App extends React.Component {
     };
     console.log(this.props);
   }
-
   componentWillMount() {
     this.props.listenToAuth();
   }

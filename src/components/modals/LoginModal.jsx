@@ -10,7 +10,6 @@ class LoginModal extends React.Component {
   }
 
   close() {
-    console.log(this);
     this.props.hideModal();
   }
 
