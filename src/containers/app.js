@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import App from '../components/App';
 import showLoginModal from '../actions/showLoginModal';
 import hideModal from '../actions/hideModal';
-import { listenToAuth, openAuthWithProvider, logoutUser } from '../actions/auth';
+import { listenToAuth, openAuthWithProvider, logoutUser, openAuthWithEmail, openAuthSignup } from '../actions/auth';
 
 function mapStateToProps(state) {
   return {
@@ -17,6 +17,8 @@ function matchDispatchToProps(dispatch) {
     dispatch,
     listenToAuth,
     openAuthWithProvider,
+    openAuthWithEmail,
+    openAuthSignup,
     logoutUser,
     showLoginModal,
     hideModal,
