@@ -8,7 +8,7 @@ const CarouselInstance = (props) => {
         props.picturesToDisplay.map((item) => {
           return (
             <Carousel.Item key={item.id}>
-              <img src={item.url} alt={item.title} />
+              <img src={item.url} alt={item.name} />
               <Carousel.Caption>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
