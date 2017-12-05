@@ -12,7 +12,7 @@ class Home extends React.Component {
   render() {
     return (
       <Grid>
-        <Row className="show-grid">
+        <Row>
           <Col xs={12} md={12}>
             <PageHeader>Trending GrubEZ <small>Put Trending Name Here ASAP</small></PageHeader>
           </Col>

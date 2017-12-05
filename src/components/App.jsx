@@ -32,6 +32,8 @@ class App extends React.Component {
               dispatch={this.props.dispatch}
               auth={this.props.auth}
               openAuthWithProvider={this.props.openAuthWithProvider}
+              openAuthWithEmail={this.props.openAuthWithEmail}
+              openAuthSignup={this.props.openAuthSignup}
               modal={this.props.modal}
               hideModal={this.props.hideModal}
             />

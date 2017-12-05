@@ -22,6 +22,11 @@ class NavbarInstance extends React.Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
+          <Navbar.Form pullLeft>
+            <FormGroup>
+              <FormControl type="text" placeholder="search for food" />
+            </FormGroup>
+          </Navbar.Form>
           <Nav>
             <NavItem eventKey={1} onClick={() => { this.changePage('test'); }}>
               Cooking
@@ -39,12 +44,11 @@ class NavbarInstance extends React.Component {
               eventKey={3}
             />
           </Nav>
-          <Navbar.Text className="navbar-username" pullRight>{this.props.auth.username}</Navbar.Text>
-          <Navbar.Form pullRight>
-            <FormGroup>
-              <FormControl type="text" placeholder="search for food" />
-            </FormGroup>
-          </Navbar.Form>
+          <Navbar.Text
+            className="navbar-username"
+            pullRight
+          >{this.props.auth.username}
+          </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
     );

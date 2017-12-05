@@ -18,6 +18,31 @@ export const listenToAuth = () => (dispatch, getState) => {
   });
 };
 
+export const openAuthSignup = (email, password) => (dispatch) => {
+  console.log('opening AuthSignup', email, password);
+  dispatch({ type: 'AUTH_OPEN' });
+  auth.createUserWithEmailAndPassword(email, password).catch((error) => {
+    console.log(error);
+    dispatch({
+      type: 'FEEDBACK_DISPLAY_ERROR',
+      error: `Signup failed! ${error}`,
+    });
+    dispatch({ type: 'AUTH_LOGOUT' });
+  });
+};
+
+export const openAuthWithEmail = (email, password) => (dispatch) => {
+  console.log('opening Auth with email', email, password);
+  dispatch({ type: 'AUTH_OPEN' });
+  auth.signInWithEmailAndPassword(email, password).catch((error) => {
+    dispatch({
+      type: 'FEEDBACK_DISPLAY_ERROR',
+      error: `Login failed! ${error}`,
+    });
+    dispatch({ type: 'AUTH_LOGOUT' });
+  });
+};
+
 export const openAuthWithProvider = testProvider => (dispatch) => {
   dispatch({ type: 'AUTH_OPEN' });
   // change this when figure out signup auth
