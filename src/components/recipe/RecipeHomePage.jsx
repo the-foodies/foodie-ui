@@ -63,9 +63,6 @@ class RecipeHomePage extends React.Component {
               <NavFilterThumbnails />
             </Col>
           </Row>
-          <Row>
-            <ListThumbnails list={this.state.trendingRecipes} />
-          </Row>
         </Grid>
       </div>
     );

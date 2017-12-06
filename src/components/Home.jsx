@@ -66,11 +66,6 @@ class Home extends React.Component {
             <NavFilterThumbnails />
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} md={12}>
-            <ListThumbnails list={this.state.displayPictures} />
-          </Col>
-        </Row>
       </Grid>
     );
   }
