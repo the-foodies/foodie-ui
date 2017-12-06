@@ -45,8 +45,8 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  auth: PropTypes.object,
-  modal: PropTypes.object,
+  auth: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   dispatchAuth: PropTypes.objectOf(PropTypes.func).isRequired,
   dispatchModal: PropTypes.objectOf(PropTypes.func).isRequired,

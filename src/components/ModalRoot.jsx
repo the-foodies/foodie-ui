@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LoginModal from '../containers/loginModal';
 
-// add modals here 
+// add modals here
 const MODAL_COMPONENTS = {
   LOGIN_MODAL: LoginModal,
 };
@@ -22,9 +22,10 @@ const ModalRoot = (props) => {
 };
 
 ModalRoot.propTypes = {
-  modalType: PropTypes.string,
-  modalProps: PropTypes.object,
-
+  modal: PropTypes.shape({
+    modalType: PropTypes.string,
+    modalProps: PropTypes.object,
+  }).isRequired,
 };
 
 export default ModalRoot;

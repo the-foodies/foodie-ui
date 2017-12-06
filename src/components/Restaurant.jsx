@@ -22,7 +22,7 @@ class Restaurant extends React.Component {
         website: '',
         address: '',
         imageURL: '',
-        categories: '',
+        categories: [],
         foodItems: [],
       },
       foodItem: {
@@ -40,13 +40,14 @@ class Restaurant extends React.Component {
 
   handleFoodItemSubmit(e) {
     const { foodItem } = this.state;
-    const { foodItems } = this.state.restaurantSubmission;
+    const { foodItems, categories } = this.state.restaurantSubmission;
     // foodItems.push(food)
     if (foodItems) {
       this.setState(prevState => ({
         restaurantSubmission: {
           ...prevState.restaurantSubmission,
           foodItems: [...foodItems, foodItem],
+          categories: [...categories, foodItem.name],
         },
         foodItem: {
           name: '',
