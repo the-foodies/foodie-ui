@@ -1,6 +1,8 @@
 import React from 'react';
 import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
+import ListThumbnails from './ListThumbnails';
 import TrendingCarousel from './home/TrendingCarousel';
+import SeasonalItems from './SeasonalItems';
 
 class Home extends React.Component {
   constructor(props) {
@@ -11,14 +13,21 @@ class Home extends React.Component {
         { id: 2, name: 'Pizza', description: 'Slices of heaven', url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
         { id: 3, name: 'Burritos', description: 'Carne asada for dayz', url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
         { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
+        { id: 5, name: 'Tacos', description: 'Bomb tacos', url: 'https://media.timeout.com/images/103202788/image.jpg' },
+        { id: 6, name: 'Pizza', description: 'Slices of heaven', url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
+        { id: 7, name: 'Burritos', description: 'Carne asada for dayz', url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
+        { id: 8, name: 'Beer', description: 'Here to question, do you really need food?', url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
+      ],
+      seasonalItems: [
+        { id: 1, name: 'Tacos', description: 'Bomb tacos', url: 'https://media.timeout.com/images/103202788/image.jpg' },
+        { id: 2, name: 'Pizza', description: 'Slices of heaven', url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
+        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
       ],
     };
   }
 
   componentDidMount() {
-    //GET request for top 4 items
     /*
-
     */
   }
 
@@ -26,13 +35,24 @@ class Home extends React.Component {
     return (
       <Grid>
         <Row>
-          <Col xs={12} md={12}>
+          <Col xs={12} md={8} mdOffset={2}>
             <PageHeader>Trending GrubEZ <small>Put Trending Name Here ASAP</small></PageHeader>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} mdOffset={3}>
+          <Col xs={12} md={8} mdOffset={2}>
             <TrendingCarousel picturesToDisplay={this.state.displayPictures} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} md={12}>
+            {/* Place for seasonal items upon landing */}
+            <SeasonalItems list={this.state.seasonalItems} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} md={12}>
+            <ListThumbnails list={this.state.displayPictures} />
           </Col>
         </Row>
       </Grid>

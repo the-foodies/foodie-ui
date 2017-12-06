@@ -1,6 +1,7 @@
 import React from 'react';
-import { Grid, Row, Col, Thumbnail, Button } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import TrendingCarousel from '../home/TrendingCarousel';
+import ListThumbnails from '../ListThumbnails';
 
 class RecipeHomePage extends React.Component {
   constructor(props) {
@@ -23,9 +24,7 @@ class RecipeHomePage extends React.Component {
   }
 
   componentDidMount() {
-    //GET request for top 4 items
     /*
-
     */
   }
 
@@ -35,10 +34,6 @@ class RecipeHomePage extends React.Component {
         <h2>{this.state.title}</h2>
         <Grid>
           <Row>
-            <Col md={6} mdPull={6} >
-              <h1>TITLE</h1>
-              <p>Recipe Details</p>
-            </Col>
             <Col xs={6} xsOffset={6}>
               <h1>TITLE</h1>
               <p>Recipe Details</p>
@@ -48,19 +43,7 @@ class RecipeHomePage extends React.Component {
         </Grid>
         <Grid>
           <Row>
-            {this.state.trendingRecipes.map((recipe) => {
-              return (
-                <Col sm={6} md={3} key={recipe.id} >
-                  <Thumbnail src={recipe.url} alt={recipe.name} rounded="true">
-                    <h3>{recipe.name}</h3>
-                    <p>{recipe.description}</p>
-                    <br />
-                    <Button bsStyle="primary">See User Profile</Button>&nbsp;
-                    <Button bsStyle="default">Make That Recipe</Button>
-                  </Thumbnail>
-                </Col>
-              );
-            })}
+            <ListThumbnails list={this.state.trendingRecipes} />
           </Row>
         </Grid>
       </div>
@@ -69,42 +52,3 @@ class RecipeHomePage extends React.Component {
 }
 
 export default RecipeHomePage;
-//
-// const thumbnailInstance = (
-//   <Grid>
-//     <Row>
-//       <Col xs={6} md={4}>
-//         <Thumbnail src="/assets/thumbnaildiv.png" alt="242x200">
-//           <h3>Thumbnail label</h3>
-//           <p>Description</p>
-//           <p>
-//             <Button bsStyle="primary">Button</Button>&nbsp;
-//             <Button bsStyle="default">Button</Button>
-//           </p>
-//         </Thumbnail>
-//       </Col>
-//       <Col xs={6} md={4}>
-//         <Thumbnail src="/assets/thumbnaildiv.png" alt="242x200">
-//           <h3>Thumbnail label</h3>
-//           <p>Description</p>
-//           <p>
-//             <Button bsStyle="primary">Button</Button>&nbsp;
-//             <Button bsStyle="default">Button</Button>
-//           </p>
-//         </Thumbnail>
-//       </Col>
-//       <Col xs={6} md={4}>
-//         <Thumbnail src="/assets/thumbnaildiv.png" alt="242x200">
-//           <h3>Thumbnail label</h3>
-//           <p>Description</p>
-//           <p>
-//             <Button bsStyle="primary">Button</Button>&nbsp;
-//             <Button bsStyle="default">Button</Button>
-//           </p>
-//         </Thumbnail>
-//       </Col>
-//     </Row>
-//   </Grid>
-// );
-//
-// ReactDOM.render(thumbnailInstance, mountNode);
