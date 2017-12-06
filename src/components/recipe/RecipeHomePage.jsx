@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import TrendingCarousel from '../home/TrendingCarousel';
 import ListThumbnails from '../ListThumbnails';
+import NavFilterThumbnails from '../NavFilterThumbnails';
 
 class RecipeHomePage extends React.Component {
   constructor(props) {
@@ -58,8 +59,8 @@ class RecipeHomePage extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={12} md={6} mdOffset={4}>
-              {/* Insert Tab Navigation HERE */}
+            <Col xs={12} md={8}>
+              <NavFilterThumbnails />
             </Col>
           </Row>
           <Row>

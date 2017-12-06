@@ -3,6 +3,7 @@ import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 import ListThumbnails from './ListThumbnails';
 import TrendingCarousel from './home/TrendingCarousel';
 import SeasonalItems from './SeasonalItems';
+import NavFilterThumbnails from './NavFilterThumbnails';
 
 class Home extends React.Component {
   constructor(props) {
@@ -61,8 +62,8 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} mdOffset={4}>
-            {/* Insert Tab Navigation HERE */}
+          <Col xs={12} md={8}>
+            <NavFilterThumbnails />
           </Col>
         </Row>
         <Row>
