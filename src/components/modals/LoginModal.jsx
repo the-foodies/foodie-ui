@@ -1,12 +1,14 @@
 import React from 'react';
 import { Modal, Button, ButtonGroup, FormGroup, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
-
-    this.close = this.close.bind(this);
+    console.log(props);
+    // dispatch for dispatchAuth functions
     const { dispatch } = props;
+
     this.state = {
       loginType: 'Login',
       showingModal: false,
@@ -15,6 +17,8 @@ class LoginModal extends React.Component {
       password: '',
       password2: '',
     };
+
+    this.close = this.close.bind(this);
     this.handleAuthClick = this.handleAuthClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -61,10 +65,10 @@ class LoginModal extends React.Component {
     const { email, password } = this.state;
     console.log(this.state.loginType);
     if (this.state.loginType === 'Signup') {
-      this.props.openAuthSignup(email, password);
+      this.props.dispatchAuth.openAuthSignup(email, password);
       this.setState({ hasSignedUp: true });
-    } else if (this.state.loginType == 'Login') {
-      this.props.openAuthWithEmail(email, password)
+    } else if (this.state.loginType === 'Login') {
+      this.props.dispatchAuth.openAuthWithEmail(email, password);
     }
   }
   handleInputChange(e, inputType) {
@@ -81,7 +85,7 @@ class LoginModal extends React.Component {
     });
     // setTimeout notifies the app that the modal has closed
     setTimeout(() => {
-      this.props.hideModal();
+      this.props.dispatchModal.hideModal();
     }, 1500);
   }
 
@@ -144,14 +148,14 @@ class LoginModal extends React.Component {
               <Row>
                 <Col xs={4} xsOffset={1}>
                   <ButtonGroup>
-                    <Button onClick={() => { this.props.openAuthWithProvider('facebook'); }}>
+                    <Button onClick={() => { this.props.dispatchAuth.openAuthWithProvider('facebook'); }}>
                       <img src="assets/social-svg/facebook.png" alt="fb" width="20" />
                     </Button>
                   </ButtonGroup>
                 </Col>
                 <Col xs={4} xsOffset={1}>
                   <ButtonGroup>
-                    <Button onClick={() => { this.props.openAuthWithProvider('google'); }}>
+                    <Button onClick={() => { this.props.dispatchAuth.openAuthWithProvider('google'); }}>
                       <img src="assets/social-svg/google.png" alt="google" width="20" />
                     </Button>
                   </ButtonGroup>
@@ -177,5 +181,12 @@ class LoginModal extends React.Component {
     );
   }
 }
+
+LoginModal.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  dispatchModal: PropTypes.objectOf(PropTypes.func).isRequired,
+  dispatchAuth: PropTypes.objectOf(PropTypes.func).isRequired,
+  showModal: PropTypes.bool.isRequired,
+};
 
 export default LoginModal;

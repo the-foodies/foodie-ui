@@ -1,6 +1,8 @@
 const initialState = {
   modalType: null,
-  modalProps: {},
+  modalProps: {
+    showModal: false,
+  },
 };
 
 export default (state = initialState, action) => {

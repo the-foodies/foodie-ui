@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './Home';
-import RecipeHomePage from './recipe/RecipeHomePage.jsx';
+import RecipeHomePage from './recipe/RecipeHomePage';
 import NavbarInstance from './NavbarInstance';
-import TestComponent from './TestComponent';
 import ModalRoot from './ModalRoot';
 import Restaurant from './Restaurant';
 
@@ -16,7 +15,7 @@ class App extends React.Component {
     console.log(this.props);
   }
   componentWillMount() {
-    this.props.listenToAuth();
+    this.props.dispatchAuth.listenToAuth();
   }
 
   render() {
@@ -27,17 +26,11 @@ class App extends React.Component {
             <NavbarInstance
               dispatch={this.props.dispatch}
               auth={this.props.auth}
-              logoutUser={this.props.logoutUser}
-              showLoginModal={this.props.showLoginModal}
+              logoutUser={this.props.dispatchAuth.logoutUser}
+              showLoginModal={this.props.dispatchModal.showLoginModal}
             />
             <ModalRoot
-              dispatch={this.props.dispatch}
-              auth={this.props.auth}
-              openAuthWithProvider={this.props.openAuthWithProvider}
-              openAuthWithEmail={this.props.openAuthWithEmail}
-              openAuthSignup={this.props.openAuthSignup}
               modal={this.props.modal}
-              hideModal={this.props.hideModal}
             />
             <Switch>
               <Route exact path="/" component={Home} />
@@ -52,11 +45,11 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  listenToAuth: PropTypes.func.isRequired,
+  auth: PropTypes.object,
+  modal: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  logoutUser: PropTypes.func.isRequired,
-  showLoginModal: PropTypes.func.isRequired,
+  dispatchAuth: PropTypes.objectOf(PropTypes.func).isRequired,
+  dispatchModal: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 export default App;

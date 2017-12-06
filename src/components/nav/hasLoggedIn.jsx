@@ -1,12 +1,20 @@
 import React from 'react';
 import { NavItem } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
-export default (props) => {
-  const { dispatch } = props;
-  switch (props.auth.status) {
+const hasLoggedIn = (props) => {
+  // dispatch needed for logout, showLogin functions
+  const {
+    dispatch,
+    logoutUser,
+    showLoginModal,
+    authStatus,
+  } = props;
+
+  switch (authStatus) {
     case 'AUTH_LOGGED_IN':
       return (
-        <NavItem onClick={props.logoutUser}>
+        <NavItem onClick={logoutUser}>
           Logout
         </NavItem>
       );
@@ -18,9 +26,18 @@ export default (props) => {
       );
     default:
       return (
-        <NavItem onClick={props.showLoginModal}>
+        <NavItem onClick={showLoginModal}>
           Login
         </NavItem>
       );
   }
 };
+
+hasLoggedIn.propTypes = {
+  authStatus: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  showLoginModal: PropTypes.func.isRequired,
+};
+
+export default hasLoggedIn;

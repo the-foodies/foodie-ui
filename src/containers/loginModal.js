@@ -1,10 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import App from '../components/App';
-import * as dispatchModal from '../actions/modal';
+import LoginModal from '../components/modals/LoginModal';
+import { hideModal } from '../actions/modal';
 import * as dispatchAuth from '../actions/auth';
-
-console.log(dispatchAuth);
 
 function mapStateToProps(state) {
   return {
@@ -17,8 +15,8 @@ function matchDispatchToProps(dispatch) {
   return {
     dispatch: bindActionCreators(dispatch, dispatch),
     dispatchAuth: bindActionCreators({ ...dispatchAuth }, dispatch),
-    dispatchModal: bindActionCreators({ ...dispatchModal }, dispatch),
+    dispatchModal: bindActionCreators({ hideModal }, dispatch),
   };
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(App);
+export default connect(mapStateToProps, matchDispatchToProps)(LoginModal);

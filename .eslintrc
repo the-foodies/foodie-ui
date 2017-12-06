@@ -11,7 +11,13 @@
       "components": [ "Link" ],
       "specialLink": [ "to", "hrefLeft", "hrefRight" ],
       "aspects": [ "noHref", "invalidHref", "preferButton" ]
-    }]
+    }],
+    "react/forbid-prop-types": [
+      true,
+      {
+        "forbid": ["array", "any"]
+      }
+    ]
   },
   "env": {
     "browser": true,
