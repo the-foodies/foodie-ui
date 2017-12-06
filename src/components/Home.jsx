@@ -45,9 +45,12 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={12}>
-            {/* Place for seasonal items upon landing */}
+          <Col xs={6} md={6}>
             <SeasonalItems list={this.state.seasonalItems} />
+          </Col>
+          <Col xs={6} md={6}>
+            <h1>Other Stuff</h1>
+            <p>Nuts</p>
           </Col>
         </Row>
         <Row>

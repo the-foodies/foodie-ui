@@ -1,20 +1,23 @@
 import React from 'react';
-import { Col, Thumbnail, Button } from 'react-bootstrap';
+import { Media, PageHeader } from 'react-bootstrap';
 
 const SeasonalItems = ({ list }) => {
   return (
     <div>
-      {list.map((thumbnail) => {
+      <PageHeader>Seasonal Items <br />
+        <small>Seasonal selections by your dev team</small>
+      </PageHeader>
+      {list.map((item) => {
         return (
-          <Col sm={6} md={3} key={thumbnail.id} >
-            <Thumbnail src={thumbnail.url} alt={thumbnail.name} rounded="true">
-              <h3>{thumbnail.name}</h3>
-              <p>{thumbnail.description}</p>
-              <br />
-              <Button bsStyle="primary">See User Profile</Button>&nbsp;
-              <Button bsStyle="default">Make That Recipe</Button>
-            </Thumbnail>
-          </Col>
+          <Media key={item.id}>
+            <Media.Left align="top">
+              <img width={64} height={64} src={item.url} alt={item.name} />
+            </Media.Left>
+            <Media.Body>
+              <Media.Heading>{item.name}</Media.Heading>
+              <p>{item.description}</p>
+            </Media.Body>
+          </Media>
         );
       })}
     </div>
