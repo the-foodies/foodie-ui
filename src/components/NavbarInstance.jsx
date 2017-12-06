@@ -24,11 +24,11 @@ class NavbarInstance extends React.Component {
         <Navbar.Collapse>
           <Navbar.Form pullLeft>
             <FormGroup>
-              <FormControl type="text" placeholder="search for food" />
+              <FormControl type="text" placeholder="Search a meal, recipe, or favorite food query..." />
             </FormGroup>
           </Navbar.Form>
           <Nav>
-            <NavItem eventKey={1} onClick={() => { this.changePage('test'); }}>
+            <NavItem eventKey={1} onClick={() => { this.changePage('recipes'); }}>
               Cooking
             </NavItem>
             <NavItem eventKey={2} onClick={() => { this.changePage('eating'); }}>
