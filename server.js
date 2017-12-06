@@ -8,7 +8,9 @@ app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, './build')));
-
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './build/index.html'));
+});
 const port = 1337;
 
 app.listen(port, () => {

@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from '../components/Home';
+import Home from './Home';
+import RecipeHomePage from './recipe/RecipeHomePage.jsx';
 import NavbarInstance from './NavbarInstance';
+import TestComponent from './TestComponent';
 import ModalRoot from './ModalRoot';
 import Restaurant from './Restaurant';
 
@@ -40,6 +42,7 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/eating" component={Restaurant} />
+              <Route exact path="/recipes" component={RecipeHomePage} />
             </Switch>
           </div>
         </Router>
