@@ -19,7 +19,7 @@ webpackConfig.module.loaders.push({
   test: /\.js[x]?$/,
   exclude: /node_modules/,
   loader: 'babel-loader',
-  options: { presets: ['es2015', 'react'] },
+  options: { presets: ['es2015', 'stage-0', 'react'] },
 });
 
 webpackConfig.module.loaders.push({

@@ -4,6 +4,7 @@ export default () => {
     type: 'SHOW_MODAL',
     modalType: 'LOGIN_MODAL',
     modalProps: {
+      showModal: true,
     },
   };
 };
