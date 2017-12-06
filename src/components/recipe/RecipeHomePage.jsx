@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import TrendingCarousel from '../home/TrendingCarousel';
 import ListThumbnails from '../ListThumbnails';
 
@@ -31,17 +31,37 @@ class RecipeHomePage extends React.Component {
   render() {
     return (
       <div>
-        <h2>{this.state.title}</h2>
         <Grid>
           <Row>
-            <Col xs={6} xsOffset={6}>
+            <Col xs={12} md={6} mdOffset={4}>
+              <PageHeader>Welcome to Recipes <br />
+                <small>See Below for Recipes or Submit Your Own</small>
+              </PageHeader>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={6} md={6}>
+              <h1>Other Stuff</h1>
+              <p>Nuts</p>
+            </Col>
+            <Col xs={6} md={6}>
               <h1>TITLE</h1>
               <p>Recipe Details</p>
               <TrendingCarousel picturesToDisplay={this.state.displayRecipes} />
             </Col>
           </Row>
-        </Grid>
-        <Grid>
+          <Row>
+            <Col xs={12} md={6} mdOffset={4}>
+              <PageHeader>Filter Recipe Results Below<br />
+                <small>See Below for Recipes or Submit Your Own</small>
+              </PageHeader>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} md={6} mdOffset={4}>
+              {/* Insert Tab Navigation HERE */}
+            </Col>
+          </Row>
           <Row>
             <ListThumbnails list={this.state.trendingRecipes} />
           </Row>

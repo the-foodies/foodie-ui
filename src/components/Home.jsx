@@ -54,6 +54,18 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row>
+          <Col xs={12} md={6} mdOffset={4}>
+            <PageHeader>Filter Trending Below<br />
+              <small>Trending Now</small>
+            </PageHeader>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} md={6} mdOffset={4}>
+            {/* Insert Tab Navigation HERE */}
+          </Col>
+        </Row>
+        <Row>
           <Col xs={12} md={12}>
             <ListThumbnails list={this.state.displayPictures} />
           </Col>
