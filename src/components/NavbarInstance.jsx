@@ -31,7 +31,7 @@ class NavbarInstance extends React.Component {
             <NavItem eventKey={1} onClick={() => { this.changePage('test'); }}>
               Cooking
             </NavItem>
-            <NavItem eventKey={2} onClick={() => { this.changePage('test'); }}>
+            <NavItem eventKey={2} onClick={() => { this.changePage('eating'); }}>
               Eating
             </NavItem>
           </Nav>

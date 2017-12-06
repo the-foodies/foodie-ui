@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from '../components/Home';
-import TestComponent from '../components/TestComponent';
 import NavbarInstance from './NavbarInstance';
 import ModalRoot from './ModalRoot';
+import Restaurant from './Restaurant';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class App extends React.Component {
             />
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/test" component={TestComponent} />
+              <Route exact path="/eating" component={Restaurant} />
             </Switch>
           </div>
         </Router>
@@ -47,7 +47,13 @@ class App extends React.Component {
     );
   }
 }
+
 App.propTypes = {
+  listenToAuth: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  showLoginModal: PropTypes.func.isRequired,
 };
 
 export default App;
