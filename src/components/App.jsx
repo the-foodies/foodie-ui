@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './Home';
 import RecipeHomePage from './recipe/RecipeHomePage';
+import RecipeSubmissionForm from './recipe/RecipeSubmissionForm';
 import NavbarInstance from './NavbarInstance';
 import ModalRoot from './ModalRoot';
 import Restaurant from './Restaurant';
@@ -36,6 +37,7 @@ class App extends React.Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/eating" component={Restaurant} />
               <Route exact path="/recipes" component={RecipeHomePage} />
+              <Route exact path="/recipe-submission" component={RecipeSubmissionForm} />
             </Switch>
           </div>
         </Router>
