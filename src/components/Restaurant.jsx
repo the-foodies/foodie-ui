@@ -1,8 +1,9 @@
 import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
+import { ProgressBar, Image, InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
 
 import { googleAutocomplete, googleRestaurant } from '../utils/googleRestaurant';
+import uploadImage from '../utils/uploadImage';
 
 const filterByCallback = option => option.description;
 
@@ -30,12 +31,42 @@ class Restaurant extends React.Component {
         rating: '',
         description: '',
       },
+      uploadProgress: 0,
+      uploadState: '',
+      imageURL: 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg',
     };
 
-
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
+    this.handleFoodItemSubmit = this.handleFoodItemSubmit.bind(this);
     this.searchGoogleForRestaurant = this.searchGoogleForRestaurant.bind(this);
     this.searchGoogleAutocomplete = this.searchGoogleAutocomplete.bind(this);
+  }
+
+  setUpload(ref) {
+    this.imageUpload = ref;
+  }
+
+  handleImageChange(event) {
+    if (event.target.files[0]) {
+      console.log('hello plz', event.target.files[0]);
+      [this.uploadImage] = event.target.files;
+      this.setState({
+        uploadState: 'ready',
+      });
+    }
+  }
+
+  handleImageUpload() {
+    const fileName = this.uploadImage.name;
+    const file = this.uploadImage;
+    console.log(fileName, file, this);
+    // const imgUpload = uploadImage.bind(this);
+    uploadImage('restaurant', fileName, file, this, (dlUrl) => {
+      const imgInput = { name: 'imageURL', value: dlUrl };
+      this.handleInputChange({ target: imgInput }, 'restaurantSubmission');
+    });
   }
 
   handleFoodItemSubmit(e) {
@@ -155,7 +186,7 @@ class Restaurant extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
+          <Col xs={12} md={12}>
             <Form>
               <FormGroup>
                 <Col xs={12}>
@@ -171,8 +202,6 @@ class Restaurant extends React.Component {
                     value={this.state.restaurantSubmission.name}
                     type="text"
                   />
-                </Col>
-                <Col xs={6}>
                   <ControlLabel>Website</ControlLabel>
                   <FormControl
                     name="website"
@@ -180,10 +209,6 @@ class Restaurant extends React.Component {
                     value={this.state.restaurantSubmission.website}
                     type="text"
                   />
-                </Col>
-              </FormGroup>
-              <FormGroup>
-                <Col xs={6}>
                   <ControlLabel>Restaurant Address</ControlLabel>
                   <FormControl
                     name="address"
@@ -191,15 +216,66 @@ class Restaurant extends React.Component {
                     value={this.state.restaurantSubmission.address}
                     type="text"
                   />
+                  <FormGroup>
+                    <Col xs={6}>
+                      <ControlLabel>Upload Your Image</ControlLabel>
+                      <FormControl
+                        type="file"
+                        accept="image/*"
+                        onChange={this.handleImageChange}
+                        ref={(ref) => { this.setUpload(ref); }}
+                      />
+                    </Col>
+                    <Col xs={6}>
+                      {(() => {
+                        switch (this.state.uploadState) {
+                          case 'ready':
+                            return (
+                              <div>
+                                {/* <ControlLabel>Image Upload</ControlLabel> */}
+                                <Button onClick={this.handleImageUpload}>
+                                  Upload
+                                </Button>
+                              </div>
+                            );
+                          case 'running':
+                            return (
+                              <div>
+                                <ControlLabel>Image Upload</ControlLabel>
+                                <ProgressBar
+                                  now={this.state.uploadProgress}
+                                  label={`${Math.round(this.state.uploadProgress)}%`}
+                                />
+                              </div>
+                            );
+                          case 'complete':
+                            return (
+                              <div>
+                                <ControlLabel>Image URL</ControlLabel>
+                                <FormControl
+                                  name="imageURL"
+                                  onChange={(e) => { this.handleInputChange(e, 'restaurantSubmission'); }}
+                                  value={this.state.restaurantSubmission.imageURL}
+                                  type="text"
+                                />
+                              </div>
+                            );
+                          default:
+                            return (
+                              <div>
+                                {/* <ControlLabel>Image URL</ControlLabel> */}
+                                <Button disabled>
+                                  Upload
+                                </Button>
+                              </div>
+                            );
+                        }
+                      })()}
+                    </Col>
+                  </FormGroup>
                 </Col>
-                <Col xs={6}>
-                  <ControlLabel>Image URL</ControlLabel>
-                  <FormControl
-                    name="imageURL"
-                    onChange={(e) => { this.handleInputChange(e, 'restaurantSubmission'); }}
-                    value={this.state.restaurantSubmission.imageURL}
-                    type="text"
-                  />
+                <Col xsOffset={1} xs={3}>
+                  <Image src={this.state.imageURL} thumbnail />
                 </Col>
               </FormGroup>
               <FormGroup>

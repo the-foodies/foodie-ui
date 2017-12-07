@@ -1,6 +1,8 @@
 
 // Initialize Firebase
-import * as firebase from 'firebase';
+const firebase = require('firebase/app');
+require('firebase/auth');
+require('firebase/storage');
 
 const config = {
   apiKey: 'AIzaSyDAE91iVH8yJuAcMZiJn2ISXlCi-xUZjXE',
@@ -11,5 +13,12 @@ const config = {
   messagingSenderId: '48425389246',
 };
 firebase.initializeApp(config);
+console.log(firebase);
 
-export default firebase.auth();
+const auth = firebase.auth();
+const firebaseStorage = firebase.storage();
+
+export {
+  auth,
+  firebaseStorage,
+};

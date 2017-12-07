@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import auth from '../../auth';
+import { auth } from '../../auth';
 
 export const listenToAuth = () => (dispatch, getState) => {
   console.log('dispatch', dispatch, 'getState ', getState);
