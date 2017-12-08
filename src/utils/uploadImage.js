@@ -1,6 +1,6 @@
-import * as firebase from 'firebase';
+import { firebaseStorage } from '../auth';
 
-const storageRef = firebase.storage().ref();
+const storageRef = firebaseStorage.ref();
 
 /**
  *  dbLoc === 'restaurant' || 'recipe'
@@ -41,4 +41,3 @@ export default (dbLoc, fileName, file, context, callback) => {
       callback(uploadTask.snapshot.downloadURL);
     });
 };
-

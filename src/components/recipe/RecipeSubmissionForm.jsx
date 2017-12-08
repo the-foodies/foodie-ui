@@ -1,5 +1,7 @@
 import React from 'react';
-import { InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col, FieldGroup } from 'react-bootstrap';
+import { ProgressBar, Image, Button, Form, FormGroup, ControlLabel, FormControl, Row, Col } from 'react-bootstrap';
+import uploadImage from '../../utils/uploadImage';
+import { numsOnly, validChars, validateChars, validateNums, trimFirstSpace } from '../../utils/formValidation';
 
 class RecipeSubmissionForm extends React.Component {
   constructor(props) {
@@ -8,21 +10,92 @@ class RecipeSubmissionForm extends React.Component {
       calories: '',
       fat: '',
       ingredients: '',
+      imageURL: 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg',
       minutes: '',
+      name: '',
       optionalTips: '',
       portions: '',
       preparationDirections: '',
       protein: '',
       recipeHistory: '',
+      uploadProgress: 0,
+      uploadState: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
+  }
+
+  setUpload(ref) {
+    this.imageUpload = ref;
+  }
+
+  handleImageChange(event) {
+    if (event.target.files[0]) {
+      [this.uploadImage] = event.target.files;
+      this.setState({
+        uploadState: 'ready',
+      });
+    }
+  }
+
+  handleImageUpload() {
+    const fileName = this.uploadImage.name;
+    const file = this.uploadImage;
+    console.log(fileName, file, this);
+    // const imgUpload = uploadImage.bind(this);
+    uploadImage('recipe', fileName, file, this, (dlUrl) => {
+      const imgInput = { name: 'imageURL', value: dlUrl };
+      this.handleInputChange({ target: imgInput });
+    });
+  }
+
+  handleRecipeSubmit(e) {
+    e.preventDefault();
+    // Check for valid entry fields
+    const { name, calories, fat, minutes, imageURL, portions, recipeHistory } = this.state;
+    let { ingredients, preparationDirections, optionalTips } = this.state;
+    let warning = '';
+    if (name === '' || validChars(name)) {
+      warning += ('<h3>Recipe name is not valid</h3>');
+    } if (calories === '' || numsOnly(calories)) {
+      warning += ('<h3>Calories is not valid</h3>');
+    } if (fat === '' || numsOnly(fat)) {
+      warning += ('<h3>Fat is not valid</h3>');
+    } if (minutes === '' || numsOnly(minutes)) {
+      warning += ('<h3>Minutes is not valid</h3>');
+    } if (portions === '' || numsOnly(portions)) {
+      warning += ('<h3>Portions is not valid</h3>');
+    } if (recipeHistory === '' || validChars(recipeHistory)) {
+      warning += ('<h3>Recipe history is not valid</h3>');
+    } if (imageURL === 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg') {
+      warning += ('<h3>Upload a valid picture with URL</h3>');
+    }
+    const warningElement = document.getElementById('recipe-form-error');
+    if (warning !== '') {
+      warningElement.innerHTML = (warning);
+      return;
+    }
+
+    // Success
+    warningElement.innerHTML = ('');
+    const stringsToSplit = [ingredients, preparationDirections, optionalTips];
+    [ingredients, preparationDirections, optionalTips] = stringsToSplit.map((str) => {
+      let result = str;
+      result = result.split(',');
+      result = trimFirstSpace(result);
+      return result;
+    });
+    const recipe = { name, calories, fat, minutes, portions, recipeHistory, imageURL, ingredients, preparationDirections, optionalTips };
+    console.log(recipe);
+    // if all tests pass, make a post request to DB
+
   }
 
   handleInputChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    console.log(`name ${e.target.name} value ${e.target.value}`);
   }
 
   render() {
@@ -37,87 +110,193 @@ class RecipeSubmissionForm extends React.Component {
                 </Col>
               </FormGroup>
               <FormGroup>
-                <Col xs={2} xsOffset={1}>
-                  <ControlLabel>Time</ControlLabel>
-                  <FormControl
-                    name="minutes"
-                    onChange={this.handleInputChange}
-                    placeholder="How many minutes does it take?"
-                    type="text"
-                    value={this.state.minutes}
-                  />
-                </Col>
-                <Col xs={2} xsOffset={2}>
-                  <ControlLabel>Difficulty of Recipe</ControlLabel>
-                  <FormControl componentClass="select" placeholder="Select Chef Master Level">
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                    <option value="master-level">Master Level</option>
-                  </FormControl>
-                </Col>
-                <Col xs={2} xsOffset={2}>
-                  <ControlLabel>Portions</ControlLabel>
-                  <FormControl
-                    name="portions"
-                    onChange={this.handleInputChange}
-                    placeholder="How many portions will this make?"
-                    type="text"
-                    value={this.state.portions}
-                  />
-                </Col>
+                <Row>
+                  <Col xs={4} xsOffset={3}>
+                    <h4>Name of Recipe</h4>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={4} xsOffset={3}>
+                    <FormGroup validationState={validateChars('name', this)}>
+                      <FormControl
+                        name="name"
+                        onChange={this.handleInputChange}
+                        placeholder="Name of Recipe"
+                        type="text"
+                        value={this.state.name}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={2} xsOffset={4}>
+                    <ControlLabel>Image of Recipe</ControlLabel>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={2} xsOffset={4}>
+                    <Image src={this.state.imageURL} alt={this.state.name} thumbnail />
+                  </Col>
+                </Row>
               </FormGroup>
               <FormGroup>
-                <Col xs={2} xsOffset={1}>
-                  <img height="125" src="http://www.iconhot.com/icon/png/south-park-1/256/cartman-normal.png" alt="Current User" />
-                  <h5>{''}Current User</h5>
-                </Col>
-                <Col xs={6} xsOffset={1}>
-                  <ControlLabel>History of Recipe</ControlLabel>
-                  <FormControl
-                    componentClass="textarea"
-                    name="recipeHistory"
-                    onChange={this.handleInputChange}
-                    placeholder="Tell us about the history of your recipe"
-                    value={this.state.recipeHistory}
-                  />
-                  <br />
+                <Row>
+                  <Col xs={2} xsOffset={2}>
+                    <FormGroup validationState={validateChars('imageURL', this)}>
+                      <ControlLabel>Upload Your Image</ControlLabel>
+                      <FormControl
+                        type="file"
+                        accept="image/*"
+                        onChange={this.handleImageChange}
+                        ref={(ref) => { this.setUpload(ref); }}
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col xs={2} xsOffset={1}>
+                    {(() => {
+                      switch (this.state.uploadState) {
+                        case 'ready':
+                          return (
+                            <div>
+                              {/* <ControlLabel>Image Upload</ControlLabel> */}
+                              <Button onClick={this.handleImageUpload}>
+                                Upload
+                              </Button>
+                            </div>
+                          );
+                        case 'running':
+                          return (
+                            <div>
+                              <ControlLabel>Image Upload</ControlLabel>
+                              <ProgressBar
+                                now={this.state.uploadProgress}
+                                label={`${Math.round(this.state.uploadProgress)}%`}
+                              />
+                            </div>
+                          );
+                        case 'complete':
+                          return (
+                            <div>
+                              <ControlLabel>Image URL</ControlLabel>
+                              <FormControl
+                                name="imageURL"
+                                onChange={this.handleInputChange}
+                                value={this.state.imageURL}
+                                type="text"
+                              />
+                            </div>
+                          );
+                        default:
+                          return (
+                            <div>
+                              {/* <ControlLabel>Image URL</ControlLabel> */}
+                              <Button disabled>
+                                Upload
+                              </Button>
+                            </div>
+                          );
+                      }
+                    })()}
+                  </Col>
+                </Row>
+              </FormGroup>
+              <FormGroup>
+                <Row>
+                  <Col xs={2} xsOffset={1}>
+                    <FormGroup validationState={validateNums('minutes', this)}>
+                      <ControlLabel>Time</ControlLabel>
+                      <FormControl
+                        name="minutes"
+                        onChange={this.handleInputChange}
+                        placeholder="How many minutes does it take?"
+                        type="text"
+                        value={this.state.minutes}
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col xs={2} xsOffset={2}>
+                    <ControlLabel>Difficulty of Recipe</ControlLabel>
+                    <FormControl componentClass="select" placeholder="Select Chef Master Level">
+                      <option value="easy">Easy</option>
+                      <option value="medium">Medium</option>
+                      <option value="hard">Hard</option>
+                    </FormControl>
+                  </Col>
+                  <Col xs={2} xsOffset={2}>
+                    <FormGroup validationState={validateNums('portions', this)}>
+                      <ControlLabel>Portions</ControlLabel>
+                      <FormControl
+                        name="portions"
+                        onChange={this.handleInputChange}
+                        placeholder="How many portions will this make?"
+                        type="text"
+                        value={this.state.portions}
+                      />
+                      </FormGroup>
+                  </Col>
+                </Row>
+                <br />
+              </FormGroup>
+              <FormGroup>
+                <Row>
+                  <Col xs={10} xsOffset={1}>
+                    <FormGroup validationState={validateChars('recipeHistory', this)}>
+                      <ControlLabel>History of Recipe</ControlLabel>
+                      <FormControl
+                        componentClass="textarea"
+                        name="recipeHistory"
+                        onChange={this.handleInputChange}
+                        placeholder="Tell us about the history of your recipe"
+                        value={this.state.recipeHistory}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <br />
+                <Row>
                   <Col xs={6} xsOffset={4}>
                     <ControlLabel>Enter the amount for each, per portion</ControlLabel>
                   </Col>
-                  <br />
-                  <br />
-                  <Col xs={3} xsOffset={1}>
-                    <ControlLabel>Fat</ControlLabel>
-                    <FormControl
-                      name="fat"
-                      onChange={this.handleInputChange}
-                      placeholder="Fat per portion"
-                      type="text"
-                      value={this.state.fat}
-                    />
+                </Row>
+                <br />
+                <Row>
+                  <Col xs={2} xsOffset={1}>
+                    <FormGroup validationState={validateNums('fat', this)}>
+                      <ControlLabel>Fat (grams)</ControlLabel>
+                      <FormControl
+                        name="fat"
+                        onChange={this.handleInputChange}
+                        placeholder="Fat per portion"
+                        type="text"
+                        value={this.state.fat}
+                      />
+                    </FormGroup>
                   </Col>
-                  <Col xs={3} xsOffset={1}>
-                    <ControlLabel>Calories</ControlLabel>
-                    <FormControl
-                      name="calories"
-                      onChange={this.handleInputChange}
-                      placeholder="Calories per portion"
-                      type="text"
-                      value={this.state.calories}
-                    />
+                  <Col xs={2} xsOffset={1}>
+                    <FormGroup validationState={validateNums('calories', this)}>
+                      <ControlLabel>Calories</ControlLabel>
+                      <FormControl
+                        name="calories"
+                        onChange={this.handleInputChange}
+                        placeholder="Calories per portion"
+                        type="text"
+                        value={this.state.calories}
+                      />
+                    </FormGroup>
                   </Col>
-                  <Col xs={3} xsOffset={1}>
-                    <ControlLabel>Protein</ControlLabel>
-                    <FormControl
-                      name="protein"
-                      onChange={this.handleInputChange}
-                      placeholder="Protein per portion"
-                      type="text"
-                      value={this.state.protein}
-                    />
+                  <Col xs={2} xsOffset={1}>
+                    <FormGroup validationState={validateNums('protein', this)}>
+                      <ControlLabel>Protein (grams)</ControlLabel>
+                      <FormControl
+                        name="protein"
+                        onChange={this.handleInputChange}
+                        placeholder="Protein per portion"
+                        type="text"
+                        value={this.state.protein}
+                      />
+                    </FormGroup>
                   </Col>
-                </Col>
+                </Row>
               </FormGroup>
               <FormGroup>
                 <Col xs={10} xsOffset={1}>
@@ -138,7 +317,7 @@ class RecipeSubmissionForm extends React.Component {
                     componentClass="textarea"
                     name="preparationDirections"
                     onChange={this.handleInputChange}
-                    placeholder="Separate line entries (e.g. salt meat, slice tomatoes)"
+                    placeholder="Comma-delineated steps (e.g. salt meat, slice tomatoes)"
                     value={this.state.preparationDirections}
                   />
                 </Col>
@@ -150,17 +329,27 @@ class RecipeSubmissionForm extends React.Component {
                     componentClass="textarea"
                     name="optionalTips"
                     onChange={this.handleInputChange}
-                    placeholder="Separate line entries (e.g. defrost for 2 hours)"
+                    placeholder="Comma-delineated tips (e.g. defrost for 2 hours, let sit for 20 minutes after baking)"
                     value={this.state.optionalTips}
                   />
                 </Col>
               </FormGroup>
               <FormGroup>
+              <Row>
+                <Col xs={10} xsOffset={1}>
+                  <div id='recipe-form-error'></div>
+                </Col>
+              </Row>
+              <Row>
                 <Col xs={2} xsOffset={5}>
-                  <Button type="submit">
-                    Submit
+                  <Button
+                    type="submit"
+                    className="btn-secondary"
+                    onClick={(e) => { this.handleRecipeSubmit(e); }}
+                  >Submit
                   </Button>
                 </Col>
+              </Row>
               </FormGroup>
             </Form>
           </Col>

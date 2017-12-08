@@ -3,6 +3,7 @@ import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import TrendingCarousel from '../home/TrendingCarousel';
 import ListThumbnails from '../ListThumbnails';
 import NavFilterThumbnails from '../NavFilterThumbnails';
+import RecipeSubmissionForm from './RecipeSubmissionForm';
 
 class RecipeHomePage extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class RecipeHomePage extends React.Component {
             <Col xs={6} md={6}>
               <h1>Other Stuff</h1>
               <p>Nuts</p>
+              <RecipeSubmissionForm />
             </Col>
             <Col xs={6} md={6}>
               <h1>TITLE</h1>
