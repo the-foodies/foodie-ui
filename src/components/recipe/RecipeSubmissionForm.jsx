@@ -46,8 +46,8 @@ class RecipeSubmissionForm extends React.Component {
     const fileName = this.uploadImage.name;
     const file = this.uploadImage;
     console.log(fileName, file, this);
-    // const imgUpload = uploadImage.bind(this);
-    uploadImage('recipe', fileName, file, this, (dlUrl) => {
+    const imgUpload = uploadImage.bind(this);
+    imgUpload('recipe', fileName, file, (dlUrl) => {
       const imgInput = { name: 'imageURL', value: dlUrl };
       this.handleInputChange({ target: imgInput });
     });

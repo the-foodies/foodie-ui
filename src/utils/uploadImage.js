@@ -16,28 +16,28 @@ const storageRef = firebaseStorage.ref();
  *    imageUrl: <STRING>('https://firebasestorage.googleapis.com/...')
  *  }
  */
-export default (dbLoc, fileName, file, context, callback) => {
+export default function (dbLoc, fileName, file, callback) {
   const imageRef = storageRef.child(`images/${dbLoc}/${fileName}`);
   const uploadTask = imageRef.put(file);
   uploadTask.on('state_changed',
     (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log('upload is: ', progress, '% done');
-      context.setState({
+      this.setState({
         uploadProgress: progress,
         uploadState: snapshot.state,
       });
     }, (err) => {
-      context.setState({
+      this.setState({
         uploadState: 'error',
       });
       console.log(err.code);
     }, () => {
       console.log('successful upload');
-      context.setState({
+      this.setState({
         uploadState: 'complete',
         imageURL: uploadTask.snapshot.downloadURL,
       });
       callback(uploadTask.snapshot.downloadURL);
     });
-};
+}

@@ -62,8 +62,8 @@ class Restaurant extends React.Component {
     const fileName = this.uploadImage.name;
     const file = this.uploadImage;
     console.log(fileName, file, this);
-    // const imgUpload = uploadImage.bind(this);
-    uploadImage('restaurant', fileName, file, this, (dlUrl) => {
+    const imgUpload = uploadImage.bind(this);
+    imgUpload('restaurant', fileName, file, (dlUrl) => {
       const imgInput = { name: 'imageURL', value: dlUrl };
       this.handleInputChange({ target: imgInput }, 'restaurantSubmission');
     });
