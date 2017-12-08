@@ -329,16 +329,18 @@ class Restaurant extends React.Component {
               <FormGroup>
                 {(() => {
                   if (this.state.restaurantSubmission.foodItems.length) {
-                    return <Col xs={2}><h4>Tags:</h4></Col>;
+                    return <Col xs={1}><h4>Tags: </h4></Col>;
                   }
                 })()}
-                {
-                  this.state.restaurantSubmission.foodItems.map(i => (
-                    <Col xs={2} key={i.name}>
-                      <h3><Label>{i.name.split(' ')[0]}...</Label></h3>
-                    </Col>
-                  ))
-                }
+                <Col xs={11}>
+                  <h4>
+                    {
+                      this.state.restaurantSubmission.foodItems.map(i => (
+                        <span key={i.name}><Label>{i.name}</Label>{' '}</span>
+                      ))
+                    }
+                  </h4>
+                </Col>
               </FormGroup>
               <FormGroup>
                 <Col xs={12}>
