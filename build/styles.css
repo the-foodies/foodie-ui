@@ -3,3 +3,8 @@
   width: 140px;
   text-align: right;
 }
+
+.thumbnail {
+  max-width: 100%;
+  max-height: 100%;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { ProgressBar, Image, InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
+import { Label, ProgressBar, Image, InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
 
 import { googleAutocomplete, googleRestaurant } from '../utils/googleRestaurant';
 import uploadImage from '../utils/uploadImage';
@@ -194,7 +194,7 @@ class Restaurant extends React.Component {
                 </Col>
               </FormGroup>
               <FormGroup>
-                <Col xs={6}>
+                <Col xs={8}>
                   <ControlLabel>Restaurant Name</ControlLabel>
                   <FormControl
                     name="name"
@@ -274,8 +274,8 @@ class Restaurant extends React.Component {
                     </Col>
                   </FormGroup>
                 </Col>
-                <Col xsOffset={1} xs={3}>
-                  <Image src={this.state.imageURL} thumbnail />
+                <Col xs={4}>
+                  <Image className="thumbnail" src={this.state.imageURL} thumbnail />
                 </Col>
               </FormGroup>
               <FormGroup>
@@ -324,6 +324,22 @@ class Restaurant extends React.Component {
                     onClick={(e) => { this.handleFoodItemSubmit(e); }}
                   >Add Food item
                   </Button>
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                {(() => {
+                  if (this.state.restaurantSubmission.foodItems.length) {
+                    return <Col xs={1}><h4>Tags: </h4></Col>;
+                  }
+                })()}
+                <Col xs={11}>
+                  <h4>
+                    {
+                      this.state.restaurantSubmission.foodItems.map(i => (
+                        <span key={i.name}><Label>{i.name}</Label>{' '}</span>
+                      ))
+                    }
+                  </h4>
                 </Col>
               </FormGroup>
               <FormGroup>
