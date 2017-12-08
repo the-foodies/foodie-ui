@@ -1,7 +1,7 @@
 const path = require('path');
 
 const webpackConfig = {
-  entry: path.resolve(__dirname, './src/index.jsx'),
+  entry: ['babel-polyfill', path.resolve(__dirname, './src/index.jsx')],
   output: {
     path: path.resolve(__dirname, './build'),
     filename: 'bundle.js',
