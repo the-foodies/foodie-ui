@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { ProgressBar, Image, Button, Form, FormGroup, ControlLabel, FormControl, Row, Col } from 'react-bootstrap';
 import uploadImage from '../../utils/uploadImage';
 import { numsOnly, validChars, validateChars, validateNums, trimFirstSpace } from '../../utils/formValidation';
@@ -57,19 +58,23 @@ class RecipeSubmissionForm extends React.Component {
     let { ingredients, preparationDirections, optionalTips } = this.state;
     let warning = '';
     if (name === '' || validChars(name)) {
-      warning += ('<h3>Recipe name is not valid</h3>');
+      warning += ('<h4>Name is not valid</h4>');
     } if (calories === '' || numsOnly(calories)) {
-      warning += ('<h3>Calories is not valid</h3>');
+      warning += ('<h4>Calories is not valid</h4>');
     } if (fat === '' || numsOnly(fat)) {
-      warning += ('<h3>Fat is not valid</h3>');
+      warning += ('<h4>Fat is not valid</h4>');
     } if (minutes === '' || numsOnly(minutes)) {
-      warning += ('<h3>Minutes is not valid</h3>');
+      warning += ('<h4>Minutes is not valid</h4>');
     } if (portions === '' || numsOnly(portions)) {
-      warning += ('<h3>Portions is not valid</h3>');
+      warning += ('<h4>Portions is not valid</h4>');
     } if (recipeHistory === '' || validChars(recipeHistory)) {
-      warning += ('<h3>Recipe history is not valid</h3>');
+      warning += ('<h4>Recipe history is not valid</h4>');
     } if (imageURL === 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg') {
-      warning += ('<h3>Upload a valid picture with URL</h3>');
+      warning += ('<h4>Upload a valid picture with URL</h4>');
+    } if (ingredients === '' || validChars(ingredients)) {
+      warning += ('<h4>Ingredients not valid</h4>');
+    } if (preparationDirections === '' || validChars(preparationDirections)) {
+      warning += ('<h4>Preparation directions not valid</h4>');
     }
     const warningElement = document.getElementById('recipe-form-error');
     if (warning !== '') {
@@ -88,8 +93,31 @@ class RecipeSubmissionForm extends React.Component {
     });
     const recipe = { name, calories, fat, minutes, portions, recipeHistory, imageURL, ingredients, preparationDirections, optionalTips };
     console.log(recipe);
-    // if all tests pass, make a post request to DB
+    // POST TO DB IF ALL PASS
+    // axios.post('/api', recipe)
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
+    // Clear Form
+    Object.keys(this.state).forEach((prop) => {
+      if (prop === 'imageURL') {
+        this.setState({
+          imageURL: 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg',
+        });
+      } else if (prop === 'uploadProgress') {
+        this.setState({ uploadProgress: 0 });
+      } else {
+        this.setState({ [prop]: '' });
+      }
+    });
+    warning += ('<h4>Thanks for the submission</h4>');
+    warningElement.innerHTML = (warning);
+    setTimeout(() => { warningElement.innerHTML = ''; }, 4000);
+    console.log('Thanks for submission.');
   }
 
   handleInputChange(e) {
@@ -232,7 +260,7 @@ class RecipeSubmissionForm extends React.Component {
                         type="text"
                         value={this.state.portions}
                       />
-                      </FormGroup>
+                    </FormGroup>
                   </Col>
                 </Row>
                 <br />
@@ -329,27 +357,28 @@ class RecipeSubmissionForm extends React.Component {
                     componentClass="textarea"
                     name="optionalTips"
                     onChange={this.handleInputChange}
-                    placeholder="Comma-delineated tips (e.g. defrost for 2 hours, let sit for 20 minutes after baking)"
+                    placeholder="Comma-delineated tips \
+                    (e.g. defrost for 2 hours, let sit for 20 minutes)"
                     value={this.state.optionalTips}
                   />
                 </Col>
               </FormGroup>
               <FormGroup>
-              <Row>
-                <Col xs={10} xsOffset={1}>
-                  <div id='recipe-form-error'></div>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={2} xsOffset={5}>
-                  <Button
-                    type="submit"
-                    className="btn-secondary"
-                    onClick={(e) => { this.handleRecipeSubmit(e); }}
-                  >Submit
-                  </Button>
-                </Col>
-              </Row>
+                <Row>
+                  <Col xs={10} xsOffset={1}>
+                    <div id="recipe-form-error" />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={2} xsOffset={5}>
+                    <Button
+                      type="submit"
+                      className="btn-secondary"
+                      onClick={(e) => { this.handleRecipeSubmit(e); }}
+                    >Submit
+                    </Button>
+                  </Col>
+                </Row>
               </FormGroup>
             </Form>
           </Col>
