@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { ProgressBar, Image, Button, Form, FormGroup, ControlLabel, FormControl, Row, Col } from 'react-bootstrap';
+import { ProgressBar, Label, Image, Button, Form, FormGroup, ControlLabel, FormControl, Row, Col } from 'react-bootstrap';
 import uploadImage from '../../utils/uploadImage';
 import { numsOnly, validChars, validateChars, validateNums, trimFirstSpace } from '../../utils/formValidation';
 
@@ -9,6 +9,7 @@ class RecipeSubmissionForm extends React.Component {
     super(props);
     this.state = {
       calories: '',
+      difficulty: 'easy',
       fat: '',
       ingredients: '',
       imageURL: 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg',
@@ -21,6 +22,7 @@ class RecipeSubmissionForm extends React.Component {
       recipeHistory: '',
       uploadProgress: 0,
       uploadState: '',
+      warnings: [],
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -54,36 +56,36 @@ class RecipeSubmissionForm extends React.Component {
   handleRecipeSubmit(e) {
     e.preventDefault();
     // Check for valid entry fields
-    const { name, calories, fat, minutes, imageURL, portions, recipeHistory } = this.state;
+    const { name, calories, difficulty, fat, minutes, imageURL, protein, portions, recipeHistory } = this.state;
     let { ingredients, preparationDirections, optionalTips } = this.state;
-    let warning = '';
+    const warnings = [];
     if (name === '' || validChars(name)) {
-      warning += ('<h4>Name is not valid</h4>');
+      warnings.push(['Name invalid']);
     } if (calories === '' || numsOnly(calories)) {
-      warning += ('<h4>Calories is not valid</h4>');
+      warnings.push(['Calories invalid']);
     } if (fat === '' || numsOnly(fat)) {
-      warning += ('<h4>Fat is not valid</h4>');
+      warnings.push(['Fat invalid']);
+    } if (protein === '' || numsOnly(protein)) {
+      warnings.push(['Protein invalid']);
     } if (minutes === '' || numsOnly(minutes)) {
-      warning += ('<h4>Minutes is not valid</h4>');
+      warnings.push(['Minutes invalid']);
     } if (portions === '' || numsOnly(portions)) {
-      warning += ('<h4>Portions is not valid</h4>');
+      warnings.push(['Portions invalid']);
     } if (recipeHistory === '' || validChars(recipeHistory)) {
-      warning += ('<h4>Recipe history is not valid</h4>');
-    } if (imageURL === 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg') {
-      warning += ('<h4>Upload a valid picture with URL</h4>');
+      warnings.push(['Recipe history invalid']);
     } if (ingredients === '' || validChars(ingredients)) {
-      warning += ('<h4>Ingredients not valid</h4>');
+      warnings.push(['Ingredients invalid']);
     } if (preparationDirections === '' || validChars(preparationDirections)) {
-      warning += ('<h4>Preparation directions not valid</h4>');
+      warnings.push(['Preparation directions are invalid']);
+    } if (imageURL === 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg') {
+      warnings.push(['imageURL invalid']);
     }
-    const warningElement = document.getElementById('recipe-form-error');
-    if (warning !== '') {
-      warningElement.innerHTML = (warning);
+    this.setState({ warnings });
+    if (warnings.length > 0) {
+      console.log('outtttie');
       return;
     }
-
     // Success
-    warningElement.innerHTML = ('');
     const stringsToSplit = [ingredients, preparationDirections, optionalTips];
     [ingredients, preparationDirections, optionalTips] = stringsToSplit.map((str) => {
       let result = str;
@@ -91,7 +93,20 @@ class RecipeSubmissionForm extends React.Component {
       result = trimFirstSpace(result);
       return result;
     });
-    const recipe = { name, calories, fat, minutes, portions, recipeHistory, imageURL, ingredients, preparationDirections, optionalTips };
+    const recipe = {
+      name,
+      calories,
+      difficulty,
+      fat,
+      minutes,
+      protein,
+      portions,
+      recipeHistory,
+      imageURL,
+      ingredients,
+      preparationDirections,
+      optionalTips,
+    };
     console.log(recipe);
     // POST TO DB IF ALL PASS
     // axios.post('/api', recipe)
@@ -102,21 +117,6 @@ class RecipeSubmissionForm extends React.Component {
     //     console.log(error);
     //   });
 
-    // Clear Form
-    Object.keys(this.state).forEach((prop) => {
-      if (prop === 'imageURL') {
-        this.setState({
-          imageURL: 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg',
-        });
-      } else if (prop === 'uploadProgress') {
-        this.setState({ uploadProgress: 0 });
-      } else {
-        this.setState({ [prop]: '' });
-      }
-    });
-    warning += ('<h4>Thanks for the submission</h4>');
-    warningElement.innerHTML = (warning);
-    setTimeout(() => { warningElement.innerHTML = ''; }, 4000);
     console.log('Thanks for submission.');
   }
 
@@ -244,7 +244,12 @@ class RecipeSubmissionForm extends React.Component {
                   </Col>
                   <Col xs={2} xsOffset={2}>
                     <ControlLabel>Difficulty of Recipe</ControlLabel>
-                    <FormControl componentClass="select" placeholder="Select Chef Master Level">
+                    <FormControl
+                      name="difficulty"
+                      onChange={this.handleInputChange}
+                      componentClass="select"
+                      placeholder="Select Chef Master Level"
+                    >
                       <option value="easy">Easy</option>
                       <option value="medium">Medium</option>
                       <option value="hard">Hard</option>
@@ -366,7 +371,10 @@ class RecipeSubmissionForm extends React.Component {
               <FormGroup>
                 <Row>
                   <Col xs={10} xsOffset={1}>
-                    <div id="recipe-form-error" />
+                    <div id="recipe-form-error">
+                      {this.state.warnings.map((item, index) => (
+                        <Col xs={1} key={index}><Label bsStyle="danger">{item}</Label></Col>))}
+                    </div>
                   </Col>
                 </Row>
                 <Row>
