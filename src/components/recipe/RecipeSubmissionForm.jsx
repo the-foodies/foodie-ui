@@ -11,6 +11,7 @@ class RecipeSubmissionForm extends React.Component {
       calories: '',
       difficulty: 'easy',
       fat: '',
+      foodTag: '',
       ingredients: '',
       imageURL: 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg',
       minutes: '',
@@ -20,10 +21,12 @@ class RecipeSubmissionForm extends React.Component {
       preparationDirections: '',
       protein: '',
       recipeHistory: '',
+      tags: [],
       uploadProgress: 0,
       uploadState: '',
       warnings: [],
     };
+    this.addTag = this.addTag.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
@@ -31,6 +34,24 @@ class RecipeSubmissionForm extends React.Component {
 
   setUpload(ref) {
     this.imageUpload = ref;
+  }
+
+  handleInputChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  addTag(e) {
+    e.preventDefault();
+    const { foodTag } = this.state;
+    if (foodTag === '' || validChars(foodTag)) {
+      return;
+    }
+    this.setState({
+      foodTag: '',
+      tags: this.state.tags.concat([foodTag]),
+    });
   }
 
   handleImageChange(event) {
@@ -56,7 +77,7 @@ class RecipeSubmissionForm extends React.Component {
   handleRecipeSubmit(e) {
     e.preventDefault();
     // Check for valid entry fields
-    const { name, calories, difficulty, fat, minutes, imageURL, protein, portions, recipeHistory } = this.state;
+    const { name, calories, difficulty, fat, minutes, imageURL, protein, portions, recipeHistory, tags } = this.state;
     let { ingredients, preparationDirections, optionalTips } = this.state;
     const warnings = [];
     if (name === '' || validChars(name)) {
@@ -104,6 +125,7 @@ class RecipeSubmissionForm extends React.Component {
       recipeHistory,
       imageURL,
       ingredients,
+      tags,
       preparationDirections,
       optionalTips,
     };
@@ -118,12 +140,6 @@ class RecipeSubmissionForm extends React.Component {
     //   });
 
     console.log('Thanks for submission.');
-  }
-
-  handleInputChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
   }
 
   render() {
@@ -232,7 +248,7 @@ class RecipeSubmissionForm extends React.Component {
                 <Row>
                   <Col xs={2} xsOffset={1}>
                     <FormGroup validationState={validateNums('minutes', this)}>
-                      <ControlLabel>Time</ControlLabel>
+                      <ControlLabel>Time (minutes)</ControlLabel>
                       <FormControl
                         name="minutes"
                         onChange={this.handleInputChange}
@@ -368,22 +384,70 @@ class RecipeSubmissionForm extends React.Component {
                   />
                 </Col>
               </FormGroup>
+              <FormGroup validationState={validateChars('foodTag', this)}>
+                <Col xs={3} xsOffset={4}>
+                  <ControlLabel>Add Tags to Query This Recipe (Add Tags Before Submitting)
+                  </ControlLabel>
+                  <FormControl
+                    name="foodTag"
+                    onChange={this.handleInputChange}
+                    placeholder="Enter tags and hit add tag, one at a time"
+                    type="text"
+                    value={this.state.foodTag}
+                  />
+                </Col>
+              </FormGroup>
               <FormGroup>
-                <Row>
-                  <Col xs={10} xsOffset={1}>
-                    <div id="recipe-form-error">
-                      {this.state.warnings.map((item, index) => (
-                        <Col xs={1} key={index}><Label bsStyle="danger">{item}</Label></Col>))}
+                <h4>
+                  <Col xs={11} xsOffset={2}>
+                    <div id="recipe-tags">
+                      {(() => {
+                        if (this.state.tags.length > 0) {
+                          return (<Col xs={1}><h4>Tags: </h4></Col>);
+                        }
+                      })()}
+                      {this.state.tags.map(item => (
+                        <span key={item}><Label bsStyle="primary">{item}</Label>{'  '}</span>))}
                     </div>
                   </Col>
+                </h4>
+              </FormGroup>
+              <Row />
+              <Row />
+              <FormGroup>
+                <h4>
+                  <Col xs={11} xsOffset={2}>
+                    <div id="recipe-errors">
+                      {(() => {
+                        if (this.state.warnings.length > 0) {
+                          return (<Col><h4>Warnings: </h4></Col>);
+                        }
+                      })()}
+                      {this.state.warnings.map(item => (
+                        <span key={item}><Label bsStyle="danger">{item}</Label>{'  '}</span>))}
+                    </div>
+                  </Col>
+                </h4>
+              </FormGroup>
+              <FormGroup>
+                <Row>
+                  <Col xs={2} xsOffset={5}>
+                    <Button
+                      type="submit"
+                      className="btn-secondary"
+                      onClick={(e) => { this.addTag(e); }}
+                    >Add a Tag
+                    </Button>
+                  </Col>
                 </Row>
+                <br />
                 <Row>
                   <Col xs={2} xsOffset={5}>
                     <Button
                       type="submit"
                       className="btn-secondary"
                       onClick={(e) => { this.handleRecipeSubmit(e); }}
-                    >Submit
+                    >Submit Ma Recipe
                     </Button>
                   </Col>
                 </Row>
