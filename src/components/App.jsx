@@ -7,6 +7,9 @@ import RecipeSubmissionForm from './recipe/RecipeSubmissionForm';
 import NavbarInstance from './NavbarInstance';
 import ModalRoot from './ModalRoot';
 import Restaurant from './Restaurant';
+import UserProfile from './profile/UserProfile';
+import testRestaurants from './testData/testRestaurants.json';
+import testUser from './testData/testUser.json';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,6 +41,19 @@ class App extends React.Component {
               <Route exact path="/eating" component={Restaurant} />
               <Route exact path="/recipes" component={RecipeHomePage} />
               <Route exact path="/recipe-submission" component={RecipeSubmissionForm} />
+              <Route
+                exact
+                path="/profile"
+                render={props => (<UserProfile
+                  {...props}
+                  posts={testRestaurants}
+                  displayName={testUser.displayName}
+                  firstName={testUser.firstName}
+                  lastName={testUser.lastName}
+                  image={testUser.profileImageUrl}
+                  email={testUser.email}
+                />)}
+              />
             </Switch>
           </div>
         </Router>
