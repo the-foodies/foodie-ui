@@ -3,3 +3,8 @@
   width: 140px;
   text-align: right;
 }
+
+.post-list {
+  overflow: auto;
+  max-height: 65vh;
+}

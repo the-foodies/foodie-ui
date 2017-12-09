@@ -36,6 +36,9 @@ const NavbarInstance = (props) => {
           <NavItem eventKey={2} onClick={() => { changePage('eating'); }}>
             Eating
           </NavItem>
+          <NavItem eventKey={3} onClick={() => { changePage('profile'); }}>
+            Profile
+          </NavItem>
         </Nav>
         <Nav pullRight>
           <HasLoggedIn
