@@ -29,7 +29,6 @@
   "homepage": "https://github.com/MaxLavicka/foodie-ui#readme",
   "dependencies": {
     "axios": "^0.17.1",
-    "body-parser": "^1.18.2",
     "css-loader": "^0.28.7",
     "express": "^4.16.2",
     "file-loader": "^1.1.5",
