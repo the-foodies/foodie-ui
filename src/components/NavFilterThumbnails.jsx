@@ -30,7 +30,6 @@ class NavFilterThumbnails extends React.Component {
         { id: 3, name: 'Burritos', description: 'Carne asada for dayz', url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
       ],
     });
-    console.log(`Selected ${eventKey}`);
   }
 
   render() {
