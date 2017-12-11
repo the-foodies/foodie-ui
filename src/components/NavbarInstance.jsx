@@ -42,8 +42,8 @@ const NavbarInstance = (props) => {
           <NavItem eventKey={4} onClick={() => { changePage('recipe-submission'); }}>
             Recipe Submission
           </NavItem>
-          <NavItem eventKey={4} onClick={() => { changePage('details'); }}>
-            Details
+          <NavItem eventKey={5} onClick={() => { changePage('recipe-details'); }}>
+            Recipe Details
           </NavItem>
         </Nav>
         <Nav pullRight>

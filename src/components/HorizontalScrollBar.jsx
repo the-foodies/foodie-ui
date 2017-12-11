@@ -7,7 +7,7 @@ const HorizontalScrollBar = props => (
     <Grid>
       <Row>
         {props.picturesToDisplay.map(pic => (
-          <Col xs={3}>
+          <Col xs={3} key={pic.name}>
             <Thumbnail src={pic.imageUrl} alt={pic.name}>
               <h3>{pic.name}</h3>
               <p>{pic.id}</p>
