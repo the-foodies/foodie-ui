@@ -1,15 +1,19 @@
 import * as firebase from 'firebase';
 import { auth } from '../../auth';
+import { login } from '../apiRequests/';
 
 export const listenToAuth = () => (dispatch, getState) => {
   console.log('dispatch', dispatch, 'getState ', getState);
   auth.onAuthStateChanged((authData) => {
+    console.log(authData);
     if (authData) {
       dispatch({
         type: 'AUTH_LOGIN',
         uid: authData.uid,
-        username: authData.providerData[0].displayName,
+        displayName: authData.providerData[0].displayName,
+        email: authData.email,
       });
+      dispatch(login(authData.email, authData.providerData[0].displayName));
       dispatch({
         type: 'HIDE_MODAL',
       });

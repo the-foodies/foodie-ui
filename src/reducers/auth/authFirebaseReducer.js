@@ -1,6 +1,8 @@
 const initialState = {
   status: 'AUTH_ANONYMOUS',
-  username: 'guest',
+  displayName: 'guest',
+  email: 'temp',
+  photoURL: 'temp',
   uid: null,
 };
 
@@ -9,19 +11,25 @@ export default (state = initialState, action) => {
     case 'AUTH_OPEN':
       return {
         status: 'AUTH_AWAITING_RESPONSE',
-        username: 'guest',
+        displayName: 'guest',
+        email: 'temp',
+        photoURL: 'temp',
         uid: null,
       };
     case 'AUTH_LOGIN':
       return {
         status: 'AUTH_LOGGED_IN',
-        username: action.username,
+        displayName: action.displayName,
+        email: action.email,
+        photoURL: action.photoURL,
         uid: action.uid,
       };
     case 'AUTH_LOGOUT':
       return {
         status: 'AUTH_ANONYMOUS',
-        username: 'guest',
+        displayName: 'guest',
+        email: 'temp',
+        photoURL: 'temp',
         uid: null,
       };
     default: return state;

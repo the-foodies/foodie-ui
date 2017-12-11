@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { Label, ProgressBar, Image, InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
 
@@ -6,6 +7,7 @@ import { googleAutocomplete, googleRestaurant } from '../utils/googleRestaurant'
 import uploadImage from '../utils/uploadImage';
 
 const filterByCallback = option => option.description;
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class Restaurant extends React.Component {
   constructor(props) {
@@ -89,8 +91,10 @@ class Restaurant extends React.Component {
     }
     e.preventDefault();
   }
-  handleRestaurantSubmit(e) {
+  async handleRestaurantSubmit(e) {
     console.log(this.state.restaurantSubmission, this.state.restaurantSubmission.foodItems);
+    const newPost = await axios.post(`${REST_URL}/api/restaurant`, this.state.restaurantSubmission);
+    console.log('posted', newPost);
     e.preventDefault();
   }
   handleInputChange(e, type) {

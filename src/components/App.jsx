@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import axios from 'axios';
 import Home from './Home';
 import RecipeHomePage from './recipe/RecipeHomePage';
 import RecipeSubmissionForm from './recipe/RecipeSubmissionForm';
@@ -13,6 +14,8 @@ import RestaurantDetailsPage from './RestaurantDetailsPage';
 import testRestaurants from './testData/testRestaurants.json';
 import testUser from './testData/testUser.json';
 
+axios.defaults.withCredentials = true;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +25,9 @@ class App extends React.Component {
   }
   componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
+  }
+  componentWillReceiveProps() {
+    console.log(this.props);
   }
 
   render() {
@@ -105,6 +111,7 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   dispatchAuth: PropTypes.objectOf(PropTypes.func).isRequired,
   dispatchModal: PropTypes.objectOf(PropTypes.func).isRequired,
+  dispatchApi: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 export default App;
