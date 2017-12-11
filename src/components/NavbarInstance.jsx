@@ -1,9 +1,9 @@
 import React from 'react';
-import { Nav, Navbar, NavItem, FormGroup, FormControl } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, FormGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HasLoggedIn from './nav/hasLoggedIn';
-
+import NavSearch from './nav/search';
 
 const NavbarInstance = (props) => {
   const {
@@ -16,7 +16,7 @@ const NavbarInstance = (props) => {
     props.history.push(`/${toPage}`);
   };
   return (
-    <Navbar inverse collapseOnSelect staticTop>
+    <Navbar fluid inverse collapseOnSelect staticTop>
       <Navbar.Header>
         <Navbar.Brand onClick={() => { changePage(''); }}>
           FoodEZ
@@ -26,7 +26,7 @@ const NavbarInstance = (props) => {
       <Navbar.Collapse>
         <Navbar.Form pullLeft>
           <FormGroup>
-            <FormControl type="text" placeholder="Search a meal, recipe, or a favorite food..." />
+            <NavSearch className="nav-search" />
           </FormGroup>
         </Navbar.Form>
         <Nav>

@@ -3,6 +3,9 @@
   width: 140px;
   text-align: right;
 }
+.navbar-search {
+  width: 30vw;
+}
 .thumbnail {
   max-width: 100%;
   max-height: 100%;
