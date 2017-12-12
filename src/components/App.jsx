@@ -22,12 +22,16 @@ class App extends React.Component {
     this.state = {
     };
     console.log(this.props);
+
+    this.findPost = this.findPost.bind(this);
   }
   componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
+    this.findPost(1);
   }
-  componentWillReceiveProps() {
-    console.log(this.props);
+  findPost(id) {
+    console.log('getting details for', id);
+    this.props.dispatchApi.getRestaurantById(id);
   }
 
   render() {
@@ -46,7 +50,14 @@ class App extends React.Component {
             />
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/eating" component={Restaurant} />
+              <Route
+                exact
+                path="/eating"
+                render={props => (<Restaurant
+                  {...props}
+                  getPost={this.findPost}
+                />)}
+              />
               <Route exact path="/recipes" component={RecipeHomePage} />
               <Route exact path="/recipe-submission" component={RecipeSubmissionForm} />
               <Route

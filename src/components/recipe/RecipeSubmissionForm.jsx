@@ -4,6 +4,8 @@ import { ProgressBar, Label, Image, Button, Form, FormGroup, ControlLabel, FormC
 import uploadImage from '../../utils/uploadImage';
 import { numsOnly, validChars, validateChars, validateNums, trimFirstSpace } from '../../utils/formValidation';
 
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
+
 class RecipeSubmissionForm extends React.Component {
   constructor(props) {
     super(props);
@@ -145,7 +147,6 @@ class RecipeSubmissionForm extends React.Component {
       optionalTips,
     };
     console.log(recipe);
-    // POST TO DB IF ALL PASS
     // axios.post('/api', recipe)
     //   .then((response) => {
     //     console.log(response);

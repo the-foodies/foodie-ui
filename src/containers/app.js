@@ -8,11 +8,11 @@ import * as dispatchApi from '../actions/apiRequests/';
 console.log(dispatchAuth);
 
 function mapStateToProps(state) {
-  console.log('container state', state);
   return {
     modal: state.modal,
     auth: state.auth,
     posts: state.app.posts,
+    curPost: state.app.curPost,
   };
 }
 
