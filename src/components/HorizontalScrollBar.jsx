@@ -7,12 +7,12 @@ const HorizontalScrollBar = props => (
     <Grid>
       <Row>
         {props.picturesToDisplay.map(pic => (
-          <Col xs={3} key={pic.name}>
-            <Thumbnail src={pic.imageUrl} alt={pic.name}>
+          <Col xs={3} key={pic.id}>
+            <Thumbnail src={pic.imageUrl || pic.description} alt={pic.name || pic.description}>
               <h3>{pic.name}</h3>
               <p>{pic.id}</p>
               <p>
-                <Button bsStyle="primary" href={pic.linkUrl}>
+                <Button bsStyle="primary" href={pic.linkUrl || pic.description}>
                   Button to Homepage
                 </Button>&nbsp;
               </p>
