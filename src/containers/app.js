@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     posts: state.app.posts,
     curRestaurant: state.app.curRestaurant,
     curRecipe: state.app.curRecipe,
+    curUser: state.app.curUser,
   };
 }
 

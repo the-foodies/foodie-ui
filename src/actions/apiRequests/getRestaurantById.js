@@ -9,7 +9,6 @@ export default id => async function (dispatch) {
       id,
     },
   });
-  console.log('got restaurant', newRestaurant);
   dispatch({
     type: 'GOT_RESTAURANT',
     curRestaurant: newRestaurant.data,

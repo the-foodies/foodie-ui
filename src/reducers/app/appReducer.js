@@ -2,6 +2,7 @@ const initialState = {
   posts: [],
   curRestaurant: {},
   curRecipe: {},
+  curUser: {},
 };
 
 export default (state = initialState, action) => {
@@ -18,6 +19,10 @@ export default (state = initialState, action) => {
       return state;
     case ('GOT_RECIPE'):
       return Object.assign({}, state, { curRecipe: action.curRecipe });
+    case ('GETTING_USER'):
+      return state;
+    case ('GOT_USER'):
+      return Object.assign({}, state, { curUser: action.curUser });
     default:
       return state;
   }

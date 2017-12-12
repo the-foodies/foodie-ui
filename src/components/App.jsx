@@ -25,16 +25,19 @@ class App extends React.Component {
 
     this.findRestaurant = this.findRestaurant.bind(this);
     this.findRecipe = this.findRecipe.bind(this);
+    this.findUser = this.findUser.bind(this);
   }
   componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
-    this.findRestaurant(1);
   }
   findRestaurant(id) {
     this.props.dispatchApi.getRestaurantById(id);
   }
   findRecipe(id) {
     this.props.dispatchApi.getRecipeById(id);
+  }
+  findUser(id) {
+    this.props.dispatchApi.getUserById(id);
   }
 
   render() {
