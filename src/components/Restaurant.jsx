@@ -95,7 +95,7 @@ class Restaurant extends React.Component {
   async handleRestaurantSubmit() {
     console.log(this.state.restaurantSubmission, this.state.restaurantSubmission.foodItems);
     const newPost = await axios.post(`${REST_URL}/api/restaurants`, this.state.restaurantSubmission);
-    this.props.getPost(newPost.data.id);
+    this.props.getRestaurant(newPost.data.id);
   }
   handleInputChange(e, type) {
     const { name } = e.target;
@@ -364,7 +364,7 @@ class Restaurant extends React.Component {
 }
 
 Restaurant.propTypes = {
-  getPost: PropTypes.func.isRequired,
+  getRestaurant: PropTypes.func.isRequired,
 };
 
 export default Restaurant;

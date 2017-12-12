@@ -12,7 +12,8 @@ function mapStateToProps(state) {
     modal: state.modal,
     auth: state.auth,
     posts: state.app.posts,
-    curPost: state.app.curPost,
+    curRestaurant: state.app.curRestaurant,
+    curRecipe: state.app.curRecipe,
   };
 }
 
