@@ -7,6 +7,20 @@
   max-height: 65vh;
 }
 
+.post-image {
+  width: 100%;
+  /* padding-bottom: 20%; */
+}
+.comment-image {
+  width: 100%;
+  /* padding-bottom: 20%; */
+}
+
+.tag-list {
+  /* display: inline-block; */
+  /* margin-bottom: 10px; */
+}
+
 .recipe-details {
   border: 1px dotted black;
   align-content: center;
