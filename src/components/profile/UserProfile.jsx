@@ -6,7 +6,7 @@ import PostView from '../posts/PostView';
 const UserProfile = props => (
   <Grid>
     <Row>
-      <Col xs={12} md={6}>
+      <Col xs={12} md={4}>
         <PageHeader>{props.displayName}{"'s"} Profile</PageHeader>
         <Thumbnail src={props.image} alt="242x200">
           <h3>10000 Followers</h3>
@@ -14,7 +14,7 @@ const UserProfile = props => (
           <p>Email: {props.email}</p>
         </Thumbnail>
       </Col>
-      <Col xs={12} md={4}>
+      <Col xs={12} md={8}>
         <PostView posts={props.posts} />
       </Col>
     </Row>

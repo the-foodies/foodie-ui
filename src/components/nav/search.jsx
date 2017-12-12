@@ -48,17 +48,20 @@ class Search extends React.Component {
 
   render() {
     return (
-      <AsyncTypeahead
-        {...this.state.tagSearch}
-        options={this.state.tags}
-        filterBy={this.filterByCallback}
-        labelKey="name"
-        minLength={1}
-        onSearch={this.searchFoodieDB}
-        onChange={this.changeSelection}
-        type="text"
-        propmtText="Search for a shits"
-      />
+      <div>
+        <AsyncTypeahead
+          {...this.state.tagSearch}
+          options={this.state.tags}
+          filterBy={this.filterByCallback}
+          labelKey="name"
+          minLength={1}
+          onSearch={this.searchFoodieDB}
+          onChange={this.changeSelection}
+          type="text"
+          className="navbar-search"
+          placeholder="Search for a some food!"
+        />
+      </div>
     );
   }
 }
