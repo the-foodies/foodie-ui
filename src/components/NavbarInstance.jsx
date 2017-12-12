@@ -26,7 +26,7 @@ const NavbarInstance = (props) => {
       <Navbar.Collapse>
         <Navbar.Form pullLeft>
           <FormGroup>
-            <NavSearch className="nav-search" />
+            <NavSearch />
           </FormGroup>
         </Navbar.Form>
         <Nav>

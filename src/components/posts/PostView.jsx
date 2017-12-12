@@ -1,18 +1,18 @@
 import React from 'react';
-import { Grid, Row, Col, ListGroup, PageHeader } from 'react-bootstrap';
+import { Row, Col, ListGroup, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import PostEntry from './PostEntry';
 
 const PostView = props => (
-  <Grid>
+  <div>
     <Row>
-      <Col xs={12} md={6}>
+      <Col xs={12} md={12}>
         <PageHeader>My Posts</PageHeader>
       </Col>
     </Row>
     <Row>
-      <Col xs={6} md={6}>
+      <Col xs={12} md={12}>
         <ListGroup className="post-list">
           {props.posts.map((post) => {
             let str = '';
@@ -33,7 +33,7 @@ const PostView = props => (
         </ListGroup>
       </Col>
     </Row>
-  </Grid>
+  </div>
 );
 
 PostView.propTypes = {

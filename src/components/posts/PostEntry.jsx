@@ -3,9 +3,8 @@ import { Thumbnail, ListGroupItem } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const PostEntry = props => (
-  <ListGroupItem>
+  <ListGroupItem header={props.name}>
     <Thumbnail src={props.image} alt="242x200">
-      <h3>{props.name}</h3>
       <p>Description</p>
     </Thumbnail>
   </ListGroupItem>
