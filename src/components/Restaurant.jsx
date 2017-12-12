@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { Label, ProgressBar, Image, InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
 
@@ -6,6 +8,7 @@ import { googleAutocomplete, googleRestaurant } from '../utils/googleRestaurant'
 import uploadImage from '../utils/uploadImage';
 
 const filterByCallback = option => option.description;
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class Restaurant extends React.Component {
   constructor(props) {
@@ -23,7 +26,7 @@ class Restaurant extends React.Component {
         website: '',
         address: '',
         imageURL: '',
-        categories: [],
+        tags: [],
         foodItems: [],
       },
       foodItem: {
@@ -71,14 +74,14 @@ class Restaurant extends React.Component {
 
   handleFoodItemSubmit(e) {
     const { foodItem } = this.state;
-    const { foodItems, categories } = this.state.restaurantSubmission;
+    const { foodItems, tags } = this.state.restaurantSubmission;
     // foodItems.push(food)
     if (foodItems) {
       this.setState(prevState => ({
         restaurantSubmission: {
           ...prevState.restaurantSubmission,
           foodItems: [...foodItems, foodItem],
-          categories: [...categories, foodItem.name],
+          tags: [...tags, foodItem.name],
         },
         foodItem: {
           name: '',
@@ -89,9 +92,10 @@ class Restaurant extends React.Component {
     }
     e.preventDefault();
   }
-  handleRestaurantSubmit(e) {
+  async handleRestaurantSubmit() {
     console.log(this.state.restaurantSubmission, this.state.restaurantSubmission.foodItems);
-    e.preventDefault();
+    const newPost = await axios.post(`${REST_URL}/api/restaurants`, this.state.restaurantSubmission);
+    this.props.getRestaurant(newPost.data.id);
   }
   handleInputChange(e, type) {
     const { name } = e.target;
@@ -358,5 +362,9 @@ class Restaurant extends React.Component {
     );
   }
 }
+
+Restaurant.propTypes = {
+  getRestaurant: PropTypes.func.isRequired,
+};
 
 export default Restaurant;

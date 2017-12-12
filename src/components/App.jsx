@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import axios from 'axios';
 import Home from './Home';
 import RecipeHomePage from './recipe/RecipeHomePage';
 import RecipeSubmissionForm from './recipe/RecipeSubmissionForm';
@@ -13,15 +14,27 @@ import RestaurantDetailsPage from './RestaurantDetailsPage';
 import testRestaurants from './testData/testRestaurants.json';
 import testUser from './testData/testUser.json';
 
+axios.defaults.withCredentials = true;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
     };
     console.log(this.props);
+
+    this.findRestaurant = this.findRestaurant.bind(this);
+    this.findRecipe = this.findRecipe.bind(this);
   }
   componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
+    this.findRestaurant(1);
+  }
+  findRestaurant(id) {
+    this.props.dispatchApi.getRestaurantById(id);
+  }
+  findRecipe(id) {
+    this.props.dispatchApi.getRecipeById(id);
   }
 
   render() {
@@ -40,9 +53,23 @@ class App extends React.Component {
             />
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/eating" component={Restaurant} />
+              <Route
+                exact
+                path="/eating"
+                render={props => (<Restaurant
+                  {...props}
+                  getRestaurant={this.findRestaurant}
+                />)}
+              />
               <Route exact path="/recipes" component={RecipeHomePage} />
-              <Route exact path="/recipe-submission" component={RecipeSubmissionForm} />
+              <Route
+                exact
+                path="/recipe-submission"
+                render={props => (<RecipeSubmissionForm
+                  {...props}
+                  getRecipe={this.findRecipe}
+                />)}
+              />
               <Route
                 exact
                 path="/recipe-details"
@@ -105,6 +132,7 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   dispatchAuth: PropTypes.objectOf(PropTypes.func).isRequired,
   dispatchModal: PropTypes.objectOf(PropTypes.func).isRequired,
+  dispatchApi: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 export default App;

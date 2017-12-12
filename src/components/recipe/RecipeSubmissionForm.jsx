@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { ProgressBar, Label, Image, Button, Form, FormGroup, ControlLabel, FormControl, Row, Col } from 'react-bootstrap';
 import uploadImage from '../../utils/uploadImage';
 import { numsOnly, validChars, validateChars, validateNums, trimFirstSpace } from '../../utils/formValidation';
+
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class RecipeSubmissionForm extends React.Component {
   constructor(props) {
@@ -18,7 +21,7 @@ class RecipeSubmissionForm extends React.Component {
       name: '',
       optionalTips: '',
       portions: '',
-      preparationDirections: '',
+      directions: '',
       protein: '',
       recipeHistory: '',
       tags: [],
@@ -74,7 +77,7 @@ class RecipeSubmissionForm extends React.Component {
     });
   }
 
-  handleRecipeSubmit(e) {
+  async handleRecipeSubmit(e) {
     e.preventDefault();
     // Check for valid entry fields
     const {
@@ -91,7 +94,7 @@ class RecipeSubmissionForm extends React.Component {
     } = this.state;
     let {
       ingredients,
-      preparationDirections,
+      directions,
       optionalTips,
     } = this.state;
     const warnings = [];
@@ -111,7 +114,7 @@ class RecipeSubmissionForm extends React.Component {
       warnings.push(['Recipe history invalid']);
     } if (ingredients === '' || validChars(ingredients)) {
       warnings.push(['Ingredients invalid']);
-    } if (preparationDirections === '' || validChars(preparationDirections)) {
+    } if (directions === '' || validChars(directions)) {
       warnings.push(['Preparation directions are invalid']);
     } if (imageURL === 'https://dtfkajhqu1nl.cloudfront.net/edb/img/placeholders/placeholder-default.jpg') {
       warnings.push(['imageURL invalid']);
@@ -122,8 +125,8 @@ class RecipeSubmissionForm extends React.Component {
       return;
     }
     // Success
-    const stringsToSplit = [ingredients, preparationDirections, optionalTips];
-    [ingredients, preparationDirections, optionalTips] = stringsToSplit.map((str) => {
+    const stringsToSplit = [ingredients, directions, optionalTips];
+    [ingredients, directions, optionalTips] = stringsToSplit.map((str) => {
       let result = str;
       result = result.split(',');
       result = trimFirstSpace(result);
@@ -141,19 +144,13 @@ class RecipeSubmissionForm extends React.Component {
       imageURL,
       ingredients,
       tags,
-      preparationDirections,
+      directions,
       optionalTips,
     };
     console.log(recipe);
-    // POST TO DB IF ALL PASS
-    // axios.post('/api', recipe)
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
+    const newRecipe = await axios.post(`${REST_URL}/api/recipes`, recipe);
+    console.log('posted recipe', newRecipe);
+    this.props.getRecipe(newRecipe.data.id);
     console.log('Thanks for submission.');
   }
 
@@ -379,10 +376,10 @@ class RecipeSubmissionForm extends React.Component {
                   <ControlLabel>Steps for Preparation</ControlLabel>
                   <FormControl
                     componentClass="textarea"
-                    name="preparationDirections"
+                    name="directions"
                     onChange={this.handleInputChange}
                     placeholder="Comma-delineated steps (e.g. salt meat, slice tomatoes)"
-                    value={this.state.preparationDirections}
+                    value={this.state.directions}
                   />
                 </Col>
               </FormGroup>
@@ -474,5 +471,9 @@ class RecipeSubmissionForm extends React.Component {
     );
   }
 }
+
+RecipeSubmissionForm.propTypes = {
+  getRecipe: PropTypes.func.isRequired,
+};
 
 export default RecipeSubmissionForm;
