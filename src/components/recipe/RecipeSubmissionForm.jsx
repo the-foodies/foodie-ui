@@ -77,8 +77,23 @@ class RecipeSubmissionForm extends React.Component {
   handleRecipeSubmit(e) {
     e.preventDefault();
     // Check for valid entry fields
-    const { name, calories, difficulty, fat, minutes, imageURL, protein, portions, recipeHistory, tags } = this.state;
-    let { ingredients, preparationDirections, optionalTips } = this.state;
+    const {
+      name,
+      calories,
+      difficulty,
+      fat,
+      minutes,
+      imageURL,
+      protein,
+      portions,
+      recipeHistory,
+      tags,
+    } = this.state;
+    let {
+      ingredients,
+      preparationDirections,
+      optionalTips,
+    } = this.state;
     const warnings = [];
     if (name === '' || validChars(name)) {
       warnings.push(['Name invalid']);

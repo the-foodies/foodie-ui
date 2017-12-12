@@ -8,6 +8,8 @@ import NavbarInstance from './NavbarInstance';
 import ModalRoot from './ModalRoot';
 import Restaurant from './Restaurant';
 import UserProfile from './profile/UserProfile';
+import RecipeDetailsPage from './RecipeDetailsPage';
+import RestaurantDetailsPage from './RestaurantDetailsPage';
 import testRestaurants from './testData/testRestaurants.json';
 import testUser from './testData/testUser.json';
 
@@ -41,6 +43,41 @@ class App extends React.Component {
               <Route exact path="/eating" component={Restaurant} />
               <Route exact path="/recipes" component={RecipeHomePage} />
               <Route exact path="/recipe-submission" component={RecipeSubmissionForm} />
+              <Route
+                exact
+                path="/recipe-details"
+                render={props => (<RecipeDetailsPage
+                  {...props}
+                  ingredients={testRestaurants[0].Ingredients}
+                  directions={testRestaurants[0].Directions}
+                  name={testRestaurants[0].title}
+                  testRestaurants={testRestaurants}
+                  portions="10"
+                  difficulty="Medium"
+                  protein={testRestaurants[0].protein}
+                  fat={testRestaurants[0].fat}
+                  calories={testRestaurants[0].calories}
+                  rating={testRestaurants[0].rating}
+                  sodium={testRestaurants[0].sodium}
+                  imagesRecipes={testRestaurants[0].ImagesRecipes}
+                  tags={testRestaurants[0].Tags}
+                  recipeHistory="Grandma made this recipe in the 80s."
+                />)}
+              />
+              <Route
+                exact
+                path="/restaurant-details"
+                render={props => (<RestaurantDetailsPage
+                  {...props}
+                  name={testRestaurants[4].name}
+                  address={testRestaurants[4].address}
+                  website={testRestaurants[4].website}
+                  foodItems={testRestaurants[4].FoodItems}
+                  images={testRestaurants[4].ImagesRestaurants}
+                  tags={testRestaurants[4].Tags}
+                  comments={testRestaurants[4].Comments}
+                />)}
+              />
               <Route
                 exact
                 path="/profile"

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { Media, PageHeader } from 'react-bootstrap';
 
 const SeasonalItems = ({ list }) => {
@@ -11,7 +12,7 @@ const SeasonalItems = ({ list }) => {
         return (
           <Media key={item.id}>
             <Media.Left align="top">
-              <img width={64} height={64} src={item.url} alt={item.name} />
+              <img width={64} height={64} src={item.image_url} alt={item.name} />
             </Media.Left>
             <Media.Body>
               <Media.Heading>{item.name}</Media.Heading>
@@ -23,5 +24,10 @@ const SeasonalItems = ({ list }) => {
     </div>
   );
 };
+
+SeasonalItems.propTypes = {
+  list: PropTypes.array.isRequired,
+};
+
 
 export default SeasonalItems;
