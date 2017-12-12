@@ -149,7 +149,6 @@ class RecipeSubmissionForm extends React.Component {
     };
     console.log(recipe);
     const newRecipe = await axios.post(`${REST_URL}/api/recipes`, recipe);
-    console.log('posted recipe', newRecipe);
     this.props.getRecipe(newRecipe.data.id);
     console.log('Thanks for submission.');
   }
