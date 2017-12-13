@@ -28,6 +28,11 @@ class App extends React.Component {
   }
   componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
+<<<<<<< HEAD
+=======
+    this.findRestaurant(4);
+    this.findRecipe(0);
+>>>>>>> [feat]
   }
   findRestaurant(id) {
     this.props.dispatchApi.getRestaurantById(id);
@@ -77,19 +82,20 @@ class App extends React.Component {
                 path="/recipe-details"
                 render={props => (<RecipeDetailsPage
                   {...props}
-                  ingredients={testRestaurants[0].Ingredients}
-                  directions={testRestaurants[0].Directions}
-                  name={testRestaurants[0].title}
+                  id={this.props.curRecipe.id}
+                  ingredients={this.props.curRecipe.Ingredients}
+                  directions={this.props.curRecipe.Directions}
+                  name={this.props.curRecipe.title}
                   testRestaurants={testRestaurants}
                   portions="10"
                   difficulty="Medium"
-                  protein={testRestaurants[0].protein}
-                  fat={testRestaurants[0].fat}
-                  calories={testRestaurants[0].calories}
-                  rating={testRestaurants[0].rating}
-                  sodium={testRestaurants[0].sodium}
-                  imagesRecipes={testRestaurants[0].ImagesRecipes}
-                  tags={testRestaurants[0].Tags}
+                  protein={this.props.curRecipe.protein}
+                  fat={this.props.curRecipe.fat}
+                  calories={this.props.curRecipe.calories}
+                  rating={this.props.curRecipe.rating}
+                  sodium={this.props.curRecipe.sodium}
+                  imagesRecipes={this.props.curRecipe.ImagesRecipes}
+                  tags={this.props.curRecipe.Tags}
                   recipeHistory="Grandma made this recipe in the 80s."
                 />)}
               />
@@ -98,13 +104,14 @@ class App extends React.Component {
                 path="/restaurant-details"
                 render={props => (<RestaurantDetailsPage
                   {...props}
-                  name={testRestaurants[4].name}
-                  address={testRestaurants[4].address}
-                  website={testRestaurants[4].website}
-                  foodItems={testRestaurants[4].FoodItems}
-                  images={testRestaurants[4].ImagesRestaurants}
-                  tags={testRestaurants[4].Tags}
-                  comments={testRestaurants[4].Comments}
+                  id={this.props.curRestaurant.id}
+                  name={this.props.curRestaurant.name}
+                  address={this.props.curRestaurant.address}
+                  website={this.props.curRestaurant.website}
+                  foodItems={this.props.curRestaurant.FoodItems}
+                  images={this.props.curRestaurant.ImagesRestaurants}
+                  tags={this.props.curRestaurant.Tags}
+                  comments={this.props.curRestaurant.Comments}
                 />)}
               />
               <Route
@@ -128,6 +135,8 @@ class App extends React.Component {
 
 App.propTypes = {
   auth: PropTypes.object.isRequired,
+  curRecipe: PropTypes.object.isRequired,
+  curRestaurant: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   dispatchAuth: PropTypes.objectOf(PropTypes.func).isRequired,

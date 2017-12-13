@@ -4,11 +4,23 @@ import PropTypes from 'prop-types';
 import TrendingCarousel from './home/TrendingCarousel';
 import NavFilterDetails from './NavFilterDetails';
 import HorizontalScrollBar from './HorizontalScrollBar';
+import { mapDetailsToCarouselFormat, mapDetailsToHorizontalFormat } from '../utils/detailsPage';
 
 class RestaurantDetailsPage extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    console.log('heyyyyyyyyyy');
+    console.log(props);
+    const images = mapDetailsToCarouselFormat({
+      name: props.name,
+      images: props.images,
+    });
+    const foodItems = mapDetailsToHorizontalFormat({
+      name: props.name,
+      foodItems: props.foodItems,
+      image_url: props.images[0].image_url,
+    });
+    this.state = { images, foodItems };
   }
 
   render() {
@@ -27,7 +39,7 @@ class RestaurantDetailsPage extends React.Component {
               <h3>Website: <Label bsStyle="info">{this.props.website}</Label></h3>
             </Col>
             <Col xs={8}>
-              <TrendingCarousel picturesToDisplay={this.props.images} />
+              <TrendingCarousel picturesToDisplay={this.state.images} />
             </Col>
           </Row>
         </Grid>
@@ -36,7 +48,7 @@ class RestaurantDetailsPage extends React.Component {
           <Row>
             <Col xs={12}>
               <HorizontalScrollBar
-                picturesToDisplay={this.props.foodItems}
+                picturesToDisplay={this.state.foodItems}
               />
             </Col>
           </Row>
@@ -45,8 +57,8 @@ class RestaurantDetailsPage extends React.Component {
           <Row>
             <Col xs={10} xsOffset={1}>
               {this.props.tags.map(tag => (
-                <Col xs={2}>
-                  <h5 key={tag.id}>{tag.name}<hr /></h5>
+                <Col xs={2} key={tag.id}>
+                  <h5>{tag.name}<hr /></h5>
                 </Col>
               ))}
             </Col>
@@ -58,6 +70,12 @@ class RestaurantDetailsPage extends React.Component {
 }
 
 RestaurantDetailsPage.propTypes = {
+  name: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+  website: PropTypes.string.isRequired,
+  foodItems: PropTypes.array.isRequired,
+  images: PropTypes.array.isRequired,
+  tags: PropTypes.array.isRequired,
 };
 
 export default RestaurantDetailsPage;
