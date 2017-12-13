@@ -13,7 +13,14 @@ const NavbarInstance = (props) => {
     showLoginModal,
   } = props;
   const changePage = (toPage) => {
-    props.history.push(`/${toPage}`);
+    if (toPage === 'profile') {
+      props.history.push({
+        pathname: `/profile/${auth.displayName}`,
+        state: { id: null },
+      });
+    } else {
+      props.history.push(`/${toPage}`);
+    }
   };
   return (
     <Navbar fluid inverse collapseOnSelect staticTop>
@@ -26,7 +33,7 @@ const NavbarInstance = (props) => {
       <Navbar.Collapse>
         <Navbar.Form pullLeft>
           <FormGroup>
-            <NavSearch className="nav-search" />
+            <NavSearch />
           </FormGroup>
         </Navbar.Form>
         <Nav>

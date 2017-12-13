@@ -8,6 +8,14 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case 'AUTH_ADD_PROFILE_INFO':
+      return {
+        status: 'AUTH_AWAITING_RESPONSE',
+        displayName: action.displayName ? action.displayName : 'guest',
+        email: action.displayName ? action.email : 'temp',
+        photoURL: action.displayName ? action.photoURL : 'temp',
+        uid: null,
+      };
     case 'AUTH_OPEN':
       return {
         status: 'AUTH_AWAITING_RESPONSE',

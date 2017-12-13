@@ -3,31 +3,50 @@ import PropTypes from 'prop-types';
 import { Grid, Row, Col, Thumbnail, PageHeader } from 'react-bootstrap';
 import PostView from '../posts/PostView';
 
-const UserProfile = props => (
-  <Grid>
-    <Row>
-      <Col xs={12} md={6}>
-        <PageHeader>{props.displayName}{"'s"} Profile</PageHeader>
-        <Thumbnail src={props.image} alt="242x200">
-          <h3>10000 Followers</h3>
-          <p>Name: {props.firstName} {props.lastName}</p>
-          <p>Email: {props.email}</p>
-        </Thumbnail>
-      </Col>
-      <Col xs={12} md={4}>
-        <PostView posts={props.posts} />
-      </Col>
-    </Row>
-  </Grid>
-);
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+    };
+  }
+  async componentWillMount() {
+    console.log(this.props.displayName, this.props.id);
+    // this.setState = {
+    //   loading: true,
+    // };
+    await this.props.dispatchApi.getUserByDisplayName('monkaS')
+    await this.props.dispatchApi.getPosts(2);
+    console.log('IM HEREREREERRE', this.props);
+    await this.setState({
+      loading: false,
+    });
+  }
+  render() {
+    if (this.state.loading === true) {
+      return null;
+    }
+    console.log('test');
+    return (
+      <Grid>
+        <Row>
+          <Col xs={12} md={4}>
+            <PageHeader>{this.props.app.curUser.displayName}{"'s"} Profile</PageHeader>
+            <Thumbnail src={this.props.app.curUser.profileImageUrl} alt="242x200">
+              <h3>10000 Followers</h3>
+            </Thumbnail>
+          </Col>
+          <Col xs={12} md={8}>
+            <PostView posts={this.props.app.posts} />
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+}
 
 UserProfile.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  posts: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default UserProfile;

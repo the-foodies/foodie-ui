@@ -23,8 +23,12 @@ export const listenToAuth = () => (dispatch, getState) => {
   });
 };
 
-export const openAuthSignup = (email, password) => (dispatch) => {
-  console.log('opening AuthSignup', email, password);
+export const openAuthSignup = (email, password, displayName) => (dispatch) => {
+  console.log('opening AuthSignup', email, password, displayName);
+  dispatch({
+    type: 'AUTH_ADD_PROFILE_INFO',
+    displayName,
+  });
   dispatch({ type: 'AUTH_OPEN' });
   auth.createUserWithEmailAndPassword(email, password).catch((error) => {
     console.log(error);
