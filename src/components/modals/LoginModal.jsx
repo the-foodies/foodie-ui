@@ -16,6 +16,7 @@ class LoginModal extends React.Component {
       email: '',
       password: '',
       password2: '',
+      displayName: '',
     };
 
     this.close = this.close.bind(this);
@@ -62,10 +63,10 @@ class LoginModal extends React.Component {
   }
 
   handleAuthClick() {
-    const { email, password } = this.state;
+    const { email, password, displayName } = this.state;
     console.log(this.state.loginType);
     if (this.state.loginType === 'Signup') {
-      this.props.dispatchAuth.openAuthSignup(email, password);
+      this.props.dispatchAuth.openAuthSignup(email, password, displayName);
       this.setState({ hasSignedUp: true });
     } else if (this.state.loginType === 'Login') {
       this.props.dispatchAuth.openAuthWithEmail(email, password);
@@ -101,6 +102,14 @@ class LoginModal extends React.Component {
           </Col>
           <Row>
             <Col xs={10} xsOffset={1} md={8} mdOffset={2}>
+              <FormGroup validationState={null}>
+                <FormControl
+                  type="displayName"
+                  placeholder="display name"
+                  value={this.state.displayName}
+                  onChange={e => this.handleInputChange(e, 'displayName')}
+                /><FormControl.Feedback />
+              </FormGroup>
               <FormGroup validationState={this.getEmailValidationState()}>
                 <FormControl
                   type="email"
