@@ -1,10 +1,15 @@
 import React from 'react';
 import { Media, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
-const PostComment = ({ User, text }) => (
+const PostComment = ({ User, text, history }) => (
   <Media>
-    <Row>
+    <Row onClick={history.push({
+        pathname: `/profile/${User.displayName}`,
+        state: { id: User.id },
+      })}
+    >
       <Col xs={2}>
         <Media.Left>
           <img
@@ -21,7 +26,7 @@ const PostComment = ({ User, text }) => (
       </Col>
       <Col xs={10}>
         <Media.Body>
-          <Media.Heading>DisplayName</Media.Heading>
+          <Media.Heading>{User.displayName}</Media.Heading>
           <p>{text}</p>
         </Media.Body>
       </Col>
@@ -32,6 +37,7 @@ const PostComment = ({ User, text }) => (
 PostComment.propTypes = {
   text: PropTypes.string.isRequired,
   User: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default PostComment;
+export default withRouter(PostComment);

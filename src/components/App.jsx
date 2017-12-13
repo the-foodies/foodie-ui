@@ -12,7 +12,6 @@ import UserProfile from './profile/UserProfile';
 import RecipeDetailsPage from './RecipeDetailsPage';
 import RestaurantDetailsPage from './RestaurantDetailsPage';
 import testRestaurants from './testData/testRestaurants.json';
-import testUser from './testData/testUser.json';
 
 axios.defaults.withCredentials = true;
 
@@ -110,16 +109,14 @@ class App extends React.Component {
               />
               <Route
                 exact
-                path="/profile"
-                render={props => (<UserProfile
-                  {...props}
-                  posts={testRestaurants}
-                  displayName={testUser.displayName}
-                  firstName={testUser.firstName}
-                  lastName={testUser.lastName}
-                  image={testUser.profileImageUrl}
-                  email={testUser.email}
-                />)}
+                path="/profile/:displayName"
+                render={({ location, match }) => (
+                  <UserProfile
+                    {...this.props}
+                    id={location.state.id}
+                    displayName={match.params.displayName}
+                  />
+                )}
               />
             </Switch>
           </div>
