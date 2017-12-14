@@ -18,7 +18,6 @@ class UserProfile extends React.Component {
     this.subscribeToUser = this.subscribeToUser.bind(this);
   }
   async componentWillMount() {
-<<<<<<< HEAD
     console.log(this.props);
     const userId = await this.props.dispatchApi.getUserByDisplayName('monkaS');
     await this.props.dispatchApi.getPosts(1);
@@ -34,15 +33,6 @@ class UserProfile extends React.Component {
         subscribed: bool.data,
       });
     }
-=======
-    console.log(this.props.displayName, this.props.id);
-    // this.setState = {
-    //   loading: true,
-    // };
-    await this.props.dispatchApi.getUserByDisplayName('monkaS')
-    await this.props.dispatchApi.getPosts(1);
-    console.log('IM HEREREREERRE', this.props);
->>>>>>> [feat fix]
     await this.setState({
       loading: false,
     });
