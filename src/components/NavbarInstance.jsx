@@ -68,7 +68,7 @@ const NavbarInstance = (props) => {
         <Navbar.Text
           className="navbar-username"
           pullRight
-        >{auth.username}
+        >{auth.displayName}
         </Navbar.Text>
       </Navbar.Collapse>
     </Navbar>
