@@ -1,10 +1,9 @@
 import React from 'react';
 import { Grid, Row, Col, PageHeader, Label } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TrendingCarousel from './home/TrendingCarousel';
-import NavFilterDetails from './NavFilterDetails';
-import HorizontalScrollBar from './HorizontalScrollBar';
-import { mapDetailsToCarouselFormat, mapDetailsToHorizontalFormat } from '../utils/detailsPage';
+import TrendingCarousel from '../displays/TrendingCarousel';
+import HorizontalScrollBar from '../displays/HorizontalScrollBar';
+import { mapDetailsToCarouselFormat, mapDetailsToHorizontalFormat } from '../../utils/detailsPage';
 
 class RestaurantDetailsPage extends React.Component {
   constructor(props) {

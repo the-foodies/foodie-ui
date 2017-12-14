@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import Home from './Home';
+import Home from './home/Home';
 import RecipeHomePage from './recipe/RecipeHomePage';
 import RecipeSubmissionForm from './recipe/RecipeSubmissionForm';
-import NavbarInstance from './NavbarInstance';
-import ModalRoot from './ModalRoot';
-import Restaurant from './Restaurant';
+import NavbarInstance from './nav/NavbarInstance';
+import ModalRoot from './modals/ModalRoot';
+import RestaurantSubmissionForm from './restaurant/RestaurantSubmissionForm';
 import UserProfile from './profile/UserProfile';
-import RecipeDetailsPage from './RecipeDetailsPage';
-import RestaurantDetailsPage from './RestaurantDetailsPage';
+import RecipeDetailsPage from './recipe/RecipeDetailsPage';
+import RestaurantDetailsPage from './restaurant/RestaurantDetailsPage';
 import testRestaurants from './testData/testRestaurants.json';
 
 axios.defaults.withCredentials = true;
@@ -20,7 +20,6 @@ class App extends React.Component {
     super(props);
     this.state = {
     };
-    console.log(this.props);
 
     this.findRestaurant = this.findRestaurant.bind(this);
     this.findRecipe = this.findRecipe.bind(this);
@@ -28,11 +27,6 @@ class App extends React.Component {
   }
   componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
-<<<<<<< HEAD
-=======
-    this.findRestaurant(4);
-    this.findRecipe(0);
->>>>>>> [feat]
   }
   findRestaurant(id) {
     this.props.dispatchApi.getRestaurantById(id);
@@ -63,7 +57,7 @@ class App extends React.Component {
               <Route
                 exact
                 path="/eating"
-                render={props => (<Restaurant
+                render={props => (<RestaurantSubmissionForm
                   {...props}
                   getRestaurant={this.findRestaurant}
                 />)}
@@ -82,20 +76,19 @@ class App extends React.Component {
                 path="/recipe-details"
                 render={props => (<RecipeDetailsPage
                   {...props}
-                  id={this.props.curRecipe.id}
-                  ingredients={this.props.curRecipe.Ingredients}
-                  directions={this.props.curRecipe.Directions}
-                  name={this.props.curRecipe.title}
-                  testRestaurants={testRestaurants}
+                  id={testRestaurants[1].id}
+                  ingredients={testRestaurants[1].Ingredients}
+                  directions={testRestaurants[1].Directions}
+                  name={testRestaurants[1].name}
                   portions="10"
                   difficulty="Medium"
-                  protein={this.props.curRecipe.protein}
-                  fat={this.props.curRecipe.fat}
-                  calories={this.props.curRecipe.calories}
-                  rating={this.props.curRecipe.rating}
-                  sodium={this.props.curRecipe.sodium}
-                  imagesRecipes={this.props.curRecipe.ImagesRecipes}
-                  tags={this.props.curRecipe.Tags}
+                  protein={testRestaurants[1].protein}
+                  fat={testRestaurants[1].fat}
+                  calories={testRestaurants[1].calories}
+                  rating={testRestaurants[1].rating}
+                  sodium={testRestaurants[1].sodium}
+                  imagesRecipes={testRestaurants[1].ImagesRecipes}
+                  tags={testRestaurants[1].Tags}
                   recipeHistory="Grandma made this recipe in the 80s."
                 />)}
               />
@@ -104,14 +97,14 @@ class App extends React.Component {
                 path="/restaurant-details"
                 render={props => (<RestaurantDetailsPage
                   {...props}
-                  id={this.props.curRestaurant.id}
-                  name={this.props.curRestaurant.name}
-                  address={this.props.curRestaurant.address}
-                  website={this.props.curRestaurant.website}
-                  foodItems={this.props.curRestaurant.FoodItems}
-                  images={this.props.curRestaurant.ImagesRestaurants}
-                  tags={this.props.curRestaurant.Tags}
-                  comments={this.props.curRestaurant.Comments}
+                  id={testRestaurants[2].id}
+                  name={testRestaurants[2].name}
+                  address={testRestaurants[2].address}
+                  website={testRestaurants[2].website}
+                  foodItems={testRestaurants[2].FoodItems}
+                  images={testRestaurants[2].ImagesRestaurants}
+                  tags={testRestaurants[2].Tags}
+                  comments={testRestaurants[2].Comments}
                 />)}
               />
               <Route
@@ -135,8 +128,6 @@ class App extends React.Component {
 
 App.propTypes = {
   auth: PropTypes.object.isRequired,
-  curRecipe: PropTypes.object.isRequired,
-  curRestaurant: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   dispatchAuth: PropTypes.objectOf(PropTypes.func).isRequired,

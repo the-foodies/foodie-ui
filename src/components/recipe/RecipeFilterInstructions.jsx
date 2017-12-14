@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Nav, NavItem } from 'react-bootstrap/lib';
 
-class NavFilterDetails extends React.Component {
+class RecipeFilterInstructions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,9 +49,9 @@ class NavFilterDetails extends React.Component {
   }
 }
 
-NavFilterDetails.propTypes = {
+RecipeFilterInstructions.propTypes = {
   directions: PropTypes.array.isRequired,
   ingredients: PropTypes.array.isRequired,
 };
 
-export default NavFilterDetails;
+export default RecipeFilterInstructions;

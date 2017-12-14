@@ -2,8 +2,8 @@ import React from 'react';
 import { Nav, Navbar, NavItem, FormGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import HasLoggedIn from './nav/hasLoggedIn';
-import NavSearch from './nav/search';
+import HasLoggedIn from './hasLoggedIn';
+import NavSearch from './search';
 
 const NavbarInstance = (props) => {
   const {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Nav, NavItem } from 'react-bootstrap/lib';
-import ListThumbnails from './ListThumbnails';
+import ListThumbnails from '../displays/ListThumbnails';
 
 
 class NavFilterThumbnails extends React.Component {
