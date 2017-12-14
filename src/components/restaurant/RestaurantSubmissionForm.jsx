@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { Label, ProgressBar, Image, InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
 
-import { googleAutocomplete, googleRestaurant } from '../utils/googleRestaurant';
-import uploadImage from '../utils/uploadImage';
+import { googleAutocomplete, googleRestaurant } from '../../utils/googleRestaurant';
+import uploadImage from '../../utils/uploadImage';
 
 const filterByCallback = option => option.description;
 const REST_URL = process.env.REST_URL || 'http://localhost:4420';

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
-import ListThumbnails from './ListThumbnails';
-import TrendingCarousel from './home/TrendingCarousel';
-import SeasonalItems from './SeasonalItems';
-import NavFilterThumbnails from './NavFilterThumbnails';
+import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
+import TrendingCarousel from '../displays/TrendingCarousel';
+import ListRecommendedItems from '../displays/ListRecommendedItems';
+import HomeFilterThumbnails from './HomeFilterThumbnails';
 
 class Home extends React.Component {
   constructor(props) {
@@ -47,7 +46,7 @@ class Home extends React.Component {
         </Row>
         <Row>
           <Col xs={6} md={6}>
-            <SeasonalItems list={this.state.seasonalItems} />
+            <ListRecommendedItems list={this.state.seasonalItems} />
           </Col>
           <Col xs={6} md={6}>
             <h1>Other Stuff</h1>
@@ -63,7 +62,7 @@ class Home extends React.Component {
         </Row>
         <Row>
           <Col xs={12} md={8}>
-            <NavFilterThumbnails />
+            <HomeFilterThumbnails />
           </Col>
         </Row>
       </Grid>
