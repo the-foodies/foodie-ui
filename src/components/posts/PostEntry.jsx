@@ -1,5 +1,5 @@
 import React from 'react';
-import { Media, ListGroupItem, Label, Col, Row } from 'react-bootstrap';
+import { Media, ListGroupItem, Label, Col, Row, FormControl, FormGroup, InputGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import PostComment from './PostComment';
 
@@ -62,6 +62,18 @@ const PostEntry = (props) => {
         </Row>
         <hr />
         {props.Comments.map(comment => <PostComment key={comment.id} {...comment} />)}
+        <FormGroup>
+          <InputGroup>
+            <FormControl
+              type="text"
+              defaultValue="Add a comment..."
+            />
+            <InputGroup.Button>
+              <Button>Comment</Button>
+            </InputGroup.Button>
+          </InputGroup>
+
+        </FormGroup>
       </Media>
     </ListGroupItem>
   );
