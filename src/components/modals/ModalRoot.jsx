@@ -1,7 +1,7 @@
 // Import Modals and add TO MODAL_COMPONENTS
 import React from 'react';
 import PropTypes from 'prop-types';
-import LoginModal from '../containers/loginModal';
+import LoginModal from '../../containers/loginModal';
 
 // add modals here
 const MODAL_COMPONENTS = {

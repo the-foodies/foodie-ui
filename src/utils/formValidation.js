@@ -21,7 +21,7 @@ export const trimFirstSpace = (arr) => {
     }
     return result;
   });
-  temp = temp.filter((item) => { return item !== ''; });
+  temp = temp.filter(item => (item !== ''));
   return temp;
 };
 
