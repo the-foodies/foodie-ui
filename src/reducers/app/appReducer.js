@@ -4,6 +4,7 @@ const initialState = {
   curRestaurant: {},
   curRecipe: {},
   curUser: {},
+  subscriptions: {},
 };
 
 export default (state = initialState, action) => {
@@ -47,6 +48,16 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         status: 'GOT_USER',
         curUser: action.user,
+      });
+    case ('GETTING_SUBS'):
+      return Object.assign({}, state, {
+        status: 'GETTING_API',
+        subscriptions: {},
+      });
+    case ('GOT_SUBS'):
+      return Object.assign({}, state, {
+        status: 'GOT_SUBS',
+        subscriptions: action.subscriptions,
       });
     default:
       return state;

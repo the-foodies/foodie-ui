@@ -13,4 +13,5 @@ export default displayName => async function (dispatch) {
     type: 'GOT_USER',
     user: user.data,
   });
+  return user.data.id;
 };
