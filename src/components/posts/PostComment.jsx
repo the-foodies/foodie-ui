@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 const PostComment = ({ User, text, history }) => (
-  <Media>
-    <Row onClick={history.push({
+  <Media onClick={
+    () => {
+      history.push({
         pathname: `/profile/${User.displayName}`,
         state: { id: User.id },
-      })}
-    >
+      })
+    }}
+  >
+    <Row>
       <Col xs={2}>
         <Media.Left>
           <img

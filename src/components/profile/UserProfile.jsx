@@ -11,22 +11,21 @@ class UserProfile extends React.Component {
     };
   }
   async componentWillMount() {
-    console.log(this.props.displayName, this.props.id);
-    // this.setState = {
-    //   loading: true,
-    // };
-    await this.props.dispatchApi.getUserByDisplayName('monkaS')
-    await this.props.dispatchApi.getPosts(2);
-    console.log('IM HEREREREERRE', this.props);
+    await this.props.dispatchApi.getUserByDisplayName('monkaS');
+    await this.props.dispatchApi.getPosts(1);
     await this.setState({
       loading: false,
     });
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.loading || nextState.loading;
+  }
+
   render() {
     if (this.state.loading === true) {
       return null;
     }
-    console.log('test');
     return (
       <Grid>
         <Row>
@@ -46,7 +45,8 @@ class UserProfile extends React.Component {
 }
 
 UserProfile.propTypes = {
-  displayName: PropTypes.string.isRequired,
+  app: PropTypes.objectOf(PropTypes.object).isRequired,
+  dispatchApi: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 export default UserProfile;
