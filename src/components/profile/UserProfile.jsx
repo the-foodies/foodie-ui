@@ -18,32 +18,19 @@ class UserProfile extends React.Component {
     this.swapView = this.swapView.bind(this);
     this.subscribeToUser = this.subscribeToUser.bind(this);
   }
-  async componentWillMount() {
-    console.log(this.props);
-    const userId = await this.props.dispatchApi.getUserByDisplayName('monkaS');
-    await this.props.dispatchApi.getPosts(1);
-    await this.props.dispatchApi.getUserSubscriptions(1);
-    if (this.props.auth.displayName !== this.props.app.curUser.displayName) {
-      const bool = await axios.get(`${REST_URL}/api/isSubbed`, {
-        params: {
-          id: this.props.app.curUser.displayName,
-        },
-      });
-      console.log('isSubbed?', bool);
-      this.setState({
-        subscribed: bool.data,
-      });
-    }
-    await this.setState({
-      loading: false,
-    });
+  async componentDidMount() {
+    const { displayName } = this.props;
+    this.loadProfile(displayName);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.app.status === 'GETTING_API') {
-      return this.state.loading || nextState.loading;
+  componentWillReceiveProps(nextProps) {
+    const { displayName } = nextProps;
+    if (this.props.displayName !== nextProps.displayName) {
+      this.setState({
+        loading: true,
+      });
+      this.loadProfile(displayName);
     }
-    return true;
   }
 
   getSubscriptionButton() {
@@ -52,7 +39,38 @@ class UserProfile extends React.Component {
     }
     return (<Button bsStyle="primary" onClick={this.subscribeToUser}>Click to Subscribe!</Button>);
   }
+  async getSubscriptionStatus(user) {
+    if (this.props.auth.displayName !== user.displayName) {
+      const { data } = await axios.get(`${REST_URL}/api/isSubbed`, {
+        params: {
+          id: user.id,
+        },
+      });
+      return data;
+    }
+    return false;
+  }
 
+  loadProfile(displayName) {
+    const comp = this;
+    // load series with .then
+    this.props.dispatchApi.getUserByDisplayName(displayName)
+      .then(({ data }) => {
+        const loadParallel = [
+          comp.props.dispatchApi.getPosts(data.id),
+          comp.props.dispatchApi.getUserSubscriptions(data.id),
+          comp.getSubscriptionStatus(data),
+        ];
+        return Promise.all(loadParallel);
+      }).then(([,, subscribed]) => {
+        // results are ordered by array order
+        console.log(subscribed);
+        this.setState({
+          subscribed,
+          loading: false,
+        });
+      });
+  }
   subscribeToUser() {
     axios.post(`${REST_URL}/api/subscriptions`, {
       id: this.props.app.curUser.id,
@@ -89,6 +107,7 @@ class UserProfile extends React.Component {
 }
 
 UserProfile.propTypes = {
+  displayName: PropTypes.string.isRequired,
   app: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   dispatchApi: PropTypes.objectOf(PropTypes.func).isRequired,

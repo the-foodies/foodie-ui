@@ -5,8 +5,6 @@ import PostComment from './PostComment';
 
 
 const PostEntry = (props) => {
-  console.log(props);
-
   const image = props.ImagesRecipes ? props.ImagesRecipes : props.ImagesRestaurants;
 
   const ifHasFoodItems = () => {
