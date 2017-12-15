@@ -1,14 +1,21 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const webpackConfig = {
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
+  ],
   entry: ['babel-polyfill', path.resolve(__dirname, './src/index.jsx')],
   node: {
     fs: 'empty',
   },
   output: {
     path: path.resolve(__dirname, './build'),
-    publicPath: '/',
-    filename: 'bundle.js',
+    filename: 'bundle.min.js',
   },
   module: {
     loaders: [],
@@ -16,7 +23,7 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-source-map',
 };
 
 webpackConfig.module.loaders.push({
@@ -32,8 +39,9 @@ webpackConfig.module.loaders.push({
 });
 
 webpackConfig.module.loaders.push({
-  test: /\.(png|jpg|gif|jpeg)$/i,
-  loader: 'file-loader?name=assets/[name].[ext]',
+  test: /\.(png|jpg|gif|jpeg)$/,
+  loader: 'file-loader',
+  options: {},
 });
 
 module.exports = webpackConfig;

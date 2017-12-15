@@ -1,12 +1,11 @@
 import React from 'react';
 import { Media, ListGroupItem, Label, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import PostComment from './PostComment';
+import Comment from '../displays/Comment';
+import AddComment from '../displays/AddComment';
 
 
 const PostEntry = (props) => {
-  console.log(props);
-
   const image = props.ImagesRecipes ? props.ImagesRecipes : props.ImagesRestaurants;
 
   const ifHasFoodItems = () => {
@@ -36,7 +35,7 @@ const PostEntry = (props) => {
           <Col xs={12} md={8}>
             <Media.Body>
               <Media.Heading>{props.name}</Media.Heading>
-              <p>{image[0].description}</p>
+              <p>We gonna need some post data here yo</p>
             </Media.Body>
           </Col>
         </Row>
@@ -61,7 +60,9 @@ const PostEntry = (props) => {
           </Col>
         </Row>
         <hr />
-        {props.Comments.map(comment => <PostComment key={comment.id} {...comment} />)}
+        {props.Comments.map(comment => <Comment key={comment.id} {...comment} />)}
+        <hr />
+        <AddComment {...props} />
       </Media>
     </ListGroupItem>
   );

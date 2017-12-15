@@ -14,7 +14,14 @@ const PostView = props => (
     <Row>
       <Col xs={12} md={12}>
         <ListGroup className="post-list">
-          {props.posts.map((post, index) => <PostEntry key={index} {...post} />)}
+          {props.posts.map((post, index) => (
+            <PostEntry
+              curUser={props.curUser}
+              loadProfile={props.loadProfile}
+              key={index}
+              {...post}
+            />
+          ))}
         </ListGroup>
       </Col>
     </Row>

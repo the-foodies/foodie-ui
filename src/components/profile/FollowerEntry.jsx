@@ -8,7 +8,7 @@ const FollowerEntry = props => (
     () => {
       props.history.push({
         pathname: `/profile/${props.user.displayName}`,
-        props: { id: props.user.id },
+        state: { id: props.user.id },
       });
     }}
   >
