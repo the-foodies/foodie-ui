@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Grid, Row, Col, Button, ButtonGroup, Thumbnail, PageHeader } from 'react-bootstrap';
 import PostView from '../posts/PostView';
+import UserComponent from './UserComponent';
 
 const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
@@ -71,23 +72,12 @@ class UserProfile extends React.Component {
     if (this.state.loading === true) {
       return null;
     }
+    console.log(this.props);
     return (
       <Grid>
         <Row>
           <Col xs={12} md={4}>
-            <PageHeader>{this.props.app.curUser.displayName}{"'s"} Profile</PageHeader>
-            <Thumbnail src={this.props.app.curUser.profileImageUrl} alt="242x200">
-              <h3>10000 Followers</h3>
-              {(this.props.auth.displayName === this.props.app.curUser.displayName) ? null : this.getSubscriptionButton()}
-              <div>
-                <ButtonGroup>
-                  <Button onClick={() => this.swapView(true)}>Followers</Button>
-                  <Button onClick={() => this.swapView(false)}>Following</Button>
-                </ButtonGroup>
-              </div>
-              {(this.state.followerDisplay === true) ? <h3>FOLLOWER DISPLAY</h3> :
-              <h3>FOLLOWING DISPLAY</h3>}
-            </Thumbnail>
+            <UserComponent app={this.props.app} auth={this.props.auth} />
           </Col>
           <Col xs={12} md={8}>
             <PostView posts={this.props.app.posts} />
@@ -100,6 +90,7 @@ class UserProfile extends React.Component {
 
 UserProfile.propTypes = {
   app: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   dispatchApi: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
