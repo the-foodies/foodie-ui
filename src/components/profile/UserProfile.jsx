@@ -15,12 +15,14 @@ class UserProfile extends React.Component {
       subscribed: false,
       followerDisplay: true,
     };
+    this.profileRefresh = null;
     this.swapView = this.swapView.bind(this);
     this.subscribeToUser = this.subscribeToUser.bind(this);
   }
-  async componentDidMount() {
+  componentDidMount() {
     const { displayName } = this.props;
     this.loadProfile(displayName);
+    this.profileRefresh = setInterval(() => this.loadProfile(displayName), 10000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,6 +32,16 @@ class UserProfile extends React.Component {
         loading: true,
       });
       this.loadProfile(displayName);
+      if (this.profileRefresh) {
+        clearInterval(this.profileRefresh);
+      }
+      this.profileRefresh = setInterval(() => this.loadProfile(displayName), 10000);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.profileRefresh) {
+      clearInterval(this.profileRefresh);
     }
   }
 
@@ -65,7 +77,7 @@ class UserProfile extends React.Component {
       }).then(([,, subscribed]) => {
         // results are ordered by array order
         console.log(subscribed);
-        this.setState({
+        comp.setState({
           subscribed,
           loading: false,
         });
@@ -98,7 +110,7 @@ class UserProfile extends React.Component {
             <UserComponent app={this.props.app} auth={this.props.auth} />
           </Col>
           <Col xs={12} md={8}>
-            <PostView posts={this.props.app.posts} />
+            <PostView curUser={this.props.app.curUser} posts={this.props.app.posts} />
           </Col>
         </Row>
       </Grid>

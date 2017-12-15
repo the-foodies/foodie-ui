@@ -13,7 +13,7 @@ export const listenToAuth = () => (dispatch, getState) => {
         displayName: authData.providerData[0].displayName,
         email: authData.email,
       });
-      dispatch(login(authData.email, authData.providerData[0].displayName));
+      dispatch(login(authData.email, authData.providerData[0].displayName, authData.photoURL));
       dispatch({
         type: 'HIDE_MODAL',
       });
