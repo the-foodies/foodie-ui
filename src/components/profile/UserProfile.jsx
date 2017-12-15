@@ -11,6 +11,7 @@ const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       loading: true,
       subscribed: false,

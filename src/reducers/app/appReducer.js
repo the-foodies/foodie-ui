@@ -1,8 +1,11 @@
+import dummyData from '../../components/testData/testRestaurants.json';
+
+const defaultRecipe = dummyData[1];
 const initialState = {
   status: null,
   posts: [],
   curRestaurant: {},
-  curRecipe: {},
+  curRecipe: defaultRecipe,
   curUser: {},
   subscriptions: {
     subscriptions: [],

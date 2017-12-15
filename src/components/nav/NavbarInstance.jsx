@@ -8,6 +8,7 @@ import NavSearch from './search';
 const NavbarInstance = (props) => {
   const {
     dispatch,
+    app,
     auth,
     logoutUser,
     showLoginModal,
@@ -20,6 +21,11 @@ const NavbarInstance = (props) => {
           state: { id: null },
         });
       }
+    } else if (toPage === 'recipe') {
+      props.history.push({
+        pathname: `/recipe/${app.curRecipe.name}/${app.curRecipe.id}`,
+        state: { id: null },
+      });
     } else {
       props.history.push(`/${toPage}`);
     }
@@ -40,7 +46,7 @@ const NavbarInstance = (props) => {
           </FormGroup>
         </Navbar.Form>
         <Nav>
-          <NavItem eventKey={1} onClick={() => { changePage('recipes'); }}>
+          <NavItem eventKey={1} onClick={() => { changePage('recipes-home'); }}>
             Cooking
           </NavItem>
           <NavItem eventKey={2} onClick={() => { changePage('eating'); }}>
@@ -49,7 +55,7 @@ const NavbarInstance = (props) => {
           <NavItem eventKey={4} onClick={() => { changePage('recipe-submission'); }}>
             Recipe Submission
           </NavItem>
-          <NavItem eventKey={5} onClick={() => { changePage('recipe-details'); }}>
+          <NavItem eventKey={5} onClick={() => { changePage('recipe'); }}>
             Recipe Details
           </NavItem>
           <NavItem eventKey={6} onClick={() => { changePage('restaurant-details'); }}>
@@ -79,6 +85,7 @@ NavbarInstance.propTypes = {
   history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  app: PropTypes.object.isRequired,
   logoutUser: PropTypes.func.isRequired,
   showLoginModal: PropTypes.func.isRequired,
 };

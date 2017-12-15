@@ -5,13 +5,10 @@ import * as dispatchModal from '../actions/modal';
 import * as dispatchAuth from '../actions/auth';
 import * as dispatchApi from '../actions/apiRequests/';
 
-console.log(dispatchAuth);
-
 function mapStateToProps(state) {
   return {
     modal: state.modal,
     auth: state.auth,
-    posts: state.app.posts,
     app: state.app,
   };
 }

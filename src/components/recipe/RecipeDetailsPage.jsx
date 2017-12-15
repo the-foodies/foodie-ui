@@ -6,14 +6,12 @@ import TrendingCarousel from '../displays/TrendingCarousel';
 import RecipeFilterInstructions from './RecipeFilterInstructions';
 import HorizontalScrollBar from '../displays/HorizontalScrollBar';
 
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
+
 class RecipeDetailsPage extends React.Component {
   constructor(props) {
     super(props);
-    const images = mapDetailsToCarouselFormat({
-      name: props.name,
-      description: props.name,
-      images: props.imagesRecipes,
-    });
+    const { curRecipe } = props.app;
     const {
       name,
       sodium,
@@ -24,7 +22,7 @@ class RecipeDetailsPage extends React.Component {
       difficulty,
       portions,
       recipeHistory,
-    } = props;
+    } = curRecipe;
     const information = [
       {
         name: 'Sodium',
@@ -47,9 +45,15 @@ class RecipeDetailsPage extends React.Component {
         value: fat,
       },
     ];
+    const images = mapDetailsToCarouselFormat({
+      name: curRecipe.name,
+      description: curRecipe.name,
+      images: curRecipe.ImagesRecipes,
+    });
     this.state = {
-      directions: props.directions,
-      ingredients: props.ingredients,
+      directions: curRecipe.Directions,
+      ingredients: curRecipe.Ingredients,
+      loading: true,
       difficulty,
       images,
       information,
@@ -72,7 +76,30 @@ class RecipeDetailsPage extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log('suppppppppp');
+    console.log(this.props);
+    this.loadRecipeDetail('2');
+  }
+
+  loadRecipeDetail(recipeId) {
+    this.props.dispatchApi.getRecipeById(recipeId)
+      .then(({ data }) => {
+        console.log('-----------------');
+        console.log(data);
+        console.log('+++++++++++++++');
+        console.log(this.props);
+        this.setState({
+          recipeHistory: 'We got it yo',
+          loading: false,
+        });
+      });
+  }
+
   render() {
+    if (this.state.loading) {
+      return null;
+    }
     return (
       <div>
         <Grid id="recipe-details-info">
@@ -136,18 +163,8 @@ class RecipeDetailsPage extends React.Component {
 }
 
 RecipeDetailsPage.propTypes = {
-  name: PropTypes.string.isRequired,
-  sodium: PropTypes.node.isRequired,
-  protein: PropTypes.node.isRequired,
-  rating: PropTypes.node.isRequired,
-  calories: PropTypes.node.isRequired,
-  fat: PropTypes.node.isRequired,
-  difficulty: PropTypes.string.isRequired,
-  portions: PropTypes.node.isRequired,
-  recipeHistory: PropTypes.string.isRequired,
-  directions: PropTypes.array.isRequired,
-  ingredients: PropTypes.array.isRequired,
-  imagesRecipes: PropTypes.array.isRequired,
+  app: PropTypes.object.isRequired,
+  dispatchApi: PropTypes.object.isRequired,
 };
 
 export default RecipeDetailsPage;

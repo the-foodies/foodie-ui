@@ -13,7 +13,6 @@ const config = {
   messagingSenderId: '48425389246',
 };
 firebase.initializeApp(config);
-console.log(firebase);
 
 const auth = firebase.auth();
 const firebaseStorage = firebase.storage();
