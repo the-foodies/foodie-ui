@@ -3,23 +3,23 @@ import { Media, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-const PostComment = ({ User, text, history }) => (
+const FollowerEntry = props => (
   <Media onClick={
     () => {
-      history.push({
-        pathname: `/profile/${User.displayName}`,
-        state: { id: User.id },
+      props.history.push({
+        pathname: `/profile/${props.user.displayName}`,
+        props: { id: props.user.id },
       });
     }}
   >
     <Row>
-      <Col xs={2}>
+      <Col xs={4}>
         <Media.Left>
           <img
             className="comment-image"
             src={
-              User.profileImageUrl ?
-              User.profileImageUrl
+              props.user.profileImageUrl ?
+              props.user.profileImageUrl
               :
               'https://pbs.twimg.com/profile_images/588185534390005760/3D1mczNT.jpg'
             }
@@ -27,20 +27,18 @@ const PostComment = ({ User, text, history }) => (
           />
         </Media.Left>
       </Col>
-      <Col xs={10}>
+      <Col xs={8}>
         <Media.Body>
-          <Media.Heading>{User.displayName}</Media.Heading>
-          <p>{text}</p>
+          <Media.Heading>{props.user.displayName}</Media.Heading>
         </Media.Body>
       </Col>
     </Row>
   </Media>
 );
 
-PostComment.propTypes = {
-  text: PropTypes.string.isRequired,
-  User: PropTypes.object.isRequired,
+FollowerEntry.propTypes = {
+  user: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
 
-export default withRouter(PostComment);
+export default withRouter(FollowerEntry);
