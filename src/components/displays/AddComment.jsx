@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormGroup, InputGroup, FormControl, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import postComment from '../../utils/postComment';
 
 class AddComment extends React.Component {
@@ -8,8 +9,40 @@ class AddComment extends React.Component {
     this.state = {
       input: '',
     };
-    console.log(props);
     this.handleChange = this.handleChange.bind(this);
+    this.postComment = this.postComment.bind(this);
+  }
+
+  postComment() {
+    // poster is who owns the post being commented on
+    if (this.state.input.length > 0) {
+      const poster = this.props.curUser;
+      const comment = {
+        text: this.state.input,
+      };
+      let recipe = null;
+      let restaurant = null;
+      if (this.props.ImagesRestaurants) {
+        restaurant = {
+          id: this.props.id,
+        };
+      } else {
+        recipe = {
+          id: this.props.id,
+        };
+      }
+      postComment({
+        poster,
+        recipe,
+        restaurant,
+        comment,
+      }).then(() => {
+        this.props.loadProfile(poster.displayName);
+        this.setState({
+          input: '',
+        });
+      });
+    }
   }
 
   handleChange(e) {
@@ -28,13 +61,7 @@ class AddComment extends React.Component {
           />
           <InputGroup.Button>
             <Button
-              // onClick={() => {
-              //   this.postComment({
-              //     poster: this.props.curUser,
-              //     recipe,
-              //     text,
-              //   })
-              // }}
+              onClick={this.postComment}
             >
               Comment
             </Button>
@@ -46,3 +73,9 @@ class AddComment extends React.Component {
 }
 
 export default AddComment;
+
+AddComment.propTypes = {
+  id: PropTypes.number.isRequired,
+  loadProfile: PropTypes.func.isRequired,
+  curUser: PropTypes.object.isRequired,
+};

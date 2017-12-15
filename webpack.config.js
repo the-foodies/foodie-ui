@@ -7,6 +7,7 @@ const webpackConfig = {
   },
   output: {
     path: path.resolve(__dirname, './build'),
+    publicPath: '/',
     filename: 'bundle.js',
   },
   module: {
@@ -31,9 +32,8 @@ webpackConfig.module.loaders.push({
 });
 
 webpackConfig.module.loaders.push({
-  test: /\.(png|jpg|gif|jpeg)$/,
-  loader: 'file-loader',
-  options: {},
+  test: /\.(png|jpg|gif|jpeg)$/i,
+  loader: 'file-loader?name=assets/[name].[ext]',
 });
 
 module.exports = webpackConfig;

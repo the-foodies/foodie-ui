@@ -13,12 +13,13 @@ class UserComponent extends React.Component {
       subscribed: false,
       followerDisplay: false,
     };
+    this.numOfFollowers = this.props.app.subscriptions.subscribees.length;
     this.subscribeToUser = this.subscribeToUser.bind(this);
   }
 
   getSubscriptionButton() {
     if (this.state.subscribed) {
-      return (<Button bsStyle="primary" disabled>Already Subscribed!</Button>);
+      return (<Button bsStyle="primary" disabled>Subscribed!</Button>);
     }
     return (<Button bsStyle="primary" onClick={this.subscribeToUser}>Click to Subscribe!</Button>);
   }
@@ -37,14 +38,18 @@ class UserComponent extends React.Component {
       <div>
         <PageHeader>{this.props.app.curUser.displayName}{"'s"} Profile</PageHeader>
         <Thumbnail src={this.props.app.curUser.profileImageUrl} alt="242x200">
-          <h3>10000 Followers</h3>
-          {(this.props.auth.displayName === this.props.app.curUser.displayName) ? null : this.getSubscriptionButton()}
+          <h3>{this.numOfFollowers} Follower{this.numOfFollowers > 1 ? '' : 's'}</h3>
           <div>
             <ButtonGroup>
               <Button onClick={() => this.setState({ followerDisplay: true })}>Followers</Button>
               <Button onClick={() => this.setState({ followerDisplay: false })}>Following</Button>
+              {
+                (this.props.auth.displayName === this.props.app.curUser.displayName) ?
+                  null : this.getSubscriptionButton()
+              }
             </ButtonGroup>
           </div>
+          <hr />
           <div className="follower-list">
             {(this.state.followerDisplay === true) ?
               this.props.app.subscriptions.subscribees.map((sub) => {

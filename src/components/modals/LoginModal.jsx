@@ -2,6 +2,9 @@ import React from 'react';
 import { Modal, Button, ButtonGroup, FormGroup, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
+import facebook from '../../assets/facebook.png';
+import google from '../../assets/google.png';
+
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
@@ -158,14 +161,14 @@ class LoginModal extends React.Component {
                 <Col xs={4} xsOffset={1}>
                   <ButtonGroup>
                     <Button onClick={() => { this.props.dispatchAuth.openAuthWithProvider('facebook'); }}>
-                      <img src="assets/social-svg/facebook.png" alt="fb" width="20" />
+                      <img src={facebook} alt="fb" width="20" />
                     </Button>
                   </ButtonGroup>
                 </Col>
                 <Col xs={4} xsOffset={1}>
                   <ButtonGroup>
                     <Button onClick={() => { this.props.dispatchAuth.openAuthWithProvider('google'); }}>
-                      <img src="assets/social-svg/google.png" alt="google" width="20" />
+                      <img src={google} alt="google" width="20" />
                     </Button>
                   </ButtonGroup>
                 </Col>

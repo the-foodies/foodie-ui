@@ -14,14 +14,17 @@ const NavbarInstance = (props) => {
   } = props;
   const changePage = (toPage) => {
     if (toPage === 'profile') {
-      props.history.push({
-        pathname: `/profile/${auth.displayName}`,
-        state: { id: null },
-      });
+      if (auth.displayName !== 'guest') {
+        props.history.push({
+          pathname: `/profile/${auth.displayName}`,
+          state: { id: null },
+        });
+      }
     } else {
       props.history.push(`/${toPage}`);
     }
   };
+
   return (
     <Navbar fluid inverse collapseOnSelect staticTop>
       <Navbar.Header>
@@ -43,9 +46,6 @@ const NavbarInstance = (props) => {
           <NavItem eventKey={2} onClick={() => { changePage('eating'); }}>
             Eating
           </NavItem>
-          <NavItem eventKey={3} onClick={() => { changePage('profile'); }}>
-            Profile
-          </NavItem>
           <NavItem eventKey={4} onClick={() => { changePage('recipe-submission'); }}>
             Recipe Submission
           </NavItem>
@@ -57,6 +57,11 @@ const NavbarInstance = (props) => {
           </NavItem>
         </Nav>
         <Nav pullRight>
+          <NavItem
+            className="navbar-username"
+            onClick={() => { changePage('profile'); }}
+          >{auth.displayName}
+          </NavItem>
           <HasLoggedIn
             dispatch={dispatch}
             authStatus={auth.status}
@@ -65,11 +70,6 @@ const NavbarInstance = (props) => {
             eventKey={3}
           />
         </Nav>
-        <Navbar.Text
-          className="navbar-username"
-          pullRight
-        >{auth.displayName}
-        </Navbar.Text>
       </Navbar.Collapse>
     </Navbar>
   );

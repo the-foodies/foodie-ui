@@ -6,15 +6,13 @@ export default async ({
   poster,
   recipe,
   restaurant,
-  text,
+  comment,
 }) => {
-  const addedComment = await axios.get(`${REST_URL}/api/comment`, {
-    params: {
-      poster,
-      recipe,
-      restaurant,
-      text,
-    },
+  const addedComment = await axios.post(`${REST_URL}/api/comment`, {
+    poster,
+    recipe,
+    restaurant,
+    comment,
   });
   return addedComment;
 };

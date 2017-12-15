@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Grid, Row, Col, Button, ButtonGroup, Thumbnail, PageHeader } from 'react-bootstrap';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 import PostView from '../posts/PostView';
 import UserComponent from './UserComponent';
+import Loading from '../displays/Loading';
 
 const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
@@ -13,11 +14,10 @@ class UserProfile extends React.Component {
     this.state = {
       loading: true,
       subscribed: false,
-      followerDisplay: true,
     };
     this.profileRefresh = null;
-    this.swapView = this.swapView.bind(this);
     this.subscribeToUser = this.subscribeToUser.bind(this);
+    this.loadProfile = this.loadProfile.bind(this);
   }
   componentDidMount() {
     const { displayName } = this.props;
@@ -76,7 +76,6 @@ class UserProfile extends React.Component {
         return Promise.all(loadParallel);
       }).then(([,, subscribed]) => {
         // results are ordered by array order
-        console.log(subscribed);
         comp.setState({
           subscribed,
           loading: false,
@@ -92,17 +91,10 @@ class UserProfile extends React.Component {
     });
   }
 
-  swapView(bool) {
-    this.setState({
-      followerDisplay: bool,
-    });
-  }
-
   render() {
     if (this.state.loading === true) {
-      return null;
+      return (<Loading />);
     }
-    console.log(this.props);
     return (
       <Grid>
         <Row>
@@ -110,7 +102,11 @@ class UserProfile extends React.Component {
             <UserComponent app={this.props.app} auth={this.props.auth} />
           </Col>
           <Col xs={12} md={8}>
-            <PostView curUser={this.props.app.curUser} posts={this.props.app.posts} />
+            <PostView
+              curUser={this.props.app.curUser}
+              loadProfile={this.loadProfile}
+              posts={this.props.app.posts}
+            />
           </Col>
         </Row>
       </Grid>
