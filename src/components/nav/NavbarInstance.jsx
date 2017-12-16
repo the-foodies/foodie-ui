@@ -26,6 +26,11 @@ const NavbarInstance = (props) => {
         pathname: `/recipe/${app.curRecipe.name}/${app.curRecipe.id}`,
         state: { id: null },
       });
+    } else if (toPage === 'restaurant') {
+      props.history.push({
+        pathname: `/restaurant/${app.curRestaurant.name}/${app.curRestaurant.id}`,
+        state: { id: null },
+      });
     } else {
       props.history.push(`/${toPage}`);
     }
@@ -58,7 +63,7 @@ const NavbarInstance = (props) => {
           <NavItem eventKey={5} onClick={() => { changePage('recipe'); }}>
             Recipe Details
           </NavItem>
-          <NavItem eventKey={6} onClick={() => { changePage('restaurant-details'); }}>
+          <NavItem eventKey={6} onClick={() => { changePage('restaurant'); }}>
             Restaurant Details
           </NavItem>
         </Nav>

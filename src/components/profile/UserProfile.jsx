@@ -11,7 +11,6 @@ const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       loading: true,
       subscribed: false,
@@ -26,6 +25,7 @@ class UserProfile extends React.Component {
     //
     const randomNum = Math.floor((Math.random() * 10) + 1).toString();
     this.props.dispatchApi.getRecipeById(randomNum);
+    this.props.dispatchApi.getRestaurantById(randomNum);
   }
 
   componentWillReceiveProps(nextProps) {
