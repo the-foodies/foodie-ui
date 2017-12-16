@@ -95,6 +95,7 @@ class UserProfile extends React.Component {
               curUser={this.props.app.curUser}
               refreshPage={this.loadProfile}
               posts={this.props.app.posts}
+              refreshParam={this.props.app.curUser.displayName}
             />
           </Col>
         </Row>

@@ -18,6 +18,7 @@ const PostView = props => (
             <PostEntry
               curUser={props.curUser}
               refreshPage={props.refreshPage}
+              refreshParam={props.refreshParam}
               key={index}
               {...post}
             />

@@ -42,6 +42,7 @@ class RecipeDetailsPage extends React.Component {
       },
       ],
     };
+    this.loadRecipeDetail = this.loadRecipeDetail.bind(this);
   }
 
   componentDidMount() {
@@ -146,10 +147,17 @@ class RecipeDetailsPage extends React.Component {
             </Col>
             <Col xs={6}>
               <PageHeader>Comments on this Recipe</PageHeader>
-              {this.state.comments.map(comment =>
-                (<Comment {...comment} xs={5} key={comment.id} />))}
-              <hr />
-              <AddComment curUser={this.props.app.curUser} id={this.props.app.curUser.id} refresh={() => { console.log('HI'); }} />
+              <ListGroup>
+                {this.state.comments.map(comment =>
+                  (<ListGroupItem key={comment.id}><Comment {...comment} xs={5} /></ListGroupItem>))}
+                <hr />
+                <AddComment
+                  {...this.props.app.curRecipe}
+                  curUser={this.props.app.curUser}
+                  refreshPage={this.loadRecipeDetail}
+                  refreshParam={this.props.app.curRecipe.id}
+                />
+              </ListGroup>
             </Col>
           </Row>
         </Grid>
