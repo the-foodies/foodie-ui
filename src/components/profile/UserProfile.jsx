@@ -16,7 +16,6 @@ class UserProfile extends React.Component {
       subscribed: false,
     };
     this.profileRefresh = null;
-    this.subscribeToUser = this.subscribeToUser.bind(this);
     this.loadProfile = this.loadProfile.bind(this);
   }
   componentDidMount() {
@@ -45,12 +44,6 @@ class UserProfile extends React.Component {
     }
   }
 
-  getSubscriptionButton() {
-    if (this.state.subscribed) {
-      return (<Button bsStyle="primary" disabled>Already Subscribed!</Button>);
-    }
-    return (<Button bsStyle="primary" onClick={this.subscribeToUser}>Click to Subscribe!</Button>);
-  }
   async getSubscriptionStatus(user) {
     if (this.props.auth.displayName !== user.displayName) {
       const { data } = await axios.get(`${REST_URL}/api/isSubbed`, {
@@ -82,14 +75,6 @@ class UserProfile extends React.Component {
         });
       });
   }
-  subscribeToUser() {
-    axios.post(`${REST_URL}/api/subscriptions`, {
-      id: this.props.app.curUser.id,
-    });
-    this.setState({
-      subscribed: true,
-    });
-  }
 
   render() {
     if (this.state.loading === true) {
@@ -99,7 +84,7 @@ class UserProfile extends React.Component {
       <Grid>
         <Row>
           <Col xs={12} md={4}>
-            <UserComponent app={this.props.app} auth={this.props.auth} />
+            <UserComponent app={this.props.app} auth={this.props.auth} subscribed={this.state.subscribed} loadProfile={this.loadProfile} />
           </Col>
           <Col xs={12} md={8}>
             <PostView

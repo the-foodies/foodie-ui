@@ -10,27 +10,42 @@ class UserComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      subscribed: false,
       followerDisplay: false,
+      buttonToggle: false,
     };
     this.numOfFollowers = this.props.app.subscriptions.subscribees.length;
     this.subscribeToUser = this.subscribeToUser.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this);
   }
 
   getSubscriptionButton() {
-    if (this.state.subscribed) {
-      return (<Button bsStyle="primary" disabled>Subscribed!</Button>);
+    if (this.props.subscribed) {
+      if (!this.state.buttonToggle) {
+        return (<Button bsStyle="primary" onMouseEnter={() => this.toggleButton(true)} disabled>Subscribed!</Button>);
+      }
+      return (<Button bsStyle="danger" onMouseLeave={() => this.toggleButton(false)} onClick={this.unsubscribe}>Unsubscribe?</Button>);
     }
     return (<Button bsStyle="primary" onClick={this.subscribeToUser}>Click to Subscribe!</Button>);
+  }
+
+  toggleButton(bool) {
+    this.setState({
+      buttonToggle: bool,
+    });
   }
 
   subscribeToUser() {
     axios.post(`${REST_URL}/api/subscriptions`, {
       id: this.props.app.curUser.id,
     });
-    this.setState({
-      subscribed: true,
+    this.props.loadProfile(this.props.app.curUser.displayName);
+  }
+
+  unsubscribe() {
+    axios.post(`${REST_URL}/api/unsubscribe`, {
+      id: this.props.app.curUser.id,
     });
+    this.props.loadProfile(this.props.app.curUser.displayName);
   }
 
   render() {
@@ -38,7 +53,7 @@ class UserComponent extends React.Component {
       <div>
         <PageHeader>{this.props.app.curUser.displayName}{"'s"} Profile</PageHeader>
         <Thumbnail src={this.props.app.curUser.profileImageUrl} alt="242x200">
-          <h3>{this.numOfFollowers} Follower{this.numOfFollowers > 1 ? '' : 's'}</h3>
+          <h3>{this.numOfFollowers} Follower{this.props.app.curUser.followerCount > 1 ? 's' : ''}</h3>
           <div>
             <ButtonGroup>
               <Button onClick={() => this.setState({ followerDisplay: true })}>Followers</Button>
@@ -76,6 +91,8 @@ class UserComponent extends React.Component {
 UserComponent.propTypes = {
   app: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  subscribed: PropTypes.bool.isRequired,
+  loadProfile: PropTypes.func.isRequired,
 };
 
 export default UserComponent;
