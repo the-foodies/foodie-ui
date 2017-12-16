@@ -96,13 +96,13 @@ class RecipeDetailsPage extends React.Component {
       <div>
         <Grid id="recipe-details-info">
           <Row>
-            <Col xs={8} xsOffset={2}>
-              <TrendingCarousel picturesToDisplay={this.state.images} />
+            <Col xs={6} xsOffset={3}>
+              <PageHeader>{this.state.name}</PageHeader>
             </Col>
           </Row>
           <Row>
-            <Col xs={6} xsOffset={3}>
-              <PageHeader>{this.state.name}</PageHeader>
+            <Col xs={8} xsOffset={2}>
+              <TrendingCarousel picturesToDisplay={this.state.images} />
             </Col>
           </Row>
           <Row>
@@ -147,7 +147,7 @@ class RecipeDetailsPage extends React.Component {
             </Col>
             <Col xs={6}>
               <PageHeader>Comments on this Recipe</PageHeader>
-              <ListGroup>
+              <ListGroup className="post-list">
                 {this.state.comments.map(comment =>
                   (<ListGroupItem key={comment.id}><Comment {...comment} xs={5} /></ListGroupItem>))}
                 <hr />

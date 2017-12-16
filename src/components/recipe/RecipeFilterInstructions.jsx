@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, ListGroup } from 'react-bootstrap';
 import { Nav, NavItem } from 'react-bootstrap/lib';
 
 class RecipeFilterInstructions extends React.Component {
@@ -32,7 +32,7 @@ class RecipeFilterInstructions extends React.Component {
           </Row>
         </Grid>
         <Grid>
-          <Row>
+          <ListGroup className="post-list">
             <Col xs={8}>
               {this.state.activeTab === '1' ?
               this.props.ingredients.map((ingredient, index) => (
@@ -42,7 +42,7 @@ class RecipeFilterInstructions extends React.Component {
                 <h5 key={direction.id}>STEP {index + 1}: {direction.description}<hr /></h5>))
               }
             </Col>
-          </Row>
+          </ListGroup>
         </Grid>
       </div>
     );
