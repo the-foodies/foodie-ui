@@ -37,7 +37,7 @@ class AddComment extends React.Component {
         restaurant,
         comment,
       }).then(() => {
-        this.props.loadProfile(poster.displayName);
+        this.props.refreshPage(poster.displayName);
         this.setState({
           input: '',
         });
@@ -76,6 +76,6 @@ export default AddComment;
 
 AddComment.propTypes = {
   id: PropTypes.number.isRequired,
-  loadProfile: PropTypes.func.isRequired,
+  refreshPage: PropTypes.func.isRequired,
   curUser: PropTypes.object.isRequired,
 };

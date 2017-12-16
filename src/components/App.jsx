@@ -20,7 +20,8 @@ class App extends React.Component {
     super(props);
     this.state = {
     };
-
+    console.log('-------');
+    console.log(props);
     this.findRestaurant = this.findRestaurant.bind(this);
     this.findRecipe = this.findRecipe.bind(this);
     this.findUser = this.findUser.bind(this);
@@ -115,6 +116,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
+  app: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,

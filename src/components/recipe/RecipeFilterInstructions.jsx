@@ -35,11 +35,11 @@ class RecipeFilterInstructions extends React.Component {
           <Row>
             <Col xs={8}>
               {this.state.activeTab === '1' ?
-              this.props.ingredients.map(ingredient => (
-                <h5 key={ingredient.id}>{ingredient.name}<hr /></h5>))
+              this.props.ingredients.map((ingredient, index) => (
+                <h5 key={ingredient.id}># {index + 1}:   {ingredient.name}<hr /></h5>))
               :
-              this.props.directions.map(direction => (
-                <h5 key={direction.id}>{direction.description}<hr /></h5>))
+              this.props.directions.map((direction, index) => (
+                <h5 key={direction.id}>STEP {index + 1}: {direction.description}<hr /></h5>))
               }
             </Col>
           </Row>

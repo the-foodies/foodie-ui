@@ -1,65 +1,33 @@
 import React from 'react';
-import { Grid, Row, Col, PageHeader, Label } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { mapDetailsToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import RecipeFilterInstructions from './RecipeFilterInstructions';
 import HorizontalScrollBar from '../displays/HorizontalScrollBar';
+import Loading from '../displays/Loading';
+import Comment from '../displays/Comment';
+import AddComment from '../displays/AddComment';
 
 const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class RecipeDetailsPage extends React.Component {
   constructor(props) {
     super(props);
-    const { curRecipe } = props.app;
-    const {
-      name,
-      sodium,
-      protein,
-      rating,
-      calories,
-      fat,
-      difficulty,
-      portions,
-      recipeHistory,
-    } = curRecipe;
-    const information = [
-      {
-        name: 'Sodium',
-        value: sodium,
-      },
-      {
-        name: 'Protein',
-        value: protein,
-      },
-      {
-        name: 'Rating',
-        value: rating,
-      },
-      {
-        name: 'Calories',
-        value: calories,
-      },
-      {
-        name: 'Fat',
-        value: fat,
-      },
-    ];
-    const images = mapDetailsToCarouselFormat({
-      name: curRecipe.name,
-      description: curRecipe.name,
-      images: curRecipe.ImagesRecipes,
-    });
     this.state = {
-      directions: curRecipe.Directions,
-      ingredients: curRecipe.Ingredients,
+      difficulty: '',
+      name: '',
+      portions: '',
+      rating: '',
+      recipeHistory: '',
+      comments: [],
+      directions: [],
+      images: [],
+      information: [],
+      informationKeys: [],
+      ingredients: [],
+      tags: [],
       loading: true,
-      difficulty,
-      images,
-      information,
-      name,
-      portions,
-      recipeHistory,
       similarRecipes: [{
         id: 1, name: 'Test Recipe', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
       },
@@ -77,20 +45,43 @@ class RecipeDetailsPage extends React.Component {
   }
 
   componentDidMount() {
-    console.log('suppppppppp');
-    console.log(this.props);
-    this.loadRecipeDetail('2');
+    const id = this.props.app.curRecipe.id.toString() || '1';
+    this.loadRecipeDetail(id);
   }
 
   loadRecipeDetail(recipeId) {
+    const context = this;
     this.props.dispatchApi.getRecipeById(recipeId)
       .then(({ data }) => {
-        console.log('-----------------');
-        console.log(data);
-        console.log('+++++++++++++++');
-        console.log(this.props);
-        this.setState({
-          recipeHistory: 'We got it yo',
+        // get related recipes
+        // context.props.dispatchApi.getRelatedRecipes(data.id)
+        const images = mapDetailsToCarouselFormat({
+          name: data.name,
+          description: data.name,
+          images: data.ImagesRecipes,
+        });
+
+        const info = {
+          calories: data.calories,
+          fat: data.fat,
+          protein: data.protein,
+          sodium: data.sodium,
+        };
+        const informationKeys = Object.keys(info);
+        const information = Object.values(info);
+        context.setState({
+          difficulty: data.difficulty || 'Easy',
+          name: data.name,
+          comments: data.Comments,
+          portions: data.portions || '5',
+          rating: data.rating,
+          recipeHistory: data.recipeHistory || 'No history',
+          directions: data.Directions,
+          images,
+          information,
+          informationKeys,
+          ingredients: data.Ingredients,
+          tags: data.Tags,
           loading: false,
         });
       });
@@ -98,7 +89,7 @@ class RecipeDetailsPage extends React.Component {
 
   render() {
     if (this.state.loading) {
-      return null;
+      return (<Loading />);
     }
     return (
       <div>
@@ -116,8 +107,8 @@ class RecipeDetailsPage extends React.Component {
           <Row>
             <Col xs={3} xsOffset={1}>
               <PageHeader>Nutritional Info</PageHeader>
-              {this.state.information.map(item =>
-                (<h3 key={item.name}>{item.name}: <Label bsStyle="info">{item.value}</Label></h3>))}
+              {this.state.informationKeys.map((item, index) =>
+                (<h3 key={item}>{item}: <Label bsStyle="info">{this.state.information[index]}</Label></h3>))}
             </Col>
             <Col xs={3} xsOffset={1}>
               <PageHeader>Difficulty</PageHeader>
@@ -130,12 +121,11 @@ class RecipeDetailsPage extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <PageHeader>Recipe History</PageHeader>
-        <Grid id="recipe-details-history">
+        <Grid id="recipe-tags">
           <Row>
-            <Col xs={10} xsOffset={1}>
-              <h4>{this.state.recipeHistory}</h4>
-            </Col>
+            <PageHeader>Tags for This Recipe</PageHeader>
+            {this.state.tags.map(tag =>
+              (<Col xs={2} key={tag.id}><h4><Label bsStyle="primary">#{tag.name}</Label></h4></Col>))}
           </Row>
         </Grid>
         <Grid className="recipe-details">
@@ -145,6 +135,21 @@ class RecipeDetailsPage extends React.Component {
                 directions={this.state.directions}
                 ingredients={this.state.ingredients}
               />
+            </Col>
+          </Row>
+        </Grid>
+        <Grid id="recipe-details-history">
+          <Row>
+            <Col xs={6}>
+              <PageHeader>Recipe History</PageHeader>
+              <h4>{this.state.recipeHistory}</h4>
+            </Col>
+            <Col xs={6}>
+              <PageHeader>Comments on this Recipe</PageHeader>
+              {this.state.comments.map(comment =>
+                (<Comment {...comment} xs={5} key={comment.id} />))}
+              <hr />
+              <AddComment curUser={this.props.app.curUser} id={this.props.app.curUser.id} refresh={() => { console.log('HI'); }} />
             </Col>
           </Row>
         </Grid>

@@ -82,7 +82,7 @@ PostEntry.propTypes = {
   FoodItems: PropTypes.arrayOf(PropTypes.object),
   Tags: PropTypes.arrayOf(PropTypes.object),
   Comments: PropTypes.arrayOf(PropTypes.object),
-  
+
 };
 
 export default PostEntry;

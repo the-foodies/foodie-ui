@@ -17,7 +17,7 @@ const PostView = props => (
           {props.posts.map((post, index) => (
             <PostEntry
               curUser={props.curUser}
-              loadProfile={props.loadProfile}
+              refreshPage={props.refreshPage}
               key={index}
               {...post}
             />

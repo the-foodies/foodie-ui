@@ -23,6 +23,9 @@ class UserProfile extends React.Component {
     const { displayName } = this.props;
     this.loadProfile(displayName);
     this.profileRefresh = setInterval(() => this.loadProfile(displayName), 10000);
+    //
+    const randomNum = Math.floor((Math.random() * 10) + 1).toString();
+    this.props.dispatchApi.getRecipeById(randomNum);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,7 +93,7 @@ class UserProfile extends React.Component {
           <Col xs={12} md={8}>
             <PostView
               curUser={this.props.app.curUser}
-              loadProfile={this.loadProfile}
+              refreshPage={this.loadProfile}
               posts={this.props.app.posts}
             />
           </Col>
