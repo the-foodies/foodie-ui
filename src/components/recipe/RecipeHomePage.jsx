@@ -6,8 +6,6 @@ import ListRecommendedItems from '../displays/ListRecommendedItems';
 class RecipeHomePage extends React.Component {
   constructor(props) {
     super(props);
-    console.log('++++++++++++++++++');
-    console.log(props);
     this.state = {
       title: 'Four Mouthwatering Recipes for You',
       displayRecipes: [

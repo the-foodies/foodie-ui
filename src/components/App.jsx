@@ -20,7 +20,8 @@ class App extends React.Component {
     super(props);
     this.state = {
     };
-
+    console.log('-------');
+    console.log(props);
     this.findRestaurant = this.findRestaurant.bind(this);
     this.findRecipe = this.findRecipe.bind(this);
     this.findUser = this.findUser.bind(this);
@@ -44,6 +45,7 @@ class App extends React.Component {
         <Router>
           <div>
             <NavbarInstance
+              app={this.props.app}
               dispatch={this.props.dispatch}
               auth={this.props.auth}
               logoutUser={this.props.dispatchAuth.logoutUser}
@@ -62,7 +64,7 @@ class App extends React.Component {
                   getRestaurant={this.findRestaurant}
                 />)}
               />
-              <Route exact path="/recipes" component={RecipeHomePage} />
+              <Route exact path="/recipes-home" component={RecipeHomePage} />
               <Route
                 exact
                 path="/recipe-submission"
@@ -73,23 +75,10 @@ class App extends React.Component {
               />
               <Route
                 exact
-                path="/recipe-details"
-                render={props => (<RecipeDetailsPage
-                  {...props}
-                  id={testRestaurants[1].id}
-                  ingredients={testRestaurants[1].Ingredients}
-                  directions={testRestaurants[1].Directions}
-                  name={testRestaurants[1].name}
-                  portions="10"
-                  difficulty="Medium"
-                  protein={testRestaurants[1].protein}
-                  fat={testRestaurants[1].fat}
-                  calories={testRestaurants[1].calories}
-                  rating={testRestaurants[1].rating}
-                  sodium={testRestaurants[1].sodium}
-                  imagesRecipes={testRestaurants[1].ImagesRecipes}
-                  tags={testRestaurants[1].Tags}
-                  recipeHistory="Grandma made this recipe in the 80s."
+                path="/recipe/:name/:id"
+                render={({ match }) => (<RecipeDetailsPage
+                  {...this.props}
+                  id={match.params.id}
                 />)}
               />
               <Route
@@ -127,6 +116,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
+  app: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,

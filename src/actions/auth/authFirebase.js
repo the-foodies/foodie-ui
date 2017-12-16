@@ -3,9 +3,7 @@ import { auth } from '../../auth';
 import { login } from '../apiRequests/';
 
 export const listenToAuth = () => (dispatch, getState) => {
-  console.log('dispatch', dispatch, 'getState ', getState);
   auth.onAuthStateChanged((authData) => {
-    console.log(authData);
     if (authData) {
       dispatch({
         type: 'AUTH_LOGIN',

@@ -17,6 +17,9 @@ class AddComment extends React.Component {
     // poster is who owns the post being commented on
     if (this.state.input.length > 0) {
       const poster = this.props.curUser;
+      console.log('-----------');
+      console.log(this.props)
+      const { refreshParam } = this.props;
       const comment = {
         text: this.state.input,
       };
@@ -37,7 +40,7 @@ class AddComment extends React.Component {
         restaurant,
         comment,
       }).then(() => {
-        this.props.loadProfile(poster.displayName);
+        this.props.refreshPage(refreshParam);
         this.setState({
           input: '',
         });
@@ -76,6 +79,6 @@ export default AddComment;
 
 AddComment.propTypes = {
   id: PropTypes.number.isRequired,
-  loadProfile: PropTypes.func.isRequired,
+  refreshPage: PropTypes.func.isRequired,
   curUser: PropTypes.object.isRequired,
 };
