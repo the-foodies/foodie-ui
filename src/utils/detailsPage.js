@@ -12,7 +12,7 @@ export const mapDetailsToHorizontalFormat = obj => (
   obj.foodItems.map(item => (
     {
       id: item.id,
-      name: obj.name,
+      name: item.name,
       description: item.description,
       image_url: obj.image_url,
     }

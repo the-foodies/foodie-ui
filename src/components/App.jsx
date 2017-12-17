@@ -79,9 +79,9 @@ class App extends React.Component {
               <Route
                 exact
                 path="/restaurant/:name/:id"
-                render={props => (<RestaurantDetailsPage
+                render={({ match }) => (<RestaurantDetailsPage
                   {...this.props}
-                  test={props}
+                  id={match.params.id}
                 />)}
               />
               <Route
