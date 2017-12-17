@@ -16,12 +16,15 @@ class Search extends React.Component {
     };
     this.foundPostNames = {};
     this.searchFoodieDB = this.searchFoodieDB.bind(this);
-    this.filterByCallback = this.filterByCallback.bind(this)
+    this.filterByCallback = this.filterByCallback.bind(this);
+    this.changeSelection = this.changeSelection.bind(this);
   }
 
   filterByCallback(searchResult) {
-    console.log(searchResult);
-    return true;
+    if (searchResult.name !== undefined) {
+      return true;
+    }
+    return false;
   }
 
   async searchFoodieDB(query) {
@@ -29,9 +32,10 @@ class Search extends React.Component {
       tagSearch: {
         ...prevState.tagSearch,
         isLoading: true,
-      }
+      },
     }));
     const search = await axios.get(`http://localhost:4420/search?query=${query}`);
+    console.log(search);
     this.setState(prevState => ({
       tagSearch: {
         ...prevState.tagSearch,
@@ -42,8 +46,12 @@ class Search extends React.Component {
   }
 
   changeSelection(selected) {
-    console.log(selected);
+    const selectedItem = selected[0];
+    console.log(selectedItem);
     // make api call to get '/type' by id
+    this.props.history.push({
+      pathname: `/${selectedItem.type}/${selectedItem.name}/${selectedItem.id}`,
+    });
   }
 
   render() {
@@ -51,7 +59,7 @@ class Search extends React.Component {
       <div>
         <AsyncTypeahead
           {...this.state.tagSearch}
-          options={this.state.tags}
+          options={Object.values(this.state.tags)}
           filterBy={this.filterByCallback}
           labelKey="name"
           minLength={1}
