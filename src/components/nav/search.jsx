@@ -16,11 +16,10 @@ class Search extends React.Component {
     };
     this.foundPostNames = {};
     this.searchFoodieDB = this.searchFoodieDB.bind(this);
-    this.filterByCallback = this.filterByCallback.bind(this)
+    this.filterByCallback = this.filterByCallback.bind(this);
   }
 
   filterByCallback(searchResult) {
-    console.log(searchResult);
     return true;
   }
 
@@ -29,15 +28,16 @@ class Search extends React.Component {
       tagSearch: {
         ...prevState.tagSearch,
         isLoading: true,
-      }
+      },
     }));
     const search = await axios.get(`http://localhost:4420/search?query=${query}`);
+    console.log(search);
     this.setState(prevState => ({
       tagSearch: {
         ...prevState.tagSearch,
         isLoading: false,
       },
-      tags: search.data,
+      tags: Object.keys(search.data),
     }));
   }
 
