@@ -13,4 +13,5 @@ export default id => async function (dispatch) {
     type: 'GOT_RESTAURANT',
     curRestaurant: newRestaurant.data,
   });
+  return newRestaurant;
 };

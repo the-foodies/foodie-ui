@@ -46,7 +46,7 @@ class RecipeDetailsPage extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.app.curRecipe.id.toString() || '1';
+    const id = this.props.id.toString() || '1';
     this.loadRecipeDetail(id);
   }
 
@@ -61,28 +61,34 @@ class RecipeDetailsPage extends React.Component {
           description: data.name,
           images: data.ImagesRecipes,
         });
-
+        const {
+          calories, fat, protein, sodium, name, rating,
+        } = data;
         const info = {
-          calories: data.calories,
-          fat: data.fat,
-          protein: data.protein,
-          sodium: data.sodium,
+          calories, fat, protein, sodium,
         };
         const informationKeys = Object.keys(info);
         const information = Object.values(info);
+        const difficulty = data.difficulty || 'Easy';
+        const recipeHistory = data.recipeHistory || 'No history';
+        const portions = data.portions || '5';
+        const comments = data.Comments;
+        const directions = data.Directions;
+        const ingredients = data.Ingredients;
+        const tags = data.Tags;
         context.setState({
-          difficulty: data.difficulty || 'Easy',
-          name: data.name,
-          comments: data.Comments,
-          portions: data.portions || '5',
-          rating: data.rating,
-          recipeHistory: data.recipeHistory || 'No history',
-          directions: data.Directions,
+          difficulty,
+          name,
+          comments,
+          portions,
+          rating,
+          recipeHistory,
+          directions,
           images,
           information,
           informationKeys,
-          ingredients: data.Ingredients,
-          tags: data.Tags,
+          ingredients,
+          tags,
           loading: false,
         });
       });
@@ -176,6 +182,7 @@ class RecipeDetailsPage extends React.Component {
 }
 
 RecipeDetailsPage.propTypes = {
+  id: PropTypes.string.isRequired,
   app: PropTypes.object.isRequired,
   dispatchApi: PropTypes.object.isRequired,
 };

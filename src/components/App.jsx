@@ -11,17 +11,12 @@ import RestaurantSubmissionForm from './restaurant/RestaurantSubmissionForm';
 import UserProfile from './profile/UserProfile';
 import RecipeDetailsPage from './recipe/RecipeDetailsPage';
 import RestaurantDetailsPage from './restaurant/RestaurantDetailsPage';
-import testRestaurants from './testData/testRestaurants.json';
 
 axios.defaults.withCredentials = true;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
-    console.log('-------');
-    console.log(props);
     this.findRestaurant = this.findRestaurant.bind(this);
     this.findRecipe = this.findRecipe.bind(this);
     this.findUser = this.findUser.bind(this);
@@ -83,17 +78,10 @@ class App extends React.Component {
               />
               <Route
                 exact
-                path="/restaurant-details"
-                render={props => (<RestaurantDetailsPage
-                  {...props}
-                  id={testRestaurants[2].id}
-                  name={testRestaurants[2].name}
-                  address={testRestaurants[2].address}
-                  website={testRestaurants[2].website}
-                  foodItems={testRestaurants[2].FoodItems}
-                  images={testRestaurants[2].ImagesRestaurants}
-                  tags={testRestaurants[2].Tags}
-                  comments={testRestaurants[2].Comments}
+                path="/restaurant/:name/:id"
+                render={({ match }) => (<RestaurantDetailsPage
+                  {...this.props}
+                  id={match.params.id}
                 />)}
               />
               <Route
