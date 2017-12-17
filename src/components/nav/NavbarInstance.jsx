@@ -47,7 +47,7 @@ const NavbarInstance = (props) => {
       <Navbar.Collapse>
         <Navbar.Form pullLeft>
           <FormGroup>
-            <NavSearch />
+            <NavSearch history={props.history} />
           </FormGroup>
         </Navbar.Form>
         <Nav>

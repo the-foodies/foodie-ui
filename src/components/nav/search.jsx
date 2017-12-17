@@ -17,10 +17,14 @@ class Search extends React.Component {
     this.foundPostNames = {};
     this.searchFoodieDB = this.searchFoodieDB.bind(this);
     this.filterByCallback = this.filterByCallback.bind(this);
+    this.changeSelection = this.changeSelection.bind(this);
   }
 
   filterByCallback(searchResult) {
-    return true;
+    if (searchResult.name !== undefined) {
+      return true;
+    }
+    return false;
   }
 
   async searchFoodieDB(query) {
@@ -37,13 +41,17 @@ class Search extends React.Component {
         ...prevState.tagSearch,
         isLoading: false,
       },
-      tags: Object.keys(search.data),
+      tags: search.data,
     }));
   }
 
   changeSelection(selected) {
-    console.log(selected);
+    const selectedItem = selected[0];
+    console.log(selectedItem);
     // make api call to get '/type' by id
+    this.props.history.push({
+      pathname: `/${selectedItem.type}/${selectedItem.name}/${selectedItem.id}`,
+    });
   }
 
   render() {
@@ -51,7 +59,7 @@ class Search extends React.Component {
       <div>
         <AsyncTypeahead
           {...this.state.tagSearch}
-          options={this.state.tags}
+          options={Object.values(this.state.tags)}
           filterBy={this.filterByCallback}
           labelKey="name"
           minLength={1}
