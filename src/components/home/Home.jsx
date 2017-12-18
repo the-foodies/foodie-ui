@@ -40,28 +40,22 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={8} mdOffset={2}>
+          <Col xs={12} md={8}>
             <TrendingCarousel picturesToDisplay={this.state.displayPictures} />
           </Col>
-        </Row>
-        <Row>
-          <Col xs={6} md={6}>
+          <Col xs={12} md={4}>
             <ListRecommendedItems list={this.state.seasonalItems} />
           </Col>
-          <Col xs={6} md={6}>
-            <h1>Other Stuff</h1>
-            <p>Nuts</p>
-          </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} mdOffset={4}>
+          <Col xs={12} md={10} mdOffset={1}>
             <PageHeader>Filter Trending Below<br />
               <small>Trending Now</small>
             </PageHeader>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={8}>
+          <Col xs={12} md={12}>
             <HomeFilterThumbnails />
           </Col>
         </Row>

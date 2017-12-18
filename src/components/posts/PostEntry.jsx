@@ -1,12 +1,19 @@
 import React from 'react';
 import { Media, ListGroupItem, Label, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
 
 
 const PostEntry = (props) => {
-  const image = props.ImagesRecipes ? props.ImagesRecipes : props.ImagesRestaurants;
+  const image = props.ImagesRecipes || props.ImagesRestaurants;
+  const type = props.ImagesRecipes ? 'recipe' : 'restaurant';
+  const handleDetailClick = () => {
+    props.history.push({ 
+      pathname: `/${type}/${props.name}/${props.id}`,
+    });
+  };
 
   const ifHasFoodItems = () => {
     if (props.FoodItems) {
@@ -28,7 +35,7 @@ const PostEntry = (props) => {
       <Media>
         <Row>
           <Col xs={10} xsOffset={1} mdOffset={0} md={4}>
-            <Media.Left>
+            <Media.Left onClick={handleDetailClick}>
               <img className="post-image" src={image[0].image_url} alt="242x200" />
             </Media.Left>
           </Col>
@@ -85,4 +92,4 @@ PostEntry.propTypes = {
 
 };
 
-export default PostEntry;
+export default withRouter(PostEntry);

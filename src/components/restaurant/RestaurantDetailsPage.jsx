@@ -36,6 +36,7 @@ class RestaurantDetailsPage extends React.Component {
     this.props.dispatchApi.getRestaurantById(restaurantId)
       .then(({ data }) => {
         // get related restaurants
+        console.log(data);
         // context.props.dispatchApi.getRelatedRestaurants(data.id)
         const images = mapDetailsToCarouselFormat({
           name: data.name,
@@ -93,11 +94,14 @@ class RestaurantDetailsPage extends React.Component {
         <Grid>
           <Row>
             <Col xs={10} xsOffset={1}>
-              {this.state.tags.map(tag => (
-                <Col xs={2} key={tag.id}>
-                  <h5>{tag.name}<hr /></h5>
-                </Col>
-              ))}
+              <h5>
+                {this.state.tags.map(tag => (
+                  <span className="tag-list" key={tag.id}>
+                    <Label bsStyle="info">#{tag.name}</Label>
+                    {' '}
+                  </span>
+                ))}
+              </h5>
             </Col>
           </Row>
         </Grid>
