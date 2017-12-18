@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import { AsyncTypeahead, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap-typeahead';
 import * as axios from 'axios';
 
 class Search extends React.Component {
@@ -49,9 +49,11 @@ class Search extends React.Component {
     const selectedItem = selected[0];
     console.log(selectedItem);
     // make api call to get '/type' by id
-    this.props.history.push({
-      pathname: `/${selectedItem.type}/${selectedItem.name}/${selectedItem.id}`,
-    });
+    if (selectedItem) {
+      this.props.history.push({
+        pathname: `/${selectedItem.type}/${selectedItem.name}/${selectedItem.id}`,
+      });
+    }
   }
 
   render() {

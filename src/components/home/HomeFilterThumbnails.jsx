@@ -1,6 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Nav, NavItem } from 'react-bootstrap/lib';
+import { Row, Tabs, Tab } from 'react-bootstrap';
 import ListThumbnails from '../displays/ListThumbnails';
 
 
@@ -12,9 +11,9 @@ class NavFilterThumbnails extends React.Component {
       activeKey: '1',
       displayPictures: [
         { id: 1, name: 'Tacos', description: 'Bomb tacos', url: 'https://media.timeout.com/images/103202788/image.jpg' },
-        { id: 2, name: 'Pizza', description: 'Slices of heaven', url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
-        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
-        { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
+        { id: 2, name: 'Pizza', description: 'Slices of heaven', url: 'https://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
+        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', url: 'https://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
+        { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', url: 'https://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
       ],
     };
   }
@@ -24,10 +23,10 @@ class NavFilterThumbnails extends React.Component {
     this.setState({
       activeKey: `${eventKey}`,
       displayPictures: [
-        { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
+        { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', url: 'https://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
         { id: 1, name: 'Tacos', description: 'Bomb tacos', url: 'https://media.timeout.com/images/103202788/image.jpg' },
-        { id: 2, name: 'Pizza', description: 'Slices of heaven', url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
-        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
+        { id: 2, name: 'Pizza', description: 'Slices of heaven', url: 'https://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
+        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', url: 'https://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
       ],
     });
   }
@@ -35,19 +34,30 @@ class NavFilterThumbnails extends React.Component {
   render() {
     return (
       <div>
-        <Nav bsStyle="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
-          <NavItem eventKey="1">Da Most Recommended</NavItem>
-          <NavItem eventKey="2">Da Quickest</NavItem>
-          <NavItem eventKey="3">Da Most Viewed</NavItem>
-          <NavItem eventKey="4">Da Staff Favorites</NavItem>
-        </Nav>
-        <Grid>
-          <Row>
-            <Col xs={12} md={12}>
-              <ListThumbnails list={this.state.displayPictures} />
-            </Col>
-          </Row>
-        </Grid>
+        <Row>
+          <Tabs activeKey={this.state.activeKey} onSelect={this.handleSelect} id="uncontrolled-tab">
+            <Tab eventKey="1" title="Da Most Recommended">
+              <Row>
+                <ListThumbnails list={this.state.displayPictures} />
+              </Row>
+            </Tab>
+            <Tab eventKey="2" title="Da Quickest">
+              <Row>
+                <ListThumbnails list={this.state.displayPictures} />
+              </Row>
+            </Tab>
+            <Tab eventKey="3" title="Da Most Viewed">
+              <Row>
+                <ListThumbnails list={this.state.displayPictures} />
+              </Row>
+            </Tab>
+            <Tab eventKey="4" title="Da Staff Favorites">
+              <Row>
+                <ListThumbnails list={this.state.displayPictures} />
+              </Row>
+            </Tab>
+          </Tabs>
+        </Row>
       </div>
     );
   }

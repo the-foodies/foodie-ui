@@ -4,8 +4,8 @@ import { Media, PageHeader } from 'react-bootstrap';
 
 const SeasonalItems = props => (
   <div>
-    <PageHeader>Seasonal Items <br />
-      <small>Seasonal selections by your dev team</small>
+    <PageHeader>
+      <small>Seasonal Items</small>
     </PageHeader>
     {props.list.map(item => (
       <Media key={item.id}>
