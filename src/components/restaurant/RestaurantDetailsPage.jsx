@@ -96,7 +96,6 @@ class RestaurantDetailsPage extends React.Component {
         <Grid>
           <h4>Restaurant Tags: </h4>
           <Row>
-<<<<<<< HEAD
             <Col xs={10} xsOffset={1}>
               <h5>
                 {this.state.tags.map(tag => (
@@ -107,10 +106,6 @@ class RestaurantDetailsPage extends React.Component {
                 ))}
               </h5>
             </Col>
-=======
-            {this.state.tags.map(tag =>
-              (<Col xs={2} key={tag.id}><h4><Label bsStyle="primary">#{tag.name}</Label></h4></Col>))}
->>>>>>> [feat]
           </Row>
         </Grid>
         <Grid id="recipe-details-history">
