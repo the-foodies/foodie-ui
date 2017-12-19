@@ -50,7 +50,14 @@ class App extends React.Component {
               modal={this.props.modal}
             />
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route
+                exact
+                path="/"
+                render={props => (<Home
+                  {...this.props}
+                  test={props}
+                />)}
+              />
               <Route
                 exact
                 path="/eating"
@@ -59,12 +66,18 @@ class App extends React.Component {
                   getRestaurant={this.findRestaurant}
                 />)}
               />
-              <Route exact path="/recipes-home" component={RecipeHomePage} />
+              <Route
+                exact
+                path="/recipes-home"
+                render={() => (<RecipeHomePage
+                  {...this.props}
+                />)}
+              />
               <Route
                 exact
                 path="/recipe-submission"
                 render={props => (<RecipeSubmissionForm
-                  {...props}
+                  {...this.props}
                   getRecipe={this.findRecipe}
                 />)}
               />

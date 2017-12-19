@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import PostView from '../posts/PostView';
 import UserComponent from './UserComponent';
 import Loading from '../displays/Loading';
@@ -61,19 +61,19 @@ class UserProfile extends React.Component {
   }
 
   loadProfile(displayName) {
-    const comp = this;
+    // const comp = this;
     // load series with .then
     this.props.dispatchApi.getUserByDisplayName(displayName)
       .then(({ data }) => {
         const loadParallel = [
-          comp.props.dispatchApi.getPosts(data.id),
-          comp.props.dispatchApi.getUserSubscriptions(data.id),
-          comp.getSubscriptionStatus(data),
+          this.props.dispatchApi.getPosts(data.id),
+          this.props.dispatchApi.getUserSubscriptions(data.id),
+          this.getSubscriptionStatus(data),
         ];
         return Promise.all(loadParallel);
       }).then(([,, subscribed]) => {
         // results are ordered by array order
-        comp.setState({
+        this.setState({
           subscribed,
           loading: false,
         });

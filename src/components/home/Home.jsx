@@ -1,5 +1,8 @@
 import React from 'react';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import Loading from '../displays/Loading';
+import { changeToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import ListRecommendedItems from '../displays/ListRecommendedItems';
 import HomeFilterThumbnails from './HomeFilterThumbnails';
@@ -8,47 +11,64 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayPictures: [
-        { id: 1, name: 'Tacos', description: 'Bomb tacos', image_url: 'https://media.timeout.com/images/103202788/image.jpg' },
-        { id: 2, name: 'Pizza', description: 'Slices of heaven', image_url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
-        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', image_url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
-        { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', image_url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
-        { id: 5, name: 'Tacos', description: 'Bomb tacos', image_url: 'https://media.timeout.com/images/103202788/image.jpg' },
-        { id: 6, name: 'Pizza', description: 'Slices of heaven', image_url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
-        { id: 7, name: 'Burritos', description: 'Carne asada for dayz', image_url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
-        { id: 8, name: 'Beer', description: 'Here to question, do you really need food?', image_url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
-      ],
-      seasonalItems: [
-        { id: 1, name: 'Tacos', description: 'Bomb tacos', image_url: 'https://media.timeout.com/images/103202788/image.jpg' },
-        { id: 2, name: 'Pizza', description: 'Slices of heaven', image_url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
-        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', image_url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
-      ],
+      loading: true,
+      trendingRecipes: [],
+      trendingRestaurants: [],
     };
+    this.passTrendingItemsToState = this.passTrendingItemsToState.bind(this);
   }
 
-  componentDidMount() {
-    /*
-    */
+  async componentDidMount() {
+    // THIS WILL BE SWITCHED OUT WHEN HOOKED UP TO TRENDING WORKER
+    // get 4 recipes from database
+    const random1 = Math.floor(Math.random() * 3) + 1;
+    const recipe1 = await this.props.dispatchApi.getRecipeById(random1);
+    const random2 = Math.floor(Math.random() * 2) + 4;
+    const recipe2 = await this.props.dispatchApi.getRecipeById(random2);
+    const random3 = Math.floor(Math.random() * 2) + 6;
+    const recipe3 = await this.props.dispatchApi.getRecipeById(random3);
+    const random4 = Math.floor(Math.random() * 2) + 8;
+    const recipe4 = await this.props.dispatchApi.getRecipeById(random4);
+    const arr = [recipe1.data, recipe2.data, recipe3.data, recipe4.data];
+    // get 4 recipes from database
+    const restaurant1 = await this.props.dispatchApi.getRestaurantById(random1);
+    const restaurant2 = await this.props.dispatchApi.getRestaurantById(random2);
+    const restaurant3 = await this.props.dispatchApi.getRestaurantById(random3);
+    const restaurant4 = await this.props.dispatchApi.getRestaurantById(random4);
+    const arr2 = [restaurant1.data, restaurant2.data, restaurant3.data, restaurant4.data];
+    this.passTrendingItemsToState(arr, arr2);
+  }
+
+  passTrendingItemsToState(arrRestaurants, arrRecipes) {
+    const trendingRestaurants = changeToCarouselFormat(arrRestaurants);
+    this.setState({
+      trendingRestaurants,
+      trendingRecipes: arrRecipes,
+      loading: false,
+    });
   }
 
   render() {
+    if (this.state.loading) {
+      return (<Loading />);
+    }
     return (
       <Grid>
         <Row>
-          <Col xs={12} md={8} mdOffset={2}>
+          <Col xs={12}>
             <PageHeader>Trending GrubEZ <small>Put Trending Name Here ASAP</small></PageHeader>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={8}>
-            <TrendingCarousel picturesToDisplay={this.state.displayPictures} />
+          <Col xs={12}>
+            <TrendingCarousel picturesToDisplay={this.state.trendingRestaurants} />
           </Col>
-          <Col xs={12} md={4}>
-            <ListRecommendedItems list={this.state.seasonalItems} />
+          <Col xs={12}>
+            <ListRecommendedItems list={this.state.trendingRecipes} />
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={10} mdOffset={1}>
+          <Col xs={12}>
             <PageHeader>Filter Trending Below<br />
               <small>Trending Now</small>
             </PageHeader>
@@ -63,5 +83,9 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  dispatchApi: PropTypes.object.isRequired,
+};
 
 export default Home;

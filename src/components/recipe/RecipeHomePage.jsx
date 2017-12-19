@@ -1,65 +1,79 @@
 import React from 'react';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import TrendingCarousel from '../displays/TrendingCarousel';
+import Loading from '../displays/Loading';
+import { changeToCarouselFormat } from '../../utils/detailsPage';
 import ListRecommendedItems from '../displays/ListRecommendedItems';
+import CookingQuotes from '../testData/cookingQuotes.json';
 
 class RecipeHomePage extends React.Component {
   constructor(props) {
     super(props);
+    const cookingQuote = CookingQuotes[Math.floor(Math.random() * CookingQuotes.length)];
     this.state = {
-      title: 'Four Mouthwatering Recipes for You',
-      displayRecipes: [
-        { id: 1, name: 'Tacos', description: 'Bomb tacos', image_url: 'https://media.timeout.com/images/103202788/image.jpg' },
-        { id: 2, name: 'Pizza', description: 'Slices of heaven', image_url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
-        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', image_url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
-        { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', image_url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
-      ],
-      trendingRecipes: [
-        { id: 1, name: 'Tacos', description: 'Bomb tacos', image_url: 'https://media.timeout.com/images/103202788/image.jpg' },
-        { id: 2, name: 'Pizza', description: 'Slices of heaven', image_url: 'http://storage.googleapis.com/bro-cdn1/zgrid/themes/10411/images/feature-pizza.jpg' },
-        { id: 3, name: 'Burritos', description: 'Carne asada for dayz', image_url: 'http://1.bp.blogspot.com/_1wWTObAexYs/STkUe4a2pAI/AAAAAAAAC0s/2tovJkKflsw/s400/la+puerta+carne+asada+burritos.JPG' },
-        { id: 4, name: 'Beer', description: 'Here to question, do you really need food?', image_url: 'http://1.bp.blogspot.com/-1GSWaUnbicQ/UKqTLy-o87I/AAAAAAAAAr4/ht9oXlVUMxM/s1600/beer-mug.jpg' },
-      ],
+      cookingQuote,
+      loading: false,
+      displayRecipes: [],
+      trendingRecipes: [],
     };
+    this.passSeasonalItemsToState = this.passSeasonalItemsToState.bind(this);
   }
 
-  componentDidMount() {
-    /*
-    */
+  async componentDidMount() {
+    // get 4 recipes from database
+    const random1 = Math.floor(Math.random() * 3) + 1;
+    const recipe1 = await this.props.dispatchApi.getRecipeById(random1);
+    const random2 = Math.floor(Math.random() * 2) + 4;
+    const recipe2 = await this.props.dispatchApi.getRecipeById(random2);
+    const random3 = Math.floor(Math.random() * 2) + 6;
+    const recipe3 = await this.props.dispatchApi.getRecipeById(random3);
+    const random4 = Math.floor(Math.random() * 2) + 8;
+    const recipe4 = await this.props.dispatchApi.getRecipeById(random4);
+    const arr = [recipe1.data, recipe2.data, recipe3.data, recipe4.data];
+    this.passSeasonalItemsToState(arr);
+  }
+
+  passSeasonalItemsToState(array) {
+    const displayRecipes = changeToCarouselFormat(array);
+    this.setState({
+      trendingRecipes: array,
+      displayRecipes,
+      loading: false,
+    });
   }
 
   render() {
+    if (this.state.loading) {
+      return (<Loading />);
+    }
     return (
       <div>
         <Grid>
           <Row>
-            <Col xs={12} md={6} mdOffset={4}>
+            <Col xs={8} xsOffset={2}>
               <PageHeader>Welcome to Recipes <br />
-                <small>See Below for Recipes or Submit Your Own</small>
+                <small>{this.state.cookingQuote.text}</small><br />
+                <small>- {this.state.cookingQuote.author}</small>
               </PageHeader>
             </Col>
           </Row>
           <Row>
-            <Col xs={6} md={6}>
-              <h1>Other Stuff</h1>
-              <p>Nuts</p>
+            <Col xs={6}>
+              <ListRecommendedItems list={this.state.trendingRecipes} />
             </Col>
-            <Col xs={6} md={6}>
-              <h1>TITLE</h1>
-              <p>Recipe Details</p>
+            <Col xs={6}>
+              <PageHeader>
+                <small>Trending Recipes</small>
+              </PageHeader>
               <TrendingCarousel picturesToDisplay={this.state.displayRecipes} />
             </Col>
           </Row>
           <Row>
-            <Col xs={12} md={6} mdOffset={4}>
-              <PageHeader>Filter Recipe Results Below<br />
+            <Col xs={12}>
+              <PageHeader>Filter Recipe Results By Category<br />
                 <small>See Below for Recipes or Submit Your Own</small>
               </PageHeader>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={8}>
-              <ListRecommendedItems list={this.state.trendingRecipes} />
             </Col>
           </Row>
         </Grid>
@@ -67,5 +81,9 @@ class RecipeHomePage extends React.Component {
     );
   }
 }
+
+RecipeHomePage.propTypes = {
+  dispatchApi: PropTypes.object.isRequired,
+};
 
 export default RecipeHomePage;

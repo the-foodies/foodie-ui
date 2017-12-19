@@ -16,6 +16,7 @@ class RestaurantDetailsPage extends React.Component {
     this.state = {
       address: '',
       name: '',
+      phoneNumber: '',
       website: '',
       comments: [],
       foodItems: [],
@@ -49,10 +50,13 @@ class RestaurantDetailsPage extends React.Component {
           image_url: data.ImagesRestaurants[0].image_url,
         });
         const tags = data.Tags;
-        const { address, name, website } = data;
+        const { name, website } = data;
+        const address = data.address.slice(0, data.address.length - 14);
+        const phoneNumber = data.address.slice(data.address.length - 14);
         context.setState({
           address,
           name,
+          phoneNumber,
           website,
           comments,
           foodItems,
@@ -75,16 +79,14 @@ class RestaurantDetailsPage extends React.Component {
               <PageHeader>{this.state.name}</PageHeader>
             </Col>
           </Row>
-          <Row>
-            <Col xs={10}>
-              <TrendingCarousel picturesToDisplay={this.state.images} />
-            </Col>
-          </Row>
         </Grid>
-        <PageHeader>Common Dishes from {this.state.name}</PageHeader>
         <Grid id="restaurant-food-items">
           <Row>
-            <Col xs={12}>
+            <Col xs={5}>
+              <TrendingCarousel picturesToDisplay={this.state.images} />
+            </Col>
+            <h4>Common Dishes from {this.state.name}</h4>
+            <Col xs={5}>
               <HorizontalScrollBar
                 picturesToDisplay={this.state.foodItems}
               />
@@ -92,6 +94,7 @@ class RestaurantDetailsPage extends React.Component {
           </Row>
         </Grid>
         <Grid>
+          <h4>Restaurant Tags: </h4>
           <Row>
             <Col xs={10} xsOffset={1}>
               <h5>
@@ -109,6 +112,7 @@ class RestaurantDetailsPage extends React.Component {
           <Row>
             <Col xs={6}>
               <PageHeader>Info</PageHeader>
+              <h3>Phone Number: <Label bsStyle="info">{this.state.phoneNumber}</Label></h3>
               <h3>Address: <Label bsStyle="info">{this.state.address}</Label></h3>
               <h3>Website: <Label bsStyle="info">{this.state.website}</Label></h3>
             </Col>

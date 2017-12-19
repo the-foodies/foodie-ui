@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Media, PageHeader } from 'react-bootstrap';
 
 const SeasonalItems = props => (
@@ -8,13 +9,27 @@ const SeasonalItems = props => (
       <small>Seasonal Items</small>
     </PageHeader>
     {props.list.map(item => (
-      <Media key={item.id}>
+      <Media
+        key={item.id}
+        onClick={
+          () => {
+            const type = item.ImagesRecipes ? 'recipe' : 'restaurant';
+            props.history.push({
+              pathname: `/${type}/${item.name}/${item.id}`,
+            });
+          }}
+      >
         <Media.Left align="top">
-          <img width={64} height={64} src={item.image_url} alt={item.name} />
+          <img
+            width={64}
+            height={64}
+            src={item.ImagesRecipes ? item.ImagesRecipes[0].image_url : item.ImagesRestaurants[0].image_url }
+            alt={item.name}
+          />
         </Media.Left>
         <Media.Body>
           <Media.Heading>{item.name}</Media.Heading>
-          <p>{item.description}</p>
+          <p>testing testing</p>
         </Media.Body>
       </Media>
       ))}
@@ -26,4 +41,4 @@ SeasonalItems.propTypes = {
 };
 
 
-export default SeasonalItems;
+export default withRouter(SeasonalItems);
