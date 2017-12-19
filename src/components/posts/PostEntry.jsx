@@ -10,7 +10,7 @@ const PostEntry = (props) => {
   const image = props.ImagesRecipes || props.ImagesRestaurants;
   const type = props.ImagesRecipes ? 'recipe' : 'restaurant';
   const handleDetailClick = () => {
-    props.history.push({ 
+    props.history.push({
       pathname: `/${type}/${props.name}/${props.id}`,
     });
   };
@@ -89,7 +89,6 @@ PostEntry.propTypes = {
   FoodItems: PropTypes.arrayOf(PropTypes.object),
   Tags: PropTypes.arrayOf(PropTypes.object),
   Comments: PropTypes.arrayOf(PropTypes.object),
-
 };
 
 export default withRouter(PostEntry);

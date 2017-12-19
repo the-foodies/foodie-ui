@@ -15,6 +15,7 @@ class RecipeDetailsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // recipe: {},
       difficulty: '',
       name: '',
       portions: '',
@@ -51,7 +52,7 @@ class RecipeDetailsPage extends React.Component {
   }
 
   loadRecipeDetail(recipeId) {
-    const context = this;
+    // const context = this;
     this.props.dispatchApi.getRecipeById(recipeId)
       .then(({ data }) => {
         // get related recipes
@@ -65,7 +66,10 @@ class RecipeDetailsPage extends React.Component {
           calories, fat, protein, sodium, name, rating,
         } = data;
         const info = {
-          calories, fat, protein, sodium,
+          Calories: calories,
+          Fat: fat,
+          Protein: protein,
+          Sodium: sodium,
         };
         const informationKeys = Object.keys(info);
         const information = Object.values(info);
@@ -76,7 +80,7 @@ class RecipeDetailsPage extends React.Component {
         const directions = data.Directions;
         const ingredients = data.Ingredients;
         const tags = data.Tags;
-        context.setState({
+        this.setState({
           difficulty,
           name,
           comments,
@@ -113,17 +117,19 @@ class RecipeDetailsPage extends React.Component {
           </Row>
           <Row>
             <Col xs={3} xsOffset={1}>
-              <PageHeader>Nutritional Info</PageHeader>
+              <h2>Nutritional Info</h2><hr />
               {this.state.informationKeys.map((item, index) =>
                 (<h3 key={item}>{item}: <Label bsStyle="info">{this.state.information[index]}</Label></h3>))}
             </Col>
             <Col xs={3} xsOffset={1}>
-              <PageHeader>Difficulty</PageHeader>
-              <h3>Chef Level: <Label bsStyle={this.state.difficulty === 'Easy' ? 'info' : 'warning'}>{this.state.difficulty}</Label>
+              <h2>Ratings</h2><hr />
+              <h3>Difficulty: <Label bsStyle={this.state.difficulty === 'Easy' ? 'info' : 'warning'}>{this.state.difficulty}</Label>
+              </h3>
+              <h3>Rating: <Label bsStyle="info">{this.state.rating}</Label>
               </h3>
             </Col>
             <Col xs={3} xsOffset={1}>
-              <PageHeader>Portions</PageHeader>
+              <h2>Portions</h2><hr />
               <h3>Portions: <Label bsStyle="info">{this.state.portions}</Label></h3>
             </Col>
           </Row>
