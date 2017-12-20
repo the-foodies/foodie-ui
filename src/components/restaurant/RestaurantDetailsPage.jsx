@@ -5,7 +5,7 @@ import TrendingCarousel from '../displays/TrendingCarousel';
 import Loading from '../displays/Loading';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
-import HorizontalScrollBar from '../displays/HorizontalScrollBar';
+// import HorizontalScrollBar from '../displays/HorizontalScrollBar';
 import Tags from '../displays/Tags';
 import { mapDetailsToCarouselFormat, mapDetailsToHorizontalFormat } from '../../utils/detailsPage';
 
@@ -20,7 +20,7 @@ class RestaurantDetailsPage extends React.Component {
       phoneNumber: '',
       website: '',
       comments: [],
-      foodItems: [],
+      // foodItems: [],
       images: [],
       tags: [],
       loading: true,
@@ -88,9 +88,7 @@ class RestaurantDetailsPage extends React.Component {
             </Col>
             <h4>Common Dishes from {this.state.name}</h4>
             <Col xs={5}>
-              <HorizontalScrollBar
-                picturesToDisplay={this.state.foodItems}
-              />
+              <h2>This is where scroll will belong</h2>
             </Col>
           </Row>
         </Grid>

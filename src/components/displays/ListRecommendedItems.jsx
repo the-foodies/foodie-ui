@@ -29,7 +29,7 @@ const SeasonalItems = props => (
         </Media.Left>
         <Media.Body>
           <Media.Heading>{item.name}</Media.Heading>
-          <p>testing testing</p>
+          <p>{item.Comments[0].text}</p>
         </Media.Body>
       </Media>
       ))}

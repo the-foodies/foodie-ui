@@ -76,7 +76,7 @@ class AddComment extends React.Component {
 export default AddComment;
 
 AddComment.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   curUser: PropTypes.object.isRequired,
   refreshPage: PropTypes.func.isRequired,
 };

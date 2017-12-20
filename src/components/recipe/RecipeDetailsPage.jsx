@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 import { mapDetailsToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import RecipeFilterInstructions from './RecipeFilterInstructions';
-import HorizontalScrollBar from '../displays/HorizontalScrollBar';
+import TrendingRecipesList from '../displays/TrendingRecipesList';
 import Loading from '../displays/Loading';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
 import Tags from '../displays/Tags';
-
-const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class RecipeDetailsPage extends React.Component {
   constructor(props) {
@@ -33,13 +31,20 @@ class RecipeDetailsPage extends React.Component {
       similarRecipes: [],
     };
     this.loadRecipeDetail = this.loadRecipeDetail.bind(this);
-    // this.loadRelatedRecipes = this.loadRelatedRecipes.bind(this);
+    this.loadRelatedRecipes = this.loadRelatedRecipes.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.id.toString() || '1';
     this.loadRecipeDetail(id);
-    // this.loadRelatedRecipes(['1', '2', '3', '4']);
+    this.loadRelatedRecipes(['1', '2', '3', '4']);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.id !== this.props.id) {
+      this.setState({ loading: true });
+      this.loadRecipeDetail(nextProps.id);
+    }
   }
 
   async loadRecipeDetail(recipeId) {
@@ -82,61 +87,17 @@ class RecipeDetailsPage extends React.Component {
       tags,
       loading: false,
     });
-    // // const context = this;
-    // this.props.dispatchApi.getRecipeById(recipeId)
-    //   .then(({ data }) => {
-    //     // get related recipes
-    //     // context.props.dispatchApi.getRelatedRecipes(data.id)
-    //     const images = mapDetailsToCarouselFormat({
-    //       name: data.name,
-    //       description: data.name,
-    //       images: data.ImagesRecipes,
-    //     });
-    //     const {
-    //       calories, fat, protein, sodium, name, rating,
-    //     } = data;
-    //     const info = {
-    //       Calories: calories,
-    //       Fat: fat,
-    //       Protein: protein,
-    //       Sodium: sodium,
-    //     };
-    //     const informationKeys = Object.keys(info);
-    //     const information = Object.values(info);
-    //     const difficulty = data.difficulty || 'Easy';
-    //     const recipeHistory = data.recipeHistory || 'No history';
-    //     const portions = data.portions || '5';
-    //     const comments = data.Comments;
-    //     const directions = data.Directions;
-    //     const ingredients = data.Ingredients;
-    //     const tags = data.Tags;
-    //     this.setState({
-    //       difficulty,
-    //       name,
-    //       comments,
-    //       portions,
-    //       rating,
-    //       recipeHistory,
-    //       directions,
-    //       images,
-    //       information,
-    //       informationKeys,
-    //       ingredients,
-    //       tags,
-    //     });
-    //   });
   }
 
-  // async loadRelatedRecipes(recipeIds) {
-  //   let data;
-  //   for (let ii = 0; ii < recipeIds.length; ii++) {
-  //     data = await this.props.dispatchApi.getRecipeById(recipeIds);
-  //     this.setState({
-  //       similarRecipes: this.state.similarRecipes.concat([data.data]),
-  //     });
-  //   }
-  //   console.log('all done');
-  // }
+  async loadRelatedRecipes(recipeIds) {
+    let data;
+    for (let ii = 1; ii <= recipeIds.length; ii++) {
+      data = await this.props.dispatchApi.getRecipeById(String(ii));
+      this.setState({
+        similarRecipes: this.state.similarRecipes.concat([data.data]),
+      });
+    }
+  }
 
   render() {
     if (this.state.loading) {
@@ -144,7 +105,7 @@ class RecipeDetailsPage extends React.Component {
     }
     return (
       <div>
-        <Grid id="recipe-details-info">
+        <Grid id="recipe-title-section">
           <Row>
             <Col xs={6} xsOffset={3}>
               <PageHeader>{this.state.name}</PageHeader>
@@ -155,6 +116,8 @@ class RecipeDetailsPage extends React.Component {
               <TrendingCarousel picturesToDisplay={this.state.images} />
             </Col>
           </Row>
+        </Grid>
+        <Grid id="recipe-details">
           <Row>
             <Col xs={3} xsOffset={1}>
               <h2>Nutritional Info</h2><hr />
@@ -176,13 +139,13 @@ class RecipeDetailsPage extends React.Component {
         </Grid>
         <Grid id="recipe-tags">
           <Row>
-            <PageHeader>Tags for This Recipe</PageHeader>
+            <h2>Tags for This Recipe</h2><hr />
             <Tags
               tags={this.state.tags}
             />
           </Row>
         </Grid>
-        <Grid className="recipe-details">
+        <Grid id="recipe-instructions-directions">
           <Row>
             <Col xs={10} xsOffset={1}>
               <RecipeFilterInstructions
@@ -192,7 +155,7 @@ class RecipeDetailsPage extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Grid id="recipe-details-history">
+        <Grid id="recipe-history">
           <Row>
             <Col xs={6}>
               <PageHeader>Recipe History</PageHeader>
@@ -217,9 +180,7 @@ class RecipeDetailsPage extends React.Component {
         <Grid>
           <Row>
             <Col xs={12}>
-              <HorizontalScrollBar
-                picturesToDisplay={this.state.similarRecipes}
-              />
+              <TrendingRecipesList />
             </Col>
           </Row>
         </Grid>

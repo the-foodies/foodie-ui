@@ -1,12 +1,12 @@
-.carousel-inner .item .img { 
-  position: absolute; 
-  height: 100%; 
-  width: auto; 
-  overflow: hidden; 
-} 
-.carousel-inner .item { 
-  height: 35vh;   
-}   
+.carousel-inner .item .img {
+  position: absolute;
+  height: 100%;
+  width: auto;
+  overflow: hidden;
+}
+.carousel-inner .item {
+  height: 35vh;
+}
 .comment-image {
   width: 100%;
 }
@@ -14,17 +14,17 @@
   overflow: auto;
   max-height: 25vh;
 }
-.list.thumbnail img { 
-  height: 150px; 
-  overflow: hidden; 
-} 
-.list.thumbnail { 
-  height: 30vh; 
+.list.thumbnail img {
+  height: 150px;
+  overflow: hidden;
 }
-.list.thumbnail.btn-group { 
+.list.thumbnail {
+  height: 30vh;
+}
+.list.thumbnail.btn-group {
   position: absolute;
   bottom: 0;
-} 
+}
 .loading-container {
   display: flex;
   justify-content: center;
@@ -46,29 +46,22 @@
   margin-bottom: 50px;
   padding: 10px;
 }
-#recipe-details-history {
+#recipe-instructions-directions {
   align-content: center;
   border: 1px dotted black;
   height: auto;
   margin-bottom: 50px;
   padding: 10px;
 }
-.tab-content { 
-  border-left: 1px solid #ddd; 
-  border-bottom: 1px solid #ddd; 
-  border-right: 1px solid #ddd;   
-  padding: 10px; 
-  padding-top: 20px; 
-  width: 100%; 
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  padding: 10px;
+  padding-top: 20px;
+  width: 100%;
 }
 .thumbnail {
   max-width: 100%;
   max-height: 100%;
 }
-
-
- 
- 
-
-
-
