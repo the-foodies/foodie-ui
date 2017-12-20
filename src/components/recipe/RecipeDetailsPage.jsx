@@ -30,74 +30,113 @@ class RecipeDetailsPage extends React.Component {
       ingredients: [],
       tags: [],
       loading: true,
-      similarRecipes: [{
-        id: 1, name: 'Test Recipe', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      {
-        id: 2, name: 'Test 2', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      {
-        id: 3, name: 'Test 3', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      {
-        id: 4, name: 'Test 4', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      ],
+      similarRecipes: [],
     };
     this.loadRecipeDetail = this.loadRecipeDetail.bind(this);
+    // this.loadRelatedRecipes = this.loadRelatedRecipes.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.id.toString() || '1';
     this.loadRecipeDetail(id);
+    // this.loadRelatedRecipes(['1', '2', '3', '4']);
   }
 
-  loadRecipeDetail(recipeId) {
-    // const context = this;
-    this.props.dispatchApi.getRecipeById(recipeId)
-      .then(({ data }) => {
-        // get related recipes
-        // context.props.dispatchApi.getRelatedRecipes(data.id)
-        const images = mapDetailsToCarouselFormat({
-          name: data.name,
-          description: data.name,
-          images: data.ImagesRecipes,
-        });
-        const {
-          calories, fat, protein, sodium, name, rating,
-        } = data;
-        const info = {
-          Calories: calories,
-          Fat: fat,
-          Protein: protein,
-          Sodium: sodium,
-        };
-        const informationKeys = Object.keys(info);
-        const information = Object.values(info);
-        const difficulty = data.difficulty || 'Easy';
-        const recipeHistory = data.recipeHistory || 'No history';
-        const portions = data.portions || '5';
-        const comments = data.Comments;
-        const directions = data.Directions;
-        const ingredients = data.Ingredients;
-        const tags = data.Tags;
-        this.setState({
-          difficulty,
-          name,
-          comments,
-          portions,
-          rating,
-          recipeHistory,
-          directions,
-          images,
-          information,
-          informationKeys,
-          ingredients,
-          tags,
-          loading: false,
-        });
-      });
+  async loadRecipeDetail(recipeId) {
+    const { data } = await this.props.dispatchApi.getRecipeById(recipeId);
+    const images = mapDetailsToCarouselFormat({
+      name: data.name,
+      description: data.name,
+      images: data.ImagesRecipes,
+    });
+    const {
+      calories, fat, protein, sodium, name, rating,
+    } = data;
+    const info = {
+      Calories: calories,
+      Fat: fat,
+      Protein: protein,
+      Sodium: sodium,
+    };
+    const informationKeys = Object.keys(info);
+    const information = Object.values(info);
+    const difficulty = data.difficulty || 'Easy';
+    const recipeHistory = data.recipeHistory || 'No history';
+    const portions = data.portions || '5';
+    const comments = data.Comments;
+    const directions = data.Directions;
+    const ingredients = data.Ingredients;
+    const tags = data.Tags;
+    await this.setState({
+      difficulty,
+      name,
+      comments,
+      portions,
+      rating,
+      recipeHistory,
+      directions,
+      images,
+      information,
+      informationKeys,
+      ingredients,
+      tags,
+      loading: false,
+    });
+    // // const context = this;
+    // this.props.dispatchApi.getRecipeById(recipeId)
+    //   .then(({ data }) => {
+    //     // get related recipes
+    //     // context.props.dispatchApi.getRelatedRecipes(data.id)
+    //     const images = mapDetailsToCarouselFormat({
+    //       name: data.name,
+    //       description: data.name,
+    //       images: data.ImagesRecipes,
+    //     });
+    //     const {
+    //       calories, fat, protein, sodium, name, rating,
+    //     } = data;
+    //     const info = {
+    //       Calories: calories,
+    //       Fat: fat,
+    //       Protein: protein,
+    //       Sodium: sodium,
+    //     };
+    //     const informationKeys = Object.keys(info);
+    //     const information = Object.values(info);
+    //     const difficulty = data.difficulty || 'Easy';
+    //     const recipeHistory = data.recipeHistory || 'No history';
+    //     const portions = data.portions || '5';
+    //     const comments = data.Comments;
+    //     const directions = data.Directions;
+    //     const ingredients = data.Ingredients;
+    //     const tags = data.Tags;
+    //     this.setState({
+    //       difficulty,
+    //       name,
+    //       comments,
+    //       portions,
+    //       rating,
+    //       recipeHistory,
+    //       directions,
+    //       images,
+    //       information,
+    //       informationKeys,
+    //       ingredients,
+    //       tags,
+    //     });
+    //   });
   }
+
+  // async loadRelatedRecipes(recipeIds) {
+  //   let data;
+  //   for (let ii = 0; ii < recipeIds.length; ii++) {
+  //     data = await this.props.dispatchApi.getRecipeById(recipeIds);
+  //     this.setState({
+  //       similarRecipes: this.state.similarRecipes.concat([data.data]),
+  //     });
+  //   }
+  //   console.log('all done');
+  // }
 
   render() {
     if (this.state.loading) {
