@@ -3,7 +3,7 @@ import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import Loading from '../displays/Loading';
-import { changeToCarouselFormat } from '../../utils/detailsPage';
+import { changeRecipeToCarouselFormat } from '../../utils/detailsPage';
 import ListRecommendedItems from '../displays/ListRecommendedItems';
 import CookingQuotes from '../testData/cookingQuotes.json';
 
@@ -35,7 +35,7 @@ class RecipeHomePage extends React.Component {
   }
 
   passSeasonalItemsToState(array) {
-    const displayRecipes = changeToCarouselFormat(array);
+    const displayRecipes = changeRecipeToCarouselFormat(array);
     this.setState({
       trendingRecipes: array,
       displayRecipes,

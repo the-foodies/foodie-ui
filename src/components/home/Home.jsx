@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Loading from '../displays/Loading';
-import { changeToCarouselFormat } from '../../utils/detailsPage';
+import { changeRestToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import ListRecommendedItems from '../displays/ListRecommendedItems';
 import HomeFilterThumbnails from './HomeFilterThumbnails';
@@ -39,8 +39,8 @@ class Home extends React.Component {
     this.passTrendingItemsToState(arr, arr2);
   }
 
-  passTrendingItemsToState(arrRestaurants, arrRecipes) {
-    const trendingRestaurants = changeToCarouselFormat(arrRestaurants);
+  passTrendingItemsToState(arrRecipes, arrRestaurants) {
+    const trendingRestaurants = changeRestToCarouselFormat(arrRestaurants);
     this.setState({
       trendingRestaurants,
       trendingRecipes: arrRecipes,
