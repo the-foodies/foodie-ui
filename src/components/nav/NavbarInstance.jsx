@@ -1,90 +1,112 @@
 import React from 'react';
-import { Nav, Navbar, NavItem, FormGroup } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HasLoggedIn from './hasLoggedIn';
 import NavSearch from './search';
 
-const NavbarInstance = (props) => {
-  const {
-    dispatch,
-    app,
-    auth,
-    logoutUser,
-    showLoginModal,
-  } = props;
-  const changePage = (toPage) => {
+class NavbarInstance extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchType: 'Tags',
+    };
+    this.searchTypes = [
+      'Tags',
+      'Recipes',
+      'Restaurants',
+    ];
+  }
+  changePage(toPage) {
     if (toPage === 'profile') {
-      if (auth.displayName !== 'guest') {
-        props.history.push({
-          pathname: `/profile/${auth.displayName}`,
+      if (this.props.auth.displayName !== 'guest') {
+        this.props.history.push({
+          pathname: `/profile/${this.props.auth.displayName}`,
           state: { id: null },
         });
       }
     } else if (toPage === 'recipe') {
-      props.history.push({
-        pathname: `/recipe/${app.curRecipe.name}/${app.curRecipe.id}`,
+      this.props.history.push({
+        pathname: `/recipe/${this.props.app.curRecipe.name}/${this.props.app.curRecipe.id}`,
         state: { id: null },
       });
     } else if (toPage === 'restaurant') {
-      props.history.push({
-        pathname: `/restaurant/${app.curRestaurant.name}/${app.curRestaurant.id}`,
+      this.props.history.push({
+        pathname: `/restaurant/${this.props.app.curRestaurant.name}/${this.props.app.curRestaurant.id}`,
         state: { id: null },
       });
     } else {
-      props.history.push(`/${toPage}`);
+      this.props.history.push(`/${toPage}`);
     }
-  };
+  }
 
-  return (
-    <Navbar fluid inverse collapseOnSelect staticTop>
-      <Navbar.Header>
-        <Navbar.Brand onClick={() => { changePage(''); }}>
-          FoodEZ
-        </Navbar.Brand>
-        <Navbar.Toggle />
-      </Navbar.Header>
-      <Navbar.Collapse>
-        <Navbar.Form pullLeft>
-          <FormGroup>
-            <NavSearch history={props.history} />
-          </FormGroup>
-        </Navbar.Form>
-        <Nav>
-          <NavItem eventKey={1} onClick={() => { changePage('recipes-home'); }}>
-            Cooking
-          </NavItem>
-          <NavItem eventKey={2} onClick={() => { changePage('eating'); }}>
-            Eating
-          </NavItem>
-          <NavItem eventKey={4} onClick={() => { changePage('recipe-submission'); }}>
-            Recipe Submission
-          </NavItem>
-          <NavItem eventKey={5} onClick={() => { changePage('recipe'); }}>
-            Recipe Details
-          </NavItem>
-          <NavItem eventKey={6} onClick={() => { changePage('restaurant'); }}>
-            Restaurant Details
-          </NavItem>
-        </Nav>
-        <Nav pullRight>
-          <NavItem
-            className="navbar-username"
-            onClick={() => { changePage('profile'); }}
-          >{auth.displayName}
-          </NavItem>
-          <HasLoggedIn
-            dispatch={dispatch}
-            authStatus={auth.status}
-            logoutUser={logoutUser}
-            showLoginModal={showLoginModal}
-            eventKey={3}
-          />
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  );
-};
+  handleSearchOption(e) {
+    console.log(e);
+    this.setState({
+      searchType: e,
+    });
+  }
+
+  render() {
+    return (
+      <Navbar fluid inverse collapseOnSelect staticTop>
+        <Navbar.Header>
+          <Navbar.Brand onClick={() => { this.changePage(''); }}>
+            FoodEZ
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Navbar.Form pullLeft>
+            <InputGroup>
+              <NavSearch
+                searchType={this.state.searchType}
+                eventKey={1}
+                history={this.props.history}
+              />
+              <DropdownButton
+                componentClass={InputGroup.Button}
+                id="input-dropdown-addon"
+                title={this.state.searchType}
+                onSelect={e => this.handleSearchOption(e)}
+              >
+                {this.searchTypes.map(type => (
+                  <MenuItem eventKey={type} key={type}>{type}</MenuItem>
+                ))}
+              </DropdownButton>
+            </InputGroup>
+          </Navbar.Form>
+          <Nav>
+            <NavItem eventKey={3} onClick={() => { this.changePage('recipes-home'); }}>
+              Cooking
+            </NavItem>
+            <NavItem eventKey={4} onClick={() => { this.changePage('eating'); }}>
+              Eating
+            </NavItem>
+            <NavItem eventKey={5} onClick={() => { this.changePage('recipe-submission'); }}>
+              Recipe Submission
+            </NavItem>
+          </Nav>
+          <Nav pullRight>
+            <NavItem
+              className="navbar-username"
+              onClick={() => { this.changePage('profile'); }}
+              eventKey={6}
+            >{this.props.auth.displayName}
+            </NavItem>
+            <HasLoggedIn
+              dispatch={this.props.dispatch}
+              authStatus={this.props.auth.status}
+              logoutUser={this.props.logoutUser}
+              showLoginModal={this.props.showLoginModal}
+              eventKey={7}
+            />
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
+}
 
 NavbarInstance.propTypes = {
   history: PropTypes.object.isRequired,

@@ -3,6 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { Label, ProgressBar, Image, InputGroup, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
 import { googleAutocomplete, googleRestaurant } from '../../utils/googleRestaurant';
 import uploadImage from '../../utils/uploadImage';
@@ -94,9 +95,12 @@ class Restaurant extends React.Component {
   }
   async handleRestaurantSubmit() {
     console.log(this.state.restaurantSubmission, this.state.restaurantSubmission.foodItems);
-    const newPost = await axios.post(`${REST_URL}/api/restaurants`, this.state.restaurantSubmission);
-    console.log('newPost=', newPost);
-    this.props.getRestaurant(newPost.data.id);
+    const { data } = await axios.post(`${REST_URL}/api/restaurants`, this.state.restaurantSubmission);
+    console.log('newPost=', data);
+    // this.props.getRestaurant(newPost.data.id);
+    this.props.history.push({
+      pathname: `/${data.name}/${data.id}`,
+    });
   }
   handleInputChange(e, type) {
     const { name } = e.target;
@@ -365,7 +369,7 @@ class Restaurant extends React.Component {
 }
 
 Restaurant.propTypes = {
-  getRestaurant: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default Restaurant;
+export default withRouter(Restaurant);

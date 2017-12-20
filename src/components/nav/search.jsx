@@ -1,18 +1,19 @@
 import React from 'react';
-import { AsyncTypeahead, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap-typeahead';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import PropTypes from 'prop-types';
 import * as axios from 'axios';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tagSearch: {
+      resultSearch: {
         allowNew: false,
         isLoading: false,
         multiple: false,
       },
       searchTerm: '',
-      tags: [],
+      results: [],
     };
     this.foundPostNames = {};
     this.searchFoodieDB = this.searchFoodieDB.bind(this);
@@ -29,19 +30,20 @@ class Search extends React.Component {
 
   async searchFoodieDB(query) {
     this.setState(prevState => ({
-      tagSearch: {
-        ...prevState.tagSearch,
+      resultSearch: {
+        ...prevState.resultSearch,
         isLoading: true,
       },
     }));
-    const search = await axios.get(`http://localhost:4420/search?query=${query}`);
+    const searchType = this.props.searchType.toLowerCase();
+    const search = await axios.get(`http://localhost:4420/search/${searchType}?query=${query}`);
     console.log(search);
     this.setState(prevState => ({
-      tagSearch: {
-        ...prevState.tagSearch,
+      resultSearch: {
+        ...prevState.resultSearch,
         isLoading: false,
       },
-      tags: search.data,
+      results: search.data,
     }));
   }
 
@@ -60,20 +62,24 @@ class Search extends React.Component {
     return (
       <div>
         <AsyncTypeahead
-          {...this.state.tagSearch}
-          options={Object.values(this.state.tags)}
+          {...this.state.resultSearch}
+          options={this.state.results}
           filterBy={this.filterByCallback}
-          labelKey="name"
+          labelKey={this.props.searchType === 'Tags' ? 'tag' : 'name'}
           minLength={1}
           onSearch={this.searchFoodieDB}
           onChange={this.changeSelection}
           type="text"
-          className="navbar-search"
           placeholder="Search for a some food!"
+          useCache={false}
         />
       </div>
     );
   }
 }
+
+Search.propTypes = {
+  searchType: PropTypes.string.isRequired,
+};
 
 export default Search;

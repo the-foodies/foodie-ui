@@ -6,6 +6,7 @@ const webpackConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
+        REST_URL: JSON.stringify('https://api.foodez.life'),
       },
     }),
   ],
@@ -39,9 +40,8 @@ webpackConfig.module.loaders.push({
 });
 
 webpackConfig.module.loaders.push({
-  test: /\.(png|jpg|gif|jpeg)$/,
-  loader: 'file-loader',
-  options: {},
+  test: /\.(png|jpg|gif|jpeg)$/i,
+  loader: 'file-loader?name=assets/[name].[ext]',
 });
 
 module.exports = webpackConfig;
