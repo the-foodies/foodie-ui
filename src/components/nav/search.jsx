@@ -63,7 +63,7 @@ class Search extends React.Component {
       <div>
         <AsyncTypeahead
           {...this.state.resultSearch}
-          options={Object.values(this.state.results)}
+          options={this.state.results}
           filterBy={this.filterByCallback}
           labelKey={this.props.searchType === 'Tags' ? 'tag' : 'name'}
           minLength={1}
