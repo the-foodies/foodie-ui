@@ -49,7 +49,7 @@ class NavbarInstance extends React.Component {
 
   render() {
     return (
-      <Navbar fluid inverse collapseOnSelect staticTop>
+      <Navbar fluid inverse collapseOnSelect staticTop fixedTop>
         <Navbar.Header>
           <Navbar.Brand onClick={() => { this.changePage(''); }}>
             FoodEZ
