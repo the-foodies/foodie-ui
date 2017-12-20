@@ -13,6 +13,7 @@ import RecipeDetailsPage from './recipe/RecipeDetailsPage';
 import RestaurantHomePage from './restaurant/RestaurantHomePage';
 import RestaurantDetailsPage from './restaurant/RestaurantDetailsPage';
 import Trending from './posts/Trending';
+import DataDisplay from './dataDisplay/DataDisplay';
 
 axios.defaults.withCredentials = true;
 
@@ -124,6 +125,13 @@ class App extends React.Component {
                     id={location.state.id}
                     displayName={match.params.displayName}
                   />
+                )}
+              />
+              <Route
+                exact
+                path="/data"
+                render={() => (
+                  <DataDisplay />
                 )}
               />
             </Switch>
