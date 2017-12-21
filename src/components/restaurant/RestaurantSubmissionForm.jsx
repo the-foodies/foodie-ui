@@ -99,7 +99,7 @@ class Restaurant extends React.Component {
     console.log('newPost=', data);
     // this.props.getRestaurant(newPost.data.id);
     this.props.history.push({
-      pathname: `/${data.name}/${data.id}`,
+      pathname: `restaurant/${data.name}/${data.id}`,
     });
   }
   handleInputChange(e, type) {

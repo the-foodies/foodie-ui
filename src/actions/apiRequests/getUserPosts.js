@@ -9,6 +9,7 @@ export default id => async function (dispatch) {
       id,
     },
   });
+  console.log(posts.data);
   dispatch({
     type: 'GOT_POSTS',
     posts: posts.data,

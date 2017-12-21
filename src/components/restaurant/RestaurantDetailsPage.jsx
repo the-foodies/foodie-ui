@@ -6,6 +6,7 @@ import Loading from '../displays/Loading';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
 import HorizontalScrollBar from '../displays/HorizontalScrollBar';
+import Tags from '../displays/Tags';
 import { mapDetailsToCarouselFormat, mapDetailsToHorizontalFormat } from '../../utils/detailsPage';
 
 class RestaurantDetailsPage extends React.Component {
@@ -97,14 +98,9 @@ class RestaurantDetailsPage extends React.Component {
           <h4>Restaurant Tags: </h4>
           <Row>
             <Col xs={10} xsOffset={1}>
-              <h5>
-                {this.state.tags.map(tag => (
-                  <span className="tag-list" key={tag.id}>
-                    <Label bsStyle="info">#{tag.name}</Label>
-                    {' '}
-                  </span>
-                ))}
-              </h5>
+              <Tags
+                tags={this.state.tags}
+              />
             </Col>
           </Row>
         </Grid>

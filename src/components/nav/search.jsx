@@ -37,7 +37,6 @@ class Search extends React.Component {
     }));
     const searchType = this.props.searchType.toLowerCase();
     const search = await axios.get(`http://localhost:4420/search/${searchType}?query=${query}`);
-    console.log(search);
     this.setState(prevState => ({
       resultSearch: {
         ...prevState.resultSearch,
@@ -49,12 +48,17 @@ class Search extends React.Component {
 
   changeSelection(selected) {
     const selectedItem = selected[0];
-    console.log(selectedItem);
     // make api call to get '/type' by id
     if (selectedItem) {
-      this.props.history.push({
-        pathname: `/${selectedItem.type}/${selectedItem.name}/${selectedItem.id}`,
-      });
+      if (this.props.searchType === 'Tags') {
+        this.props.history.push({
+          pathname: `/trending/tag/${encodeURIComponent(selectedItem.tag)}`,
+        });
+      } else {
+        this.props.history.push({
+          pathname: `/${selectedItem.type}/${selectedItem.name}/${selectedItem.id}`,
+        });
+      }
     }
   }
 

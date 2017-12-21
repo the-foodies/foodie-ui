@@ -1,5 +1,5 @@
 import * as axios from 'axios';
-import { getPosts } from './';
+// import { getPosts } from './';
 
 axios.defaults.withCredentials = true;
 const REST_URL = process.env.REST_URL || 'http://localhost:4420';

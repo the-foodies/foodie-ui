@@ -8,6 +8,7 @@ import HorizontalScrollBar from '../displays/HorizontalScrollBar';
 import Loading from '../displays/Loading';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
+import Tags from '../displays/Tags';
 
 const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
@@ -137,8 +138,9 @@ class RecipeDetailsPage extends React.Component {
         <Grid id="recipe-tags">
           <Row>
             <PageHeader>Tags for This Recipe</PageHeader>
-            {this.state.tags.map(tag =>
-              (<Col xs={2} key={tag.id}><h4><Label bsStyle="primary">#{tag.name}</Label></h4></Col>))}
+            <Tags
+              tags={this.state.tags}
+            />
           </Row>
         </Grid>
         <Grid className="recipe-details">
