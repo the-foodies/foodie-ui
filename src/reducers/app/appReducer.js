@@ -19,9 +19,15 @@ export default (state = initialState, action) => {
         posts: [],
       });
     case ('GOT_POSTS'):
+      if (state.posts.length === 0 || state.posts[0].id === action.posts[0].id) {
+        return Object.assign({}, state, {
+          status: 'GOT_POSTS',
+          posts: action.posts,
+        });
+      }
       return Object.assign({}, state, {
         status: 'GOT_POSTS',
-        posts: action.posts,
+        posts: [...state.posts, ...action.posts],
       });
     case ('GETTING_RESTAURANT'):
       return Object.assign({}, state, {
@@ -52,6 +58,7 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         status: 'GOT_USER',
         curUser: action.user,
+        posts: [],
       });
     case ('GETTING_SUBS'):
       return Object.assign({}, state, {

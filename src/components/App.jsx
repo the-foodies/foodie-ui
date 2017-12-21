@@ -11,6 +11,7 @@ import RestaurantSubmissionForm from './restaurant/RestaurantSubmissionForm';
 import UserProfile from './profile/UserProfile';
 import RecipeDetailsPage from './recipe/RecipeDetailsPage';
 import RestaurantDetailsPage from './restaurant/RestaurantDetailsPage';
+import Trending from './posts/Trending';
 
 axios.defaults.withCredentials = true;
 
@@ -57,6 +58,16 @@ class App extends React.Component {
                   {...this.props}
                   test={props}
                 />)}
+              />
+              <Route
+                exact
+                path="/trending/tag/:name"
+                render={props => (
+                  <Trending
+                    {...this.props}
+                    name={props.match.params.name}
+                  />
+                )}
               />
               <Route
                 exact

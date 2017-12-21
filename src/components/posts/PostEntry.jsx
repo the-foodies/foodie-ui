@@ -1,9 +1,10 @@
 import React from 'react';
-import { Media, ListGroupItem, Label, Col, Row } from 'react-bootstrap';
+import { Media, ListGroupItem, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
+import Tags from '../displays/Tags';
 
 
 const PostEntry = (props) => {
@@ -53,17 +54,9 @@ const PostEntry = (props) => {
         </Row>
         <Row>
           <Col xs={12}>
-            {(
-              <h5>
-                {props.Tags.map(tag => (
-                  <span className="tag-list" key={tag.id}>
-                    <Label bsStyle="info">#{tag.name}</Label>
-                    {' '}
-                  </span>
-                  ))
-                }
-              </h5>
-            )}
+            <Tags
+              tags={props.Tags}
+            />
           </Col>
         </Row>
         <hr />
