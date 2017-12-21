@@ -103,6 +103,11 @@ class NavbarInstance extends React.Component {
               </MenuItem>
               <MenuItem divider />
             </NavDropdown>
+            <NavItem
+              onClick={() => { this.changePage('data') }}
+              eventKey={7}
+            >Popular Tags
+            </NavItem>
           </Nav>
           <Nav pullRight>
             <NavItem
