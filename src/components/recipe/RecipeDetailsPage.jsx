@@ -46,7 +46,6 @@ class RecipeDetailsPage extends React.Component {
 
   async loadRecipeDetail(recipeId) {
     const { data } = await this.props.dispatchApi.getRecipeById(recipeId);
-    console.log('INSIDE ', data);
     [this.owner] = data.Users;
     const images = mapDetailsToCarouselFormat({
       name: data.name,
@@ -84,7 +83,6 @@ class RecipeDetailsPage extends React.Component {
       tags,
       loading: false,
     });
-    console.log('here, ', this.props);
   }
 
   // async loadRelatedRecipes(recipeIds) {
@@ -102,20 +100,20 @@ class RecipeDetailsPage extends React.Component {
       return (<Loading />);
     }
     return (
-      <div className="recipe-details-page">
+      <div className="details-page">
         <Grid>
-          <Row id="recipe-title-section">
+          <Row className="details-title-section">
             <PageHeader>{this.state.name}</PageHeader>
           </Row>
         </Grid>
-        <Grid className="recipe-dashed-border">
+        <Grid className="details-dashed-border">
           <Row>
             <Col xs={6}>
-              <Row id="recipe-history-section">
+              <Row className="details-history-section">
                 <h3>Recipe History</h3>
                 <p>{this.state.recipeHistory}</p>
               </Row>
-              <Row id="recipe-comments-display">
+              <Row className="details-comments-display">
                 <h3>Comments on this Recipe</h3>
                 <ListGroup className="post-list">
                   {this.state.comments.map(comment =>
@@ -125,10 +123,10 @@ class RecipeDetailsPage extends React.Component {
               </Row>
             </Col>
             <Col xs={6}>
-              <Row id="recipe-carousel">
+              <Row className="details-carousel">
                 <TrendingCarousel picturesToDisplay={this.state.images} />
               </Row>
-              <Row id="recipe-add-comment">
+              <Row className="details-add-comment">
                 <h3>Tell Us About Your Experience With This Recipe</h3>
                 <AddComment
                   {...this.props.app.curRecipe}
@@ -141,21 +139,21 @@ class RecipeDetailsPage extends React.Component {
           </Row>
         </Grid>
         <Grid>
-          <Row className="recipe-dashed-border">
+          <Row className="details-dashed-border">
               <h3>General Info</h3><hr />
               {this.state.informationKeys.map((item, index) =>
                 (<Col xs={3} key={item}><h4>{item}: <Label bsStyle="info">{this.state.information[index]}</Label></h4></Col>))}
           </Row>
         </Grid>
         <Grid>
-          <Row className="recipe-dashed-border">
+          <Row className="details-dashed-border">
             <h3>Tags for This Recipe</h3><hr />
             <Tags
               tags={this.state.tags}
             />
           </Row>
         </Grid>
-        <Grid className="recipe-dashed-border">
+        <Grid className="details-dashed-border">
           <Row>
             <Col xs={10} xsOffset={1}>
               <RecipeFilterInstructions
@@ -166,7 +164,7 @@ class RecipeDetailsPage extends React.Component {
           </Row>
         </Grid>
         <Grid>
-          <Row className="recipe-dashed-border">
+          <Row className="details-dashed-border">
             <Col xs={12}>
               {/* <TrendingRecipesList />*/}
             </Col>

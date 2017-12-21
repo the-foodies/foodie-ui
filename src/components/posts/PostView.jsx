@@ -11,7 +11,7 @@ const PostView = props => (
         <ListGroup className="post-list">
           {props.posts.map((post, index) => (
             <PostEntry
-              curUser={props.curUser}
+              owner={props.owner}
               refreshPage={props.refreshPage}
               refreshParam={props.refreshParam}
               key={index}
@@ -26,7 +26,7 @@ const PostView = props => (
 
 PostView.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  curUser: PropTypes.object.isRequired,
+  owner: PropTypes.object.isRequired,
   refreshPage: PropTypes.func.isRequired,
   refreshParam: PropTypes.string.isRequired,
 };

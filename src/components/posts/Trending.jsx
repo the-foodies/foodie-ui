@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, ListGroup } from 'react-bootstrap';
 import Loading from '../displays/Loading';
-import PostView from './PostView';
+import PostEntry from './PostEntry';
 import parseSlashes from '../../utils/parseSlashes';
 
 const REST_URL = process.env.REST_URL || 'http://localhost:4420';
@@ -19,13 +19,13 @@ class Trending extends React.Component {
   async componentDidMount() {
     let { name } = this.props;
     name = parseSlashes(name).toLowerCase();
-    this.loadTrending(name);
+    await this.loadTrending(name);
   }
   async componentWillReceiveProps(nextProps) {
     let { name } = nextProps;
     if (this.props.name !== name) {
       name = parseSlashes(name).toLowerCase();
-      this.loadTrending(name);
+      await this.loadTrending(name);
     }
   }
 
@@ -37,10 +37,12 @@ class Trending extends React.Component {
       },
     });
     console.log(posts.data);
-    this.setState({
+    console.log('this ', this)
+    await this.setState({
       posts: posts.data,
       loading: false,
     });
+    console.log('all done')
   }
 
   render() {
@@ -51,13 +53,23 @@ class Trending extends React.Component {
       <div>
         <Grid>
           <Row>
-            <Col xs={12} xsOffset={0} md={10} mdOffset={1}>
-              <PostView
-                curUser={this.props.app.curUser}
-                refreshPage={this.loadTrending}
-                posts={this.state.posts}
-                refreshParam={this.props.name}
-              />
+            <Col xs={12} md={12}>
+              <ListGroup className="post-list">
+                {this.state.posts.map(post => (
+                  <PostEntry
+                    owner={{
+                      id: post.ImagesRecipes ?
+                      post.ImagesRecipes[0].UserId
+                      :
+                      post.ImagesRestaurants[0].UserId,
+                    }}
+                    refreshPage={this.loadTrending}
+                    refreshParam={this.props.name}
+                    key={post.id}
+                    {...post}
+                  />
+                ))}
+              </ListGroup>
             </Col>
           </Row>
         </Grid>
