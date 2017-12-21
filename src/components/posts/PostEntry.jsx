@@ -62,7 +62,7 @@ const PostEntry = (props) => {
         <hr />
         {props.Comments.map(comment => <Comment key={comment.id} {...comment} />)}
         <hr />
-        <AddComment {...props} />
+        <AddComment {...props} owner={props.curUser} />
       </Media>
     </ListGroupItem>
   );

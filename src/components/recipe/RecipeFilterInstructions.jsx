@@ -21,19 +21,17 @@ class RecipeFilterInstructions extends React.Component {
       <div>
         <Grid>
           <Row>
-            <Col xs={3} />
-            <Col xs={4}>
+            <Col xs={6} xsOffset={3}>
               <Nav bsStyle="tabs" activeKey={this.state.activeTab} onSelect={this.handleSelect}>
-                <NavItem eventKey="1">Da Ingredients</NavItem>
-                <NavItem eventKey="2">Da Directions</NavItem>
+                <NavItem eventKey="1"><h3>Da Ingredients</h3></NavItem>
+                <NavItem eventKey="2"><h3>Da Directions</h3></NavItem>
               </Nav>
             </Col>
-            <Col xs={3} />
           </Row>
         </Grid>
         <Grid>
           <ListGroup className="post-list">
-            <Col xs={8}>
+            <Col xs={10} className="recipe-dashed-border">
               {this.state.activeTab === '1' ?
               this.props.ingredients.map((ingredient, index) => (
                 <h5 key={ingredient.id}># {index + 1}:   {ingredient.name}<hr /></h5>))

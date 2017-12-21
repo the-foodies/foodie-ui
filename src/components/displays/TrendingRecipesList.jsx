@@ -44,7 +44,7 @@ class TrendingRecipesList extends React.Component {
       <div>
         <Grid>
           <h3>Trending Recipes</h3><hr />
-          <Row>
+          <Row className="recipe-related-scroll">
             {this.state.trendingRecipes.map((item) => {
               return (String(item.id) === this.props.match.params.id ?
               null
