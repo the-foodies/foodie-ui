@@ -1,12 +1,12 @@
 
-.carousel-inner .item .img, #home {
+.carousel-inner .item #home {
+  height: 35vh;
+}
+.carousel-inner .item .img #home {
   position: absolute;
-  height: fit-content;
+  height: 35vh;
   width: auto;
   overflow: hidden;
-}
-.carousel-inner .item {
-  height: 35vh;
 }
 .comment-image {
   width: 100%;
@@ -88,6 +88,13 @@
   overflow: auto;
   max-height: 65vh;
 }
+/* .route-wrapper {
+  position: relative;
+}
+
+.route-wrapper > div {
+  position: absolute;
+} */
 .tab-content {
   padding: 10px;
   padding-top: 20px;

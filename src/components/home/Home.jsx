@@ -13,7 +13,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      loading: null,
       trendingItems: [],
       seasonalItems: [],
       filterTrending: [],
@@ -26,6 +26,11 @@ class Home extends React.Component {
   }
 
   async passTrendingItemsToState() {
+    if (this.state.trendingItems.length === 0) {
+      this.setState({
+        loading: true,
+      });
+    }
     const { data } = await axios.get(`${REST_URL}/trending`);
     const top = data.slice(0, 5);
     const seasonalItems = data.slice(5, 10);
@@ -51,10 +56,10 @@ class Home extends React.Component {
       <div>
         <Grid>
           <Row className="homepage-title-section">
-            <Col xs={8} xsOffset={2}>
-              <PageHeader>FoodEZ</PageHeader>
-              <h2>Pronounced 'foodies' - a page for the common food lover in us all</h2>
-              <h3>- Brought to you by Max, Zac, and Adrian</h3>
+            <Col xs={10} xsOffset={1}>
+              <PageHeader>
+                FoodEZ <small>Pronounced 'foodies' - a page for the common food lover in all of us</small>
+              </PageHeader>
             </Col>
           </Row>
         </Grid>
