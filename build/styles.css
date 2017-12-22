@@ -50,6 +50,18 @@
   overflow: auto;
   max-height: 25vh;
 }
+.homepage-title-section h1 {
+  text-decoration: underline #5bc0df;
+}
+.homepage-title-section h2 {
+  color: #5bc0df;
+  font-style: italic;
+  text-shadow: yellow 5px 0px 40px;
+}
+.homepage-title-section h3 {
+  text-decoration: underline;
+  text-align: right;
+}
 .list.thumbnail img {
   height: 150px;
   overflow: hidden;

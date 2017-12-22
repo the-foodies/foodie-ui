@@ -50,12 +50,11 @@ class RestaurantHomePage extends React.Component {
     return (
       <div>
         <Grid>
-          <Row>
+          <Row className="homepage-title-section">
             <Col xs={8} xsOffset={2}>
-              <PageHeader>Welcome to Restaurants<br />
-                <small>{this.state.diningQuote.text}</small><br />
-                <small>- {this.state.diningQuote.author}</small>
-              </PageHeader>
+              <PageHeader>Welcome to Restaurants</PageHeader>
+              <h2>{this.state.diningQuote.text}</h2>
+              <h3>- {this.state.diningQuote.author}</h3>
             </Col>
           </Row>
           <Row>

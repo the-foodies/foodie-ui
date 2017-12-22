@@ -15,17 +15,18 @@ class Trending extends React.Component {
       loading: true,
       posts: [],
     };
+    this.loadTrending = this.loadTrending.bind(this);
   }
   async componentDidMount() {
     let { name } = this.props;
     name = parseSlashes(name).toLowerCase();
-    await this.loadTrending(name);
+    this.loadTrending(name);
   }
   async componentWillReceiveProps(nextProps) {
     let { name } = nextProps;
     if (this.props.name !== name) {
       name = parseSlashes(name).toLowerCase();
-      await this.loadTrending(name);
+      this.loadTrending(name);
     }
   }
 
