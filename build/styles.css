@@ -1,11 +1,12 @@
-.carousel-inner .item .img #home {
+
+.carousel-inner .item .img, #home {
   position: absolute;
-  height: 100%;
+  height: fit-content;
   width: auto;
   overflow: hidden;
 }
-.carousel-inner .item #home {
-  height: 45vh;
+.carousel-inner .item {
+  height: 35vh;
 }
 .comment-image {
   width: 100%;
@@ -59,7 +60,7 @@
   text-shadow: yellow 5px 0px 40px;
 }
 .homepage-title-section h3 {
-  text-decoration: underline #5bc0df;
+  text-decoration: underline;
   text-align: right;
 }
 .list.thumbnail img {
@@ -67,7 +68,7 @@
   overflow: hidden;
 }
 .list.thumbnail {
-  height: 100%;
+  height: 30vh;
 }
 .list.thumbnail.btn-group {
   position: absolute;
@@ -93,7 +94,6 @@
   border-right: 1px solid #ddd;
   padding: 10px;
   padding-top: 20px;
-  margin-bottom: 100px;
   width: 100%;
 }
 .thumbnail {
@@ -103,6 +103,7 @@
 .trending-list-thumbnails.thumbnail {
   height: 20em;
   width: 25em;
+  border: 1px dashed black;
 }
 .trending-list-thumbnails img {
   height: 100px;
@@ -111,7 +112,4 @@
 #trending-button {
   align-content: center;
   color: black;
-}
-btn {
-  border: 1px black;
 }

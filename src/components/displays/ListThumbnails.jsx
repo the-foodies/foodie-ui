@@ -15,8 +15,9 @@ const ListThumbnails = props => (
           rounded="true"
           onClick={
             () => {
+              const type = props.type || thumbnail.type;
               props.history.push({
-                pathname: `/${props.type}/${thumbnail.name}/${thumbnail.id}`,
+                pathname: `/${type}/${thumbnail.name}/${thumbnail.id}`,
               });
             }}
         >

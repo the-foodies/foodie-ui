@@ -7,7 +7,7 @@ const SeasonalItems = props => (
   <div>
     {props.list.map(item => (
       <Media
-        key={item.id}
+        key={item.name}
         onClick={
           () => {
             const type = item.ImagesRecipes ? 'recipe' : 'restaurant';

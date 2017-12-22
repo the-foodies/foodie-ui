@@ -1,11 +1,14 @@
 import React from 'react';
-import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import axios from 'axios';
+import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import Loading from '../displays/Loading';
 import { changeRestToCarouselFormat } from '../../utils/detailsPage';
 import ListRecommendedItems from '../displays/ListRecommendedItems';
+import ListThumbnails from '../displays/ListThumbnails';
 import DiningQuotes from '../testData/diningQuotes.json';
+
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class RestaurantHomePage extends React.Component {
   constructor(props) {
@@ -14,31 +17,34 @@ class RestaurantHomePage extends React.Component {
     this.state = {
       diningQuote,
       loading: false,
-      displayRestaurants: [],
+      seasonalRestaurants: [],
       trendingRestaurants: [],
     };
-    this.passSeasonalItemsToState = this.passSeasonalItemsToState.bind(this);
+    this.passRestaurantsToState = this.passRestaurantsToState.bind(this);
   }
 
   async componentDidMount() {
-    // get 4 recipes from database
-    const random1 = Math.floor(Math.random() * 3) + 1;
-    const restaurant1 = await this.props.dispatchApi.getRestaurantById(random1);
-    const random2 = Math.floor(Math.random() * 2) + 4;
-    const restaurant2 = await this.props.dispatchApi.getRestaurantById(random2);
-    const random3 = Math.floor(Math.random() * 2) + 6;
-    const restaurant3 = await this.props.dispatchApi.getRestaurantById(random3);
-    const random4 = Math.floor(Math.random() * 2) + 8;
-    const restaurant4 = await this.props.dispatchApi.getRestaurantById(random4);
-    const arr = [restaurant1.data, restaurant2.data, restaurant3.data, restaurant4.data];
-    this.passSeasonalItemsToState(arr);
+    const seasonalRestaurants = await axios.get(`${REST_URL}/trending/tags`, {
+      params: {
+        tag: ['item3'],
+        type: 'restaurant',
+      },
+    });
+    const trendingRestaurants = await axios.get(`${REST_URL}/trending/restaurants`);
+    if (trendingRestaurants.data.length > 8) {
+      trendingRestaurants.data = trendingRestaurants.data.slice(0, 8);
+    }
+    if (seasonalRestaurants.data.length > 5) {
+      seasonalRestaurants.data = seasonalRestaurants.data.slice(0, 5);
+    }
+    this.passRestaurantsToState(seasonalRestaurants.data, trendingRestaurants.data);
   }
 
-  passSeasonalItemsToState(array) {
-    const displayRestaurants = changeRestToCarouselFormat(array);
+  passRestaurantsToState(seasonalRestaurants, trendingArr) {
+    const trendingRestaurants = changeRestToCarouselFormat(trendingArr);
     this.setState({
-      trendingRestaurants: array,
-      displayRestaurants,
+      trendingRestaurants,
+      seasonalRestaurants,
       loading: false,
     });
   }
@@ -57,32 +63,39 @@ class RestaurantHomePage extends React.Component {
               <h3>- {this.state.diningQuote.author}</h3>
             </Col>
           </Row>
-          <Row>
+        </Grid>
+        <Grid className="details-dashed-border">
+          <Row className="details-page">
             <Col xs={6}>
-              <ListRecommendedItems list={this.state.trendingRestaurants} />
+              <h3>Seasonal Restaurants the Staff Loves</h3>
+              <ListRecommendedItems list={this.state.seasonalRestaurants} />
             </Col>
-            <Col xs={6}>
-              <PageHeader>
-                <small>Trending Restaurants</small>
-              </PageHeader>
-              <TrendingCarousel picturesToDisplay={this.state.displayRestaurants} />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <PageHeader>Filter Restaurant Results By Category<br />
-                <small>See Below for Restaurants or Submit Your Own</small>
-              </PageHeader>
+            <Col xs={6} className="details-carousel">
+              <h3>Trending Restaurants</h3>
+              <TrendingCarousel picturesToDisplay={this.state.trendingRestaurants} />
             </Col>
           </Row>
         </Grid>
+        <Grid className="details-dashed-border">
+          <ListThumbnails list={this.state.trendingRestaurants} type="restaurant" />
+        </Grid>
+        <Grid>
+          <Row>
+            <Col xs={6} xsOffset={3}>
+              <Button
+                bsStyle="info"
+                bsSize="large"
+                block
+                href="/restaurant-submission"
+              >Click To Submit Your Own Restaurant Review
+              </Button>
+            </Col>
+          </Row>
+        </Grid>
+        <br /><br /><p />
       </div>
     );
   }
 }
-
-RestaurantHomePage.propTypes = {
-  dispatchApi: PropTypes.object.isRequired,
-};
 
 export default RestaurantHomePage;
