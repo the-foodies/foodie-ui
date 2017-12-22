@@ -38,7 +38,7 @@ class DataDisplay extends React.Component {
 
   changePage(tag) {
     this.props.history.push({
-      pathname: `/trending/tag/${tag}`,
+      pathname: `/trending/tag/${encodeURIComponent(tag)}`,
     });
   }
 

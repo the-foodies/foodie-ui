@@ -25,6 +25,7 @@ export function createNodes(rawData) {
       radius: radiusScale(numMentions),
       numMentions,
       tag: newTag,
+      fullName: tag,
       type,
       x: Math.random() * 900,
       y: Math.random() * 600,

@@ -93,7 +93,7 @@ export default class Bubbles extends React.Component {
         .on('mouseout', hideDetail)
         .on('click', (d) => {
           tooltip.hideTooltip();
-          this.props.changePage(d.tag);
+          this.props.changePage(d.fullName);
         });
 
       bubbles.append('text')

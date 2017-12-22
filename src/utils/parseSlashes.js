@@ -1,3 +1,1 @@
-export default (param) => {
-  return param.split('%2F').join('/');
-};
+export default param => param.split('%2F').join('/').split('%26').join('&');
