@@ -13,6 +13,7 @@ import RecipeDetailsPage from './recipe/RecipeDetailsPage';
 import RestaurantHomePage from './restaurant/RestaurantHomePage';
 import RestaurantDetailsPage from './restaurant/RestaurantDetailsPage';
 import Trending from './posts/Trending';
+import DataDisplay from './dataDisplay/DataDisplay';
 
 axios.defaults.withCredentials = true;
 
@@ -22,8 +23,11 @@ class App extends React.Component {
     this.findRestaurant = this.findRestaurant.bind(this);
     this.findRecipe = this.findRecipe.bind(this);
     this.findUser = this.findUser.bind(this);
+    this.state = {
+      tags: [],
+    };
   }
-  componentWillMount() {
+  async componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
   }
   findRestaurant(id) {
@@ -124,6 +128,13 @@ class App extends React.Component {
                     id={location.state.id}
                     displayName={match.params.displayName}
                   />
+                )}
+              />
+              <Route
+                exact
+                path="/data"
+                render={() => (
+                  <DataDisplay {...this.props} tags={this.state.tags} />
                 )}
               />
             </Switch>
