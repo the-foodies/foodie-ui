@@ -1,11 +1,14 @@
 import React from 'react';
+import axios from 'axios';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Loading from '../displays/Loading';
-import { changeToCarouselFormat } from '../../utils/detailsPage';
+import { changeRestToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import ListRecommendedItems from '../displays/ListRecommendedItems';
 import HomeFilterThumbnails from './HomeFilterThumbnails';
+
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class Home extends React.Component {
   constructor(props) {
@@ -39,8 +42,10 @@ class Home extends React.Component {
     this.passTrendingItemsToState(arr, arr2);
   }
 
-  passTrendingItemsToState(arrRestaurants, arrRecipes) {
-    const trendingRestaurants = changeToCarouselFormat(arrRestaurants);
+  async passTrendingItemsToState(arrRecipes, arrRestaurants) {
+    const trendingRestaurants = changeRestToCarouselFormat(arrRestaurants);
+    const { data } = await axios.get(`${REST_URL}/trending`);
+    console.log('helloooooooo', data)
     this.setState({
       trendingRestaurants,
       trendingRecipes: arrRecipes,
@@ -64,7 +69,7 @@ class Home extends React.Component {
             <TrendingCarousel picturesToDisplay={this.state.trendingRestaurants} />
           </Col>
           <Col xs={12}>
-            <ListRecommendedItems list={this.state.trendingRecipes} />
+            {/*<ListRecommendedItems list={this.state.trendingRecipes} />*/}
           </Col>
         </Row>
         <Row>

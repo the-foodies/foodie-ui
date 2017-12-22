@@ -16,7 +16,7 @@ class AddComment extends React.Component {
   postComment() {
     // poster is who owns the post being commented on
     if (this.state.input.length > 0) {
-      const poster = this.props.curUser;
+      const poster = this.props.owner;
       const { refreshParam } = this.props;
       const comment = {
         text: this.state.input,
@@ -76,7 +76,9 @@ class AddComment extends React.Component {
 export default AddComment;
 
 AddComment.propTypes = {
-  id: PropTypes.number.isRequired,
-  curUser: PropTypes.object.isRequired,
+  id: PropTypes.number,
+  ImagesRestaurants: PropTypes.array,
+  owner: PropTypes.object.isRequired,
   refreshPage: PropTypes.func.isRequired,
+  refreshParam: PropTypes.string.isRequired,
 };

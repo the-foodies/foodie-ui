@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Navbar, NavItem, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, InputGroup, DropdownButton, NavDropdown, MenuItem } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HasLoggedIn from './hasLoggedIn';
@@ -49,7 +49,7 @@ class NavbarInstance extends React.Component {
 
   render() {
     return (
-      <Navbar fluid inverse collapseOnSelect staticTop>
+      <Navbar fluid inverse collapseOnSelect staticTop fixedTop>
         <Navbar.Header>
           <Navbar.Brand onClick={() => { this.changePage(''); }}>
             FoodEZ
@@ -77,15 +77,32 @@ class NavbarInstance extends React.Component {
             </InputGroup>
           </Navbar.Form>
           <Nav>
-            <NavItem eventKey={3} onClick={() => { this.changePage('recipes-home'); }}>
-              Cooking
-            </NavItem>
-            <NavItem eventKey={4} onClick={() => { this.changePage('eating'); }}>
-              Eating
-            </NavItem>
-            <NavItem eventKey={5} onClick={() => { this.changePage('recipe-submission'); }}>
-              Recipe Submission
-            </NavItem>
+            <NavDropdown eventKey={1} title="Cooking At Home" id="recipe-dropdown">
+              <MenuItem
+                eventKey={1.1}
+                onClick={() => { this.changePage('recipes-home'); }}
+              >Recipes Home
+              </MenuItem>
+              <MenuItem
+                eventKey={1.2}
+                onClick={() => { this.changePage('recipe-submission'); }}
+              >Recipe Submission
+              </MenuItem>
+              <MenuItem divider />
+            </NavDropdown>
+            <NavDropdown eventKey={2} title="Dining Out" id="recipe-dropdown">
+              <MenuItem
+                eventKey={2.1}
+                onClick={() => { this.changePage('restaurants-home'); }}
+              >Restaurants Home
+              </MenuItem>
+              <MenuItem
+                eventKey={2.2}
+                onClick={() => { this.changePage('restaurant-submission'); }}
+              >Restaurant Submission
+              </MenuItem>
+              <MenuItem divider />
+            </NavDropdown>
           </Nav>
           <Nav pullRight>
             <NavItem

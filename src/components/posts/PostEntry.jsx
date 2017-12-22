@@ -62,7 +62,7 @@ const PostEntry = (props) => {
         <hr />
         {props.Comments.map(comment => <Comment key={comment.id} {...comment} />)}
         <hr />
-        <AddComment {...props} />
+        <AddComment {...props} owner={props.owner} />
       </Media>
     </ListGroupItem>
   );
@@ -76,10 +76,13 @@ const imageExists = (props, propName, componentName) => {
 };
 
 PostEntry.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
   ImagesRecipes: imageExists,
   ImagesRestaurants: imageExists,
   FoodItems: PropTypes.arrayOf(PropTypes.object),
+  owner: PropTypes.object.isRequired,
   Tags: PropTypes.arrayOf(PropTypes.object),
   Comments: PropTypes.arrayOf(PropTypes.object),
 };

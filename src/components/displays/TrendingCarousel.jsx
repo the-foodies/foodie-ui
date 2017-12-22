@@ -8,8 +8,8 @@ const CarouselInstance = props => (
       <Carousel.Item key={item.id}>
         <img src={item.image_url} alt={item.name} />
         <Carousel.Caption>
-          <h3>{item.name}</h3>
           <p>{item.description}</p>
+          <h3>{item.name}</h3>
         </Carousel.Caption>
       </Carousel.Item>
     ))}

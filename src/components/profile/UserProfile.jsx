@@ -119,7 +119,7 @@ class UserProfile extends React.Component {
             </Row>
             <Row>
               <PostView
-                curUser={this.props.app.curUser}
+                owner={this.props.app.curUser}
                 refreshPage={this.loadProfile}
                 posts={this.props.app.posts}
                 refreshParam={this.props.displayName}

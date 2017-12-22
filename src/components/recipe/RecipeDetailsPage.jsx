@@ -4,23 +4,18 @@ import PropTypes from 'prop-types';
 import { mapDetailsToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import RecipeFilterInstructions from './RecipeFilterInstructions';
-import HorizontalScrollBar from '../displays/HorizontalScrollBar';
+import TrendingRecipesList from '../displays/TrendingRecipesList';
 import Loading from '../displays/Loading';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
 import Tags from '../displays/Tags';
-
-const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class RecipeDetailsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // recipe: {},
-      difficulty: '',
       name: '',
-      portions: '',
-      rating: '',
       recipeHistory: '',
       comments: [],
       directions: [],
@@ -30,120 +25,135 @@ class RecipeDetailsPage extends React.Component {
       ingredients: [],
       tags: [],
       loading: true,
-      similarRecipes: [{
-        id: 1, name: 'Test Recipe', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      {
-        id: 2, name: 'Test 2', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      {
-        id: 3, name: 'Test 3', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      {
-        id: 4, name: 'Test 4', image_url: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto,fl_lossy/wp-cms/uploads/2017/06/i-1-sonic-burger.jpg', linkUrl: '/',
-      },
-      ],
+      similarRecipes: [],
     };
     this.loadRecipeDetail = this.loadRecipeDetail.bind(this);
+    // this.loadRelatedRecipes = this.loadRelatedRecipes.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.id.toString() || '1';
     this.loadRecipeDetail(id);
+    // this.loadRelatedRecipes(['1', '2', '3', '4']);
   }
 
-  loadRecipeDetail(recipeId) {
-    // const context = this;
-    this.props.dispatchApi.getRecipeById(recipeId)
-      .then(({ data }) => {
-        // get related recipes
-        // context.props.dispatchApi.getRelatedRecipes(data.id)
-        const images = mapDetailsToCarouselFormat({
-          name: data.name,
-          description: data.name,
-          images: data.ImagesRecipes,
-        });
-        const {
-          calories, fat, protein, sodium, name, rating,
-        } = data;
-        const info = {
-          Calories: calories,
-          Fat: fat,
-          Protein: protein,
-          Sodium: sodium,
-        };
-        const informationKeys = Object.keys(info);
-        const information = Object.values(info);
-        const difficulty = data.difficulty || 'Easy';
-        const recipeHistory = data.recipeHistory || 'No history';
-        const portions = data.portions || '5';
-        const comments = data.Comments;
-        const directions = data.Directions;
-        const ingredients = data.Ingredients;
-        const tags = data.Tags;
-        this.setState({
-          difficulty,
-          name,
-          comments,
-          portions,
-          rating,
-          recipeHistory,
-          directions,
-          images,
-          information,
-          informationKeys,
-          ingredients,
-          tags,
-          loading: false,
-        });
-      });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.id !== this.props.id) {
+      this.setState({ loading: true });
+      this.loadRecipeDetail(nextProps.id);
+    }
   }
+
+  async loadRecipeDetail(recipeId) {
+    const { data } = await this.props.dispatchApi.getRecipeById(recipeId);
+    [this.owner] = data.Users;
+    const images = mapDetailsToCarouselFormat({
+      name: data.name,
+      description: data.name,
+      images: data.ImagesRecipes,
+    });
+    const {
+      calories, fat, protein, sodium, name, rating, difficulty, portions,
+    } = data;
+    const info = {
+      Calories: calories,
+      Difficulty: difficulty || 'Easy',
+      Fat: fat,
+      Feeds: portions || '5',
+      Protein: protein,
+      Rating: rating,
+      Sodium: sodium,
+    };
+    const informationKeys = Object.keys(info);
+    const information = Object.values(info);
+    const recipeHistory = data.recipeHistory || 'Here is where I tell you about this recipe\'s history.';
+    const comments = data.Comments;
+    const directions = data.Directions;
+    const ingredients = data.Ingredients;
+    const tags = data.Tags;
+    await this.setState({
+      name,
+      comments,
+      recipeHistory,
+      directions,
+      images,
+      information,
+      informationKeys,
+      ingredients,
+      tags,
+      loading: false,
+    });
+  }
+
+  // async loadRelatedRecipes(recipeIds) {
+  //   let data;
+  //   for (let ii = 1; ii <= recipeIds.length; ii++) {
+  //     data = await this.props.dispatchApi.getRecipeById(String(ii));
+  //     this.setState({
+  //       similarRecipes: this.state.similarRecipes.concat([data.data]),
+  //     });
+  //   }
+  // }
 
   render() {
     if (this.state.loading) {
       return (<Loading />);
     }
     return (
-      <div>
-        <Grid id="recipe-details-info">
-          <Row>
-            <Col xs={6} xsOffset={3}>
-              <PageHeader>{this.state.name}</PageHeader>
-            </Col>
+      <div className="details-page">
+        <Grid>
+          <Row className="details-title-section">
+            <PageHeader>{this.state.name}</PageHeader>
           </Row>
+        </Grid>
+        <Grid className="details-dashed-border">
           <Row>
-            <Col xs={8} xsOffset={2}>
-              <TrendingCarousel picturesToDisplay={this.state.images} />
+            <Col xs={6}>
+              <Row className="details-history-section">
+                <h3>Recipe History</h3>
+                <p>{this.state.recipeHistory}</p>
+              </Row>
+              <Row className="details-comments-display">
+                <h3>Comments on this Recipe</h3>
+                <ListGroup className="post-list">
+                  {this.state.comments.map(comment =>
+                    (<ListGroupItem key={comment.id}><Comment {...comment} xs={5} /></ListGroupItem>))}
+                  <hr />
+                </ListGroup>
+              </Row>
             </Col>
-          </Row>
-          <Row>
-            <Col xs={3} xsOffset={1}>
-              <h2>Nutritional Info</h2><hr />
-              {this.state.informationKeys.map((item, index) =>
-                (<h3 key={item}>{item}: <Label bsStyle="info">{this.state.information[index]}</Label></h3>))}
-            </Col>
-            <Col xs={3} xsOffset={1}>
-              <h2>Ratings</h2><hr />
-              <h3>Difficulty: <Label bsStyle={this.state.difficulty === 'Easy' ? 'info' : 'warning'}>{this.state.difficulty}</Label>
-              </h3>
-              <h3>Rating: <Label bsStyle="info">{this.state.rating}</Label>
-              </h3>
-            </Col>
-            <Col xs={3} xsOffset={1}>
-              <h2>Portions</h2><hr />
-              <h3>Portions: <Label bsStyle="info">{this.state.portions}</Label></h3>
+            <Col xs={6}>
+              <Row className="details-carousel">
+                <TrendingCarousel picturesToDisplay={this.state.images} />
+              </Row>
+              <Row className="details-add-comment">
+                <h3>Tell Us About Your Experience With This Recipe</h3>
+                <AddComment
+                  {...this.props.app.curRecipe}
+                  owner={this.owner}
+                  refreshPage={this.loadRecipeDetail}
+                  refreshParam={String(this.props.app.curRecipe.id)}
+                />
+              </Row>
             </Col>
           </Row>
         </Grid>
-        <Grid id="recipe-tags">
-          <Row>
-            <PageHeader>Tags for This Recipe</PageHeader>
+        <Grid>
+          <Row className="details-dashed-border">
+              <h3>General Info</h3><hr />
+              {this.state.informationKeys.map((item, index) =>
+                (<Col xs={3} key={item}><h4>{item}: <Label bsStyle="info">{this.state.information[index]}</Label></h4></Col>))}
+          </Row>
+        </Grid>
+        <Grid>
+          <Row className="details-dashed-border">
+            <h3>Tags for This Recipe</h3><hr />
             <Tags
               tags={this.state.tags}
             />
           </Row>
         </Grid>
-        <Grid className="recipe-details">
+        <Grid className="details-dashed-border">
           <Row>
             <Col xs={10} xsOffset={1}>
               <RecipeFilterInstructions
@@ -153,34 +163,10 @@ class RecipeDetailsPage extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Grid id="recipe-details-history">
-          <Row>
-            <Col xs={6}>
-              <PageHeader>Recipe History</PageHeader>
-              <h4>{this.state.recipeHistory}</h4>
-            </Col>
-            <Col xs={6}>
-              <PageHeader>Comments on this Recipe</PageHeader>
-              <ListGroup className="post-list">
-                {this.state.comments.map(comment =>
-                  (<ListGroupItem key={comment.id}><Comment {...comment} xs={5} /></ListGroupItem>))}
-                <hr />
-                <AddComment
-                  {...this.props.app.curRecipe}
-                  curUser={this.props.app.curUser}
-                  refreshPage={this.loadRecipeDetail}
-                  refreshParam={this.props.app.curRecipe.id}
-                />
-              </ListGroup>
-            </Col>
-          </Row>
-        </Grid>
         <Grid>
-          <Row>
+          <Row className="details-dashed-border">
             <Col xs={12}>
-              <HorizontalScrollBar
-                picturesToDisplay={this.state.similarRecipes}
-              />
+              {/* <TrendingRecipesList />*/}
             </Col>
           </Row>
         </Grid>

@@ -3,6 +3,8 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import PropTypes from 'prop-types';
 import * as axios from 'axios';
 
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
+
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +38,7 @@ class Search extends React.Component {
       },
     }));
     const searchType = this.props.searchType.toLowerCase();
-    const search = await axios.get(`http://localhost:4420/search/${searchType}?query=${query}`);
+    const search = await axios.get(`${REST_URL}/search/${searchType}?query=${query}`);
     this.setState(prevState => ({
       resultSearch: {
         ...prevState.resultSearch,

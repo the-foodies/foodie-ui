@@ -10,6 +10,7 @@ import ModalRoot from './modals/ModalRoot';
 import RestaurantSubmissionForm from './restaurant/RestaurantSubmissionForm';
 import UserProfile from './profile/UserProfile';
 import RecipeDetailsPage from './recipe/RecipeDetailsPage';
+import RestaurantHomePage from './restaurant/RestaurantHomePage';
 import RestaurantDetailsPage from './restaurant/RestaurantDetailsPage';
 import Trending from './posts/Trending';
 
@@ -49,14 +50,13 @@ class App extends React.Component {
             />
             <ModalRoot
               modal={this.props.modal}
-            />
+            /><br /><br /><br />
             <Switch>
               <Route
                 exact
                 path="/"
-                render={props => (<Home
+                render={() => (<Home
                   {...this.props}
-                  test={props}
                 />)}
               />
               <Route
@@ -71,9 +71,16 @@ class App extends React.Component {
               />
               <Route
                 exact
-                path="/eating"
-                render={props => (<RestaurantSubmissionForm
-                  {...props}
+                path="/restaurants-home"
+                render={() => (<RestaurantHomePage
+                  {...this.props}
+                />)}
+              />
+              <Route
+                exact
+                path="/restaurant-submission"
+                render={() => (<RestaurantSubmissionForm
+                  {...this.props}
                   getRestaurant={this.findRestaurant}
                 />)}
               />
@@ -87,7 +94,7 @@ class App extends React.Component {
               <Route
                 exact
                 path="/recipe-submission"
-                render={props => (<RecipeSubmissionForm
+                render={() => (<RecipeSubmissionForm
                   {...this.props}
                   getRecipe={this.findRecipe}
                 />)}
