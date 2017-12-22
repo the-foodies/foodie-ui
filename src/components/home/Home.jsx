@@ -50,7 +50,7 @@ class Home extends React.Component {
         <Row>
           <Col xs={8}>
             <PageHeader>Trending GrubEZ</PageHeader>
-            <TrendingCarousel picturesToDisplay={this.state.trendingItems} />
+            <TrendingCarousel id="home" picturesToDisplay={this.state.trendingItems} />
           </Col>
           <Col xs={4}>
             <ListRecommendedItems list={this.state.seasonalItems} />

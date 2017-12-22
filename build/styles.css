@@ -1,11 +1,11 @@
-.carousel-inner .item .img {
+.carousel-inner .item .img #home {
   position: absolute;
   height: 100%;
   width: auto;
   overflow: hidden;
 }
-.carousel-inner .item {
-  height: 50vh;
+.carousel-inner .item #home {
+  height: 45vh;
 }
 .comment-image {
   width: 100%;
