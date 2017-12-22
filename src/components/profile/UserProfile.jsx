@@ -24,6 +24,8 @@ class UserProfile extends React.Component {
     const { displayName } = this.props;
     if (this.props.app.curUser.displayName !== displayName) {
       this.loadProfile(displayName);
+    } else {
+      this.userData = true;
     }
     this.profileRefresh = setInterval(() => this.loadProfile(displayName), 10000);
     //
