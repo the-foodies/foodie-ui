@@ -1,34 +1,33 @@
 import React from 'react';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import BubbleChart from './BubbleChart';
 import Bubbles from './Bubbles';
 import GroupingPicker from './GroupingPicker';
 import { createNodes } from './utils';
 import { width, height, center } from './constants';
-import data from '../testData/testRestaurants.json';
 import './DataDisplay.css';
 
-const processedData = [];
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
-const processData = () => {
-  data.forEach((entry) => {
-    const rand = Math.floor(2 + (Math.random() * 10));
-    const obj = {
-      name: entry.name,
-      value: rand,
-    };
-    processedData.push(obj);
-  });
-};
-
-export default class DataDisplay extends React.Component {
+class DataDisplay extends React.Component {
   constructor(props) {
+    console.log(props);
     super(props);
-    processData();
     this.state = {
-      data: createNodes(processedData),
+      data: [],
       grouping: 'all',
     };
     this.onGroupingChanged = this.onGroupingChanged.bind(this);
+    this.changePage = this.changePage.bind(this);
+  }
+
+  async componentWillMount() {
+    const tags = await axios.get(`${REST_URL}/trending/d3`);
+    this.setState({
+      data: createNodes(tags.data),
+    });
   }
 
   onGroupingChanged(newGrouping) {
@@ -37,14 +36,26 @@ export default class DataDisplay extends React.Component {
     });
   }
 
+  changePage(tag) {
+    this.props.history.push({
+      pathname: `/trending/tag/${tag}`,
+    });
+  }
+
   render() {
     return (
       <div>
         <GroupingPicker onChanged={this.onGroupingChanged} active={this.state.grouping} />
         <BubbleChart width={width} height={height}>
-          <Bubbles data={this.state.data} forceStrength={0.03} center={center} />
+          <Bubbles data={this.state.data} forceStrength={0.03} center={center} changePage={this.changePage} />
         </BubbleChart>
       </div>
     );
   }
 }
+
+DataDisplay.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+
+export default withRouter(DataDisplay);

@@ -23,8 +23,11 @@ class App extends React.Component {
     this.findRestaurant = this.findRestaurant.bind(this);
     this.findRecipe = this.findRecipe.bind(this);
     this.findUser = this.findUser.bind(this);
+    this.state = {
+      tags: [],
+    };
   }
-  componentWillMount() {
+  async componentWillMount() {
     this.props.dispatchAuth.listenToAuth();
   }
   findRestaurant(id) {
@@ -131,7 +134,7 @@ class App extends React.Component {
                 exact
                 path="/data"
                 render={() => (
-                  <DataDisplay />
+                  <DataDisplay {...this.props} tags={this.state.tags} />
                 )}
               />
             </Switch>

@@ -1,21 +1,7 @@
 import * as d3 from 'd3';
 
-/*
-   * This data manipulation function takes the raw data from
-   * the CSV file and converts it into an array of node objects.
-   * Each node will store data and visualization values to visualize
-   * a bubble.
-   *
-   * rawData is expected to be an array of data objects, read in from
-   * one of d3's loading functions like d3.csv.
-   *
-   * This function returns the new node array, with a node in that
-   * array for each element in the rawData input.
-   */
 export function createNodes(rawData) {
-  // Use the max total_amount in the data as the max in the scale's domain
-  // note we have to ensure the total_amount is a number.
-  const maxAmount = d3.max(rawData, d => d.value);
+  const maxAmount = d3.max(rawData, d => d.numMentions);
 
   // Sizes bubbles based on area.
   // @v4: new flattened scale names.
@@ -27,14 +13,19 @@ export function createNodes(rawData) {
     // Use map() to convert raw data into node data.
     // Checkout http://learnjsdata.com/ for more on
     // working with data.
-  let id = -1;
-  const myNodes = rawData.map((d) => {
+  let id = 0;
+  const myNodes = rawData.map(({ tag, numMentions, type }) => {
     id++;
+    let newTag = tag;
+    if (tag.length > 10) {
+      newTag = `${tag.substring(0, 9)}...`;
+    }
     return {
       id: id.toString(),
-      radius: radiusScale(d.value),
-      value: d.value,
-      name: d.name,
+      radius: radiusScale(numMentions),
+      numMentions,
+      tag: newTag,
+      type,
       x: Math.random() * 900,
       y: Math.random() * 600,
     };
