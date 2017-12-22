@@ -42,8 +42,7 @@ const PostEntry = (props) => {
           </Col>
           <Col xs={12} md={8}>
             <Media.Body>
-              <Media.Heading>{props.name}</Media.Heading>
-              <p>We gonna need some post data here yo</p>
+              <h2>{props.name}</h2>
             </Media.Body>
           </Col>
         </Row>

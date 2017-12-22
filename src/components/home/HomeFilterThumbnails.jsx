@@ -23,27 +23,19 @@ class NavFilterThumbnails extends React.Component {
   render() {
     return (
       <div>
-        <Row>
+        <Row className="details-dashed-border details-page">
           <Tabs activeKey={this.state.activeKey} onSelect={this.handleSelect} id="uncontrolled-tab" justified>
             <Tab eventKey="1" title="Da Most Recommended">
-              <Row>
-                <ListThumbnails list={this.props.displayPictures.slice(0, 4)} />
-              </Row>
+              <ListThumbnails list={this.props.displayPictures.slice(0, 4)} />
             </Tab>
             <Tab eventKey="2" title="Da Quickest">
-              <Row>
-                <ListThumbnails list={this.props.displayPictures.slice(4, 8)} />
-              </Row>
+              <ListThumbnails list={this.props.displayPictures.slice(4, 8)} />
             </Tab>
             <Tab eventKey="3" title="Da Most Viewed">
-              <Row>
-                <ListThumbnails list={this.props.displayPictures.slice(8, 12)} />
-              </Row>
+              <ListThumbnails list={this.props.displayPictures.slice(8, 12)} />
             </Tab>
             <Tab eventKey="4" title="Da Staff Favorites">
-              <Row>
-                <ListThumbnails list={this.props.displayPictures.slice(12, 16)} />
-              </Row>
+              <ListThumbnails list={this.props.displayPictures.slice(12, 16)} />
             </Tab>
           </Tabs>
         </Row>

@@ -1,10 +1,10 @@
 
-.carousel-inner .item #home {
-  height: 35vh;
+.carousel-inner .item {
+  height: 40vh;
 }
-.carousel-inner .item .img #home {
+.carousel-inner .item .img {
   position: absolute;
-  height: 35vh;
+  height: 40vh;
   width: auto;
   overflow: hidden;
 }
@@ -98,6 +98,7 @@
 .tab-content {
   padding: 10px;
   padding-top: 20px;
+  background: of
 }
 .thumbnail {
   max-width: 100%;
@@ -115,4 +116,7 @@
 #trending-button {
   align-content: center;
   color: black;
+}
+.active {
+  background: rgb(255, 255, 255);
 }
