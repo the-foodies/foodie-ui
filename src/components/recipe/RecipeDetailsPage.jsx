@@ -1,14 +1,17 @@
 import React from 'react';
+import axios from 'axios';
 import { Grid, Row, Col, PageHeader, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { mapDetailsToCarouselFormat } from '../../utils/detailsPage';
+import { mapDetailsToCarouselFormat, changeAllToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import RecipeFilterInstructions from './RecipeFilterInstructions';
-import TrendingRecipesList from '../displays/TrendingRecipesList';
+import ListThumbnails from '../displays/ListThumbnails';
 import Loading from '../displays/Loading';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
 import Tags from '../displays/Tags';
+
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class RecipeDetailsPage extends React.Component {
   constructor(props) {
@@ -28,13 +31,11 @@ class RecipeDetailsPage extends React.Component {
       similarRecipes: [],
     };
     this.loadRecipeDetail = this.loadRecipeDetail.bind(this);
-    // this.loadRelatedRecipes = this.loadRelatedRecipes.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.id.toString() || '1';
     this.loadRecipeDetail(id);
-    // this.loadRelatedRecipes(['1', '2', '3', '4']);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,6 +72,19 @@ class RecipeDetailsPage extends React.Component {
     const directions = data.Directions;
     const ingredients = data.Ingredients;
     const tags = data.Tags;
+    const daTags = tags.slice(0, 3).map(item => item.name.toLowerCase());
+    let similarRecipes = await axios.get(`${REST_URL}/trending/tags`, {
+      params: {
+        tag: daTags,
+        type: 'recipe',
+      },
+    });
+    similarRecipes = similarRecipes.data.filter(rec => rec.name !== name);
+    if (similarRecipes.length > 4) {
+      similarRecipes = similarRecipes.slice(0, 4);
+    }
+    similarRecipes = changeAllToCarouselFormat(similarRecipes);
+    console.log('similarRecipes ', similarRecipes);
     await this.setState({
       name,
       comments,
@@ -80,20 +94,11 @@ class RecipeDetailsPage extends React.Component {
       information,
       informationKeys,
       ingredients,
+      similarRecipes,
       tags,
       loading: false,
     });
   }
-
-  // async loadRelatedRecipes(recipeIds) {
-  //   let data;
-  //   for (let ii = 1; ii <= recipeIds.length; ii++) {
-  //     data = await this.props.dispatchApi.getRecipeById(String(ii));
-  //     this.setState({
-  //       similarRecipes: this.state.similarRecipes.concat([data.data]),
-  //     });
-  //   }
-  // }
 
   render() {
     if (this.state.loading) {
@@ -164,12 +169,9 @@ class RecipeDetailsPage extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Grid>
-          <Row className="details-dashed-border">
-            <Col xs={12}>
-              {/* <TrendingRecipesList />*/}
-            </Col>
-          </Row>
+        <Grid className="details-dashed-border details-page">
+          <h3>Similar Recipes We Recommend</h3>
+          <ListThumbnails list={this.state.similarRecipes} type="recipe" />
         </Grid>
       </div>
     );
