@@ -32,9 +32,10 @@ class Trending extends React.Component {
 
   async loadTrending(name) {
     console.log(name);
+    const query = parseSlashes(name).toLowerCase();
     const posts = await axios.get(`${REST_URL}/trending`, {
       params: {
-        query: name,
+        query,
       },
     });
     console.log(posts.data);
