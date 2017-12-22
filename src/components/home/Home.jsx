@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Loading from '../displays/Loading';
-import { changeRestToCarouselFormat } from '../../utils/detailsPage';
+import { changeAllToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import ListRecommendedItems from '../displays/ListRecommendedItems';
 import HomeFilterThumbnails from './HomeFilterThumbnails';
@@ -15,40 +15,28 @@ class Home extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      trendingRecipes: [],
-      trendingRestaurants: [],
+      trendingItems: [],
+      seasonalItems: [],
+      filterTrending: [],
     };
     this.passTrendingItemsToState = this.passTrendingItemsToState.bind(this);
   }
 
   async componentDidMount() {
-    // THIS WILL BE SWITCHED OUT WHEN HOOKED UP TO TRENDING WORKER
-    // get 4 recipes from database
-    const random1 = Math.floor(Math.random() * 3) + 1;
-    const recipe1 = await this.props.dispatchApi.getRecipeById(random1);
-    const random2 = Math.floor(Math.random() * 2) + 4;
-    const recipe2 = await this.props.dispatchApi.getRecipeById(random2);
-    const random3 = Math.floor(Math.random() * 2) + 6;
-    const recipe3 = await this.props.dispatchApi.getRecipeById(random3);
-    const random4 = Math.floor(Math.random() * 2) + 8;
-    const recipe4 = await this.props.dispatchApi.getRecipeById(random4);
-    const arr = [recipe1.data, recipe2.data, recipe3.data, recipe4.data];
-    // get 4 recipes from database
-    const restaurant1 = await this.props.dispatchApi.getRestaurantById(random1);
-    const restaurant2 = await this.props.dispatchApi.getRestaurantById(random2);
-    const restaurant3 = await this.props.dispatchApi.getRestaurantById(random3);
-    const restaurant4 = await this.props.dispatchApi.getRestaurantById(random4);
-    const arr2 = [restaurant1.data, restaurant2.data, restaurant3.data, restaurant4.data];
-    this.passTrendingItemsToState(arr, arr2);
+    this.passTrendingItemsToState();
   }
 
-  async passTrendingItemsToState(arrRecipes, arrRestaurants) {
-    const trendingRestaurants = changeRestToCarouselFormat(arrRestaurants);
+  async passTrendingItemsToState() {
     const { data } = await axios.get(`${REST_URL}/trending`);
-    console.log('helloooooooo', data)
+    const top = data.slice(0, 5);
+    const seasonalItems = data.slice(5, 10);
+    const filterTrending = changeAllToCarouselFormat(data);
+    const trendingItems = changeAllToCarouselFormat(top);
+    console.log('helloooooooo', trendingItems);
     this.setState({
-      trendingRestaurants,
-      trendingRecipes: arrRecipes,
+      filterTrending,
+      trendingItems,
+      seasonalItems,
       loading: false,
     });
   }
@@ -60,16 +48,12 @@ class Home extends React.Component {
     return (
       <Grid>
         <Row>
-          <Col xs={12}>
-            <PageHeader>Trending GrubEZ <small>Put Trending Name Here ASAP</small></PageHeader>
+          <Col xs={8}>
+            <PageHeader>Trending GrubEZ</PageHeader>
+            <TrendingCarousel id="home" picturesToDisplay={this.state.trendingItems} />
           </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <TrendingCarousel picturesToDisplay={this.state.trendingRestaurants} />
-          </Col>
-          <Col xs={12}>
-            {/*<ListRecommendedItems list={this.state.trendingRecipes} />*/}
+          <Col xs={4}>
+            <ListRecommendedItems list={this.state.seasonalItems} />
           </Col>
         </Row>
         <Row>
@@ -81,7 +65,9 @@ class Home extends React.Component {
         </Row>
         <Row>
           <Col xs={12} md={12}>
-            <HomeFilterThumbnails />
+            <HomeFilterThumbnails
+              displayPictures={this.state.filterTrending}
+            />
           </Col>
         </Row>
       </Grid>

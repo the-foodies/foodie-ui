@@ -1,11 +1,11 @@
-.carousel-inner .item .img {
+.carousel-inner .item .img #home {
   position: absolute;
   height: 100%;
   width: auto;
   overflow: hidden;
 }
-.carousel-inner .item {
-  height: 35vh;
+.carousel-inner .item #home {
+  height: 45vh;
 }
 .comment-image {
   width: 100%;
@@ -67,7 +67,7 @@
   overflow: hidden;
 }
 .list.thumbnail {
-  height: 30vh;
+  height: 100%;
 }
 .list.thumbnail.btn-group {
   position: absolute;
@@ -93,6 +93,7 @@
   border-right: 1px solid #ddd;
   padding: 10px;
   padding-top: 20px;
+  margin-bottom: 100px;
   width: 100%;
 }
 .thumbnail {

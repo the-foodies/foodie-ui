@@ -6,7 +6,7 @@ import { Col, Thumbnail, Button, ButtonGroup } from 'react-bootstrap';
 const ListThumbnails = props => (
   <div>
     {props.list.map(thumbnail => (
-      <Col sm={6} md={3} key={thumbnail.id} >
+      <Col sm={6} md={3} key={thumbnail.name} >
         <Thumbnail className="list" src={thumbnail.url} alt={thumbnail.name} rounded="true">
           <h3>{thumbnail.name}</h3>
           <p>{thumbnail.description}</p>
