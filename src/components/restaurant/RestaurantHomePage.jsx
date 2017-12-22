@@ -77,7 +77,7 @@ class RestaurantHomePage extends React.Component {
           </Row>
         </Grid>
         <Grid className="details-dashed-border details-page">
-          <h3>Trending Recipe Links</h3>
+          <h3>Trending Restaurant Links</h3>
           <ListThumbnails list={this.state.trendingRestaurants} type="restaurant" />
         </Grid>
         <Grid>

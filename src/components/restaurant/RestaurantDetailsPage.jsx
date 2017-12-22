@@ -100,7 +100,7 @@ class RestaurantDetailsPage extends React.Component {
                 <p>{this.state.restaurantHistory}</p>
               </Row>
               <Row className="details-comments-display">
-                <h3>Comments on this Recipe</h3>
+                <h3>Comments on this Restaurant</h3>
                 <ListGroup className="post-list">
                   {this.state.comments.map(comment =>
                     (<ListGroupItem key={comment.id}><Comment {...comment} xs={5} /></ListGroupItem>))}
