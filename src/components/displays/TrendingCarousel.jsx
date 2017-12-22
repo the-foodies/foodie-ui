@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const CarouselInstance = props => (
   <Carousel>
     {props.picturesToDisplay.map(item => (
-      <Carousel.Item key={item.id}>
+      <Carousel.Item key={item.name}>
         <img src={item.image_url} alt={item.name} />
         <Carousel.Caption>
           <p>{item.description}</p>
