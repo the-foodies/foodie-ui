@@ -54,7 +54,7 @@ class Home extends React.Component {
             <Col xs={8} xsOffset={2}>
               <PageHeader>FoodEZ</PageHeader>
               <h2>Pronounced 'foodies' - a page for the common food lover in us all</h2>
-              <h3>- Brought to you by Max, Zach, and Adrian</h3>
+              <h3>- Brought to you by Max, Zac, and Adrian</h3>
             </Col>
           </Row>
         </Grid>
