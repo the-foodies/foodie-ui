@@ -59,7 +59,7 @@
   text-shadow: yellow 5px 0px 40px;
 }
 .homepage-title-section h3 {
-  text-decoration: underline;
+  text-decoration: underline #5bc0df;
   text-align: right;
 }
 .list.thumbnail img {
@@ -99,4 +99,19 @@
 .thumbnail {
   max-width: 100%;
   max-height: 100%;
+}
+.trending-list-thumbnails.thumbnail {
+  height: 20em;
+  width: 25em;
+}
+.trending-list-thumbnails img {
+  height: 100px;
+  overflow: hidden;
+}
+#trending-button {
+  align-content: center;
+  color: black;
+}
+btn {
+  border: 1px black;
 }

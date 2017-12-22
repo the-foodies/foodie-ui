@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Media, PageHeader } from 'react-bootstrap';
+import { Media } from 'react-bootstrap';
 
 const SeasonalItems = props => (
   <div>
-    <PageHeader>
-      <small>Seasonal Items</small>
-    </PageHeader>
     {props.list.map(item => (
       <Media
         key={item.id}

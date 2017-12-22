@@ -147,7 +147,8 @@ class RecipeDetailsPage extends React.Component {
         </Grid>
         <Grid>
           <Row className="details-dashed-border">
-            <h3>Tags for This Recipe</h3><hr />
+            <h3>Tags for This Recipe</h3>
+            <h5>Clickable tags! Click one to see similar posts</h5>
             <Tags
               tags={this.state.tags}
             />
