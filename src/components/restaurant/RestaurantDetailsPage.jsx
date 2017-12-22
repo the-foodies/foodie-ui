@@ -1,13 +1,16 @@
 import React from 'react';
+import axios from 'axios';
 import { Grid, Row, Col, PageHeader, Label, ListGroupItem, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TrendingCarousel from '../displays/TrendingCarousel';
 import Loading from '../displays/Loading';
 import Comment from '../displays/Comment';
 import AddComment from '../displays/AddComment';
-// import HorizontalScrollBar from '../displays/HorizontalScrollBar';
+import ListThumbnails from '../displays/ListThumbnails';
 import Tags from '../displays/Tags';
-import { mapDetailsToCarouselFormat, mapDetailsToHorizontalFormat } from '../../utils/detailsPage';
+import { mapDetailsToCarouselFormat, changeAllToCarouselFormat } from '../../utils/detailsPage';
+
+const REST_URL = process.env.REST_URL || 'http://localhost:4420';
 
 class RestaurantDetailsPage extends React.Component {
   constructor(props) {
@@ -19,8 +22,8 @@ class RestaurantDetailsPage extends React.Component {
       restaurantHistory: 'This is a dank spot to eat at.',
       website: '',
       comments: [],
-      // foodItems: [],
       images: [],
+      similarRestaurants: [],
       tags: [],
       loading: true,
     };
@@ -48,28 +51,34 @@ class RestaurantDetailsPage extends React.Component {
       images: data.ImagesRestaurants,
     });
     const comments = data.Comments;
-    // const foodItems = mapDetailsToHorizontalFormat({
-    //   foodItems: data.FoodItems,
-    //   image_url: data.ImagesRestaurants[0].image_url,
-    // });
-    const tags = data.Tags;
     const { name, website } = data;
     const address = data.address.slice(0, data.address.length - 14);
     const phoneNumber = data.address.slice(data.address.length - 14);
+    const tags = data.Tags;
+    const daTags = tags.slice(0, 1).map(item => item.name.toLowerCase());
+    let similarRestaurants = await axios.get(`${REST_URL}/trending/tags`, {
+      params: {
+        tag: daTags,
+        type: 'restaurant',
+      },
+    });
+    similarRestaurants = similarRestaurants.data.filter(rec => rec.name !== name);
+    if (similarRestaurants.length > 4) {
+      similarRestaurants = similarRestaurants.slice(0, 4);
+    }
+    similarRestaurants = changeAllToCarouselFormat(similarRestaurants);
+    console.log('similarRestaurants ', similarRestaurants);
     this.setState({
       address,
       name,
       phoneNumber,
       website,
       comments,
-      // foodItems,
       images,
+      similarRestaurants,
       tags,
       loading: false,
     });
-
-    // get related restaurants
-    // context.props.dispatchApi.getRelatedRestaurants(data.id)
   }
 
   render() {
@@ -131,12 +140,9 @@ class RestaurantDetailsPage extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Grid>
-          <Row className="details-dashed-border">
-            <Col xs={12}>
-              {/* <TrendingRestaurantsList />*/}
-            </Col>
-          </Row>
+        <Grid className="details-dashed-border details-page">
+          <h3>Similar Restaurants We Recommend</h3>
+          <ListThumbnails list={this.state.similarRestaurants} type="restaurant" />
         </Grid>
       </div>
     );
