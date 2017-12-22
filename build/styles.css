@@ -32,7 +32,7 @@
   align-content: center;
   height: auto;
   margin-bottom: 25px;
-  padding: 25px;
+  padding: 35px;
 }
 .details-history-section {
   margin: 0px 0px inherit inherit;
@@ -89,12 +89,8 @@
   max-height: 65vh;
 }
 .tab-content {
-  border-left: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  border-right: 1px solid #ddd;
   padding: 10px;
   padding-top: 20px;
-  width: 100%;
 }
 .thumbnail {
   max-width: 100%;

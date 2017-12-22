@@ -76,7 +76,8 @@ class RecipeHomePage extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Grid className="details-dashed-border">
+        <Grid className="details-dashed-border details-page">
+          <h3>Trending Recipe Links</h3>
           <ListThumbnails list={this.state.trendingRecipes} type="recipe" />
         </Grid>
         <Grid>

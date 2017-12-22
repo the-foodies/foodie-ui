@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 import Loading from '../displays/Loading';
 import { changeAllToCarouselFormat } from '../../utils/detailsPage';
 import TrendingCarousel from '../displays/TrendingCarousel';
@@ -32,7 +31,10 @@ class Home extends React.Component {
     const seasonalItems = data.slice(5, 10);
     const filterTrending = changeAllToCarouselFormat(data);
     const trendingItems = changeAllToCarouselFormat(top);
-    console.log('helloooooooo', trendingItems);
+    console.log('filter trending', filterTrending);
+    console.log('trending Items', trendingItems);
+    console.log('seasonal Items', seasonalItems);
+
     this.setState({
       filterTrending,
       trendingItems,
@@ -46,37 +48,39 @@ class Home extends React.Component {
       return (<Loading />);
     }
     return (
-      <Grid>
-        <Row>
-          <Col xs={8}>
-            <PageHeader>Trending GrubEZ</PageHeader>
-            <TrendingCarousel id="home" picturesToDisplay={this.state.trendingItems} />
-          </Col>
-          <Col xs={4}>
-            <ListRecommendedItems list={this.state.seasonalItems} />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <PageHeader>Filter Trending Below<br />
-              <small>Trending Now</small>
-            </PageHeader>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} md={12}>
-            <HomeFilterThumbnails
-              displayPictures={this.state.filterTrending}
-            />
-          </Col>
-        </Row>
-      </Grid>
+      <div>
+        <Grid>
+          <Row className="homepage-title-section">
+            <Col xs={8} xsOffset={2}>
+              <PageHeader>FoodEZ</PageHeader>
+              <h2>Pronounced 'foodies' - a page for the common food lover in us all</h2>
+              <h3>- Brought to you by Max, Zach, and Adrian</h3>
+            </Col>
+          </Row>
+        </Grid>
+        <Grid className="details-dashed-border">
+          <Row className="details-page">
+            <Col xs={6} className="details-carousel">
+              <h3>Top Trending Foods</h3>
+              <TrendingCarousel id="home" picturesToDisplay={this.state.trendingItems} />
+            </Col>
+            <Col xs={6}>
+              <h3>Seasonal Favorites Selected By Your Devs</h3>
+              <ListRecommendedItems list={this.state.seasonalItems} />
+            </Col>
+          </Row>
+        </Grid>
+        <Grid className="details-dashed-border details-page">
+          <h3>Filter Trending Links By Category</h3>
+          <Row>
+            <Col xs={10}>
+              <HomeFilterThumbnails displayPictures={this.state.filterTrending} />
+            </Col>
+          </Row>
+        </Grid>
+      </div>
     );
   }
 }
-
-Home.propTypes = {
-  dispatchApi: PropTypes.object.isRequired,
-};
 
 export default Home;

@@ -24,7 +24,7 @@ class NavFilterThumbnails extends React.Component {
     return (
       <div>
         <Row>
-          <Tabs activeKey={this.state.activeKey} onSelect={this.handleSelect} id="uncontrolled-tab">
+          <Tabs activeKey={this.state.activeKey} onSelect={this.handleSelect} id="uncontrolled-tab" justified>
             <Tab eventKey="1" title="Da Most Recommended">
               <Row>
                 <ListThumbnails list={this.props.displayPictures.slice(0, 4)} />
