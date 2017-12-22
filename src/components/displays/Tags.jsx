@@ -10,7 +10,7 @@ const Tags = ({ tags, history }) => {
     });
   };
   return (
-    <h5>
+    <h4>
       {tags.map(tag => (
         <span className="tag-list" key={tag.id}>
           <Label onClick={() => handleClick(tag.name)} bsStyle="info">#{tag.name}</Label>
@@ -18,7 +18,7 @@ const Tags = ({ tags, history }) => {
         </span>
         ))
       }
-    </h5>
+    </h4>
   );
 };
 

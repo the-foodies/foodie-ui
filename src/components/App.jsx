@@ -14,6 +14,7 @@ import RestaurantHomePage from './restaurant/RestaurantHomePage';
 import RestaurantDetailsPage from './restaurant/RestaurantDetailsPage';
 import Trending from './posts/Trending';
 import DataDisplay from './dataDisplay/DataDisplay';
+import FooterInstance from './nav/FooterInstance';
 
 axios.defaults.withCredentials = true;
 
@@ -138,6 +139,7 @@ class App extends React.Component {
                 )}
               />
             </Switch>
+            <FooterInstance />
           </div>
         </Router>
       </div>
