@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Grid, Row, Col, ListGroup } from 'react-bootstrap';
+import { Grid, Row, Col, ListGroup, PageHeader } from 'react-bootstrap';
 import Loading from '../displays/Loading';
 import PostEntry from './PostEntry';
 import parseSlashes from '../../utils/parseSlashes';
@@ -31,20 +31,16 @@ class Trending extends React.Component {
   }
 
   async loadTrending(name) {
-    console.log(name);
     const query = parseSlashes(name).toLowerCase();
     const posts = await axios.get(`${REST_URL}/trending`, {
       params: {
         query,
       },
     });
-    console.log(posts.data);
-    console.log('this ', this)
     await this.setState({
       posts: posts.data,
       loading: false,
     });
-    console.log('all done')
   }
 
   render() {
@@ -54,8 +50,13 @@ class Trending extends React.Component {
     return (
       <div>
         <Grid>
+          <Row className="homepage-title-section">
+            <Col xs={12} md={10} mdOffset={1} >
+              <PageHeader>Tending under: #{this.props.name}</PageHeader>
+            </Col>
+          </Row>
           <Row>
-            <Col xs={12} md={12}>
+            <Col xs={12} md={10} mdOffset={1}>
               <ListGroup className="post-list">
                 {this.state.posts.map(post => (
                   <PostEntry

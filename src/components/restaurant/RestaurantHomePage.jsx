@@ -26,10 +26,11 @@ class RestaurantHomePage extends React.Component {
   async componentDidMount() {
     const seasonalRestaurants = await axios.get(`${REST_URL}/trending/tags`, {
       params: {
-        tag: ['item3'],
+        tag: ['dank'],
         type: 'restaurant',
       },
     });
+    console.log(seasonalRestaurants.data);
     const trendingRestaurants = await axios.get(`${REST_URL}/trending/restaurants`);
     if (trendingRestaurants.data.length > 8) {
       trendingRestaurants.data = trendingRestaurants.data.slice(0, 8);
